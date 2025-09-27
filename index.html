@@ -9078,6 +9078,92 @@
             color: #ff3b30; /* 鼠标悬停时变为红色 */
         }
         /* ▲▲▲ 新增CSS结束 ▲▲▲ */
+/* ▼▼▼ 【全新】共赏桌面功能样式 (从共读复制并改造) ▼▼▼ */
+
+#co-viewing-desktop-window {
+    position: fixed; /* 使用fixed定位，使其相对于整个浏览器窗口 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px; /* 调整一个合适的宽度 */
+    height: 65%;
+    max-height: 500px;
+    background-color: rgba(240, 242, 245, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 1005;
+    display: none; /* 默认隐藏 */
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#phone-screen.dark-mode #co-viewing-desktop-window {
+    background-color: rgba(28, 28, 30, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.co-viewing-desktop-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 15px; border-bottom: 1px solid var(--border-color);
+    cursor: grab;
+    flex-shrink: 0; position: relative;
+}
+.co-viewing-desktop-header:active { cursor: grabbing; }
+
+.co-viewing-desktop-header .title {
+    flex-grow: 1; font-weight: 600; text-align: center;
+    padding: 0 10px; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; transition: opacity 0.2s;
+}
+
+.co-viewing-desktop-header .title.typing-status {
+    color: var(--text-secondary);
+    animation: typing-pulse 1.5s infinite;
+}
+
+.co-viewing-desktop-header .header-actions { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+.co-viewing-desktop-header .action-btn { font-size: 14px; font-weight: 500; color: var(--accent-color); cursor: pointer; padding: 5px; line-height: 1; }
+#phone-screen.dark-mode .co-viewing-desktop-header .action-btn { color: #0A84FF; }
+#co-viewing-desktop-close-btn { font-size: 20px !important; }
+
+#co-viewing-desktop-messages { flex-grow: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px; }
+
+#co-viewing-desktop-input-area {
+    flex-shrink: 0; padding: 10px; border-top: 1px solid var(--border-color);
+    background-color: rgba(255, 255, 255, 0.5);
+}
+#phone-screen.dark-mode #co-viewing-desktop-input-area { background-color: rgba(0, 0, 0, 0.2); }
+
+#co-viewing-desktop-input {
+    width: 100%; height: 60px; padding: 8px; border: 1px solid var(--border-color);
+    border-radius: 6px; resize: none; box-sizing: border-box;
+    background-color: var(--secondary-bg); color: var(--text-primary);
+}
+.co-viewing-desktop-controls { display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
+.co-viewing-desktop-control-btn {
+    padding: 6px 14px; border: 1px solid #ccc; background-color: #f0f0f0;
+    border-radius: 6px; cursor: pointer; font-size: 14px;
+}
+#co-viewing-desktop-send-btn { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
+
+/* 最小化悬浮球样式 */
+#co-viewing-desktop-window.minimized {
+    width: 60px; height: 60px; border-radius: 50%; padding: 0;
+    overflow: hidden; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#co-viewing-desktop-window.minimized .co-viewing-desktop-header .title,
+#co-viewing-desktop-window.minimized .co-viewing-desktop-header .header-actions,
+#co-viewing-desktop-window.minimized #co-viewing-desktop-messages,
+#co-viewing-desktop-window.minimized #co-viewing-desktop-input-area {
+    display: none;
+}
+#co-viewing-desktop-window.minimized .co-viewing-desktop-header {
+    border-bottom: none; cursor: grab; padding: 0; width: 100%; height: 100%;
+    background-size: cover; background-position: center;
+}
+/* ▲▲▲ 新增CSS结束 ▲▲▲ */
 
     </style>
 </head>
@@ -9105,59 +9191,65 @@
             <!-- 1. 左右滑动的容器 -->
             <div id="home-screen-scroll-wrapper">
                 
-                <!-- 页面1: 包含所有旧内容 -->
-                <div id="home-page-1" class="home-screen-page">
-                    <div id="main-content-area">
-                        <!-- 个人资料组件 -->
-                        <div id="profile-widget">
-                            <img id="profile-banner-img" src="https://i.imgur.com/1n3a43H.jpeg" class="editable-image">
-                            <div class="profile-avatar-container">
-                                <img id="profile-avatar-img" src="https://i.postimg.cc/y8xWzCqj/anime-boy.jpg" class="editable-image">
-                            </div>
-                            <div class="profile-info">
-                                <p id="profile-username" class="editable-text">@ insonneve 🪦</p>
-                                <p id="profile-sub-username" class="editable-text">@ insonneve</p>
-                                <p id="profile-bio" class="editable-text">你好像过得很好 迫不及待的抹去我存在的痕迹</p>
-                                <p id="profile-location" class="editable-text">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>
-                                    <span>北海道</span>
-                                </p>
-                            </div>
-                        </div>
-                        <!-- 中间布局网格 -->
-                        <div id="desktop-layout">
-                            <!-- 左侧小组件列 -->
-                            <div id="desktop-widget-column">
-                                <div class="desktop-widget text-only">
-                                    <p id="widget-text-1" class="editable-text">Be fearless in pursuit of happiness</p>
-                                </div>
-                                <div class="desktop-widget icon-left">
-                                    <img id="widget-avatar-1" src="https://i.imgur.com/1n3a43H.jpeg" class="editable-image">
-                                    <span id="widget-text-2" class="editable-text">Dare to be different</span>
-                                </div>
-                                <div class="desktop-widget icon-right">
-                                    <span id="widget-text-3" class="editable-text">* Keep your spirit free</span>
-                                    <img id="widget-avatar-2" src="https://i.imgur.com/5A0tE9a.jpeg" class="editable-image">
-                                </div>
-                            </div>
-                            <!-- 右侧App图标容器 -->
-                            <div id="desktop-app-container">
-                                <div class="desktop-app-icon" onclick="showScreen('chat-list-screen')">
-                                    <div class="icon-bg-desktop"><img id="icon-img-qq" src="https://i.postimg.cc/MTC3Tkw8/IMG-6436.jpg" alt="QQ"></div>
-                                </div>
-                                <div class="desktop-app-icon" onclick="showScreen('world-book-screen')">
-                                    <div class="icon-bg-desktop"><img id="icon-img-world-book" src="https://i.postimg.cc/HWf1JKzn/IMG-6435.jpg" alt="世界书"></div>
-                                </div>
-                                <div class="desktop-app-icon" onclick="showScreen('wallpaper-screen')">
-                                    <div class="icon-bg-desktop"><img id="icon-img-wallpaper" src="https://i.postimg.cc/T1j03pQr/IMG-6440.jpg" alt="外观设置"></div>
-                                </div>
-                                <div class="desktop-app-icon" onclick="openRenderingRulesScreen()">
-                                    <div class="icon-bg-desktop"><img id="icon-img-renderer" src="https://s3plus.meituan.net/opapisdk/op_ticket_885190757_1756312261242_qdqqd_g0eriz.jpeg" alt="渲染器"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- ▼▼▼ 【请用这整块新代码】完整替换旧的 #home-page-1 ▼▼▼ -->
+<div id="home-page-1" class="home-screen-page">
+    <div id="main-content-area">
+        <!-- 个人资料组件 -->
+        <div id="profile-widget">
+            <img id="profile-banner-img" src="https://i.imgur.com/1n3a43H.jpeg" class="editable-image">
+            <div class="profile-avatar-container">
+                <img id="profile-avatar-img" src="https://i.postimg.cc/y8xWzCqj/anime-boy.jpg" class="editable-image">
+            </div>
+            <div class="profile-info">
+                <p id="profile-username" class="editable-text">@ insonneve 🪦</p>
+                <p id="profile-sub-username" class="editable-text">@ insonneve</p>
+                <p id="profile-bio" class="editable-text">你好像过得很好 迫不及待的抹去我存在的痕迹</p>
+                <p id="profile-location" class="editable-text">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>
+                    <span>北海道</span>
+                </p>
+            </div>
+        </div>
+        <!-- 中间布局网格 -->
+        <div id="desktop-layout">
+            <!-- 左侧小组件列 -->
+            <div id="desktop-widget-column">
+                <div class="desktop-widget text-only">
+                    <p id="widget-text-1" class="editable-text">Be fearless in pursuit of happiness</p>
                 </div>
+                <div class="desktop-widget icon-left">
+                    <img id="widget-avatar-1" src="https://i.imgur.com/1n3a43H.jpeg" class="editable-image">
+                    <span id="widget-text-2" class="editable-text">Dare to be different</span>
+                </div>
+                <div class="desktop-widget icon-right">
+                    <span id="widget-text-3" class="editable-text">* Keep your spirit free</span>
+                    <img id="widget-avatar-2" src="https://i.imgur.com/5A0tE9a.jpeg" class="editable-image">
+                </div>
+            </div>
+            <!-- 右侧App图标容器 -->
+            <div id="desktop-app-container">
+                <!-- 【核心修复】为下面的每一个App图标都补上了 <span class="label">...</span> -->
+                <div class="desktop-app-icon" onclick="showScreen('chat-list-screen')">
+                    <div class="icon-bg-desktop"><img id="icon-img-qq" src="https://i.postimg.cc/MTC3Tkw8/IMG-6436.jpg" alt="QQ"></div>
+                    <span class="label">QQ</span>
+                </div>
+                <div class="desktop-app-icon" onclick="showScreen('world-book-screen')">
+                    <div class="icon-bg-desktop"><img id="icon-img-world-book" src="https://i.postimg.cc/HWf1JKzn/IMG-6435.jpg" alt="世界书"></div>
+                    <span class="label">世界书</span>
+                </div>
+                <div class="desktop-app-icon" onclick="showScreen('wallpaper-screen')">
+                    <div class="icon-bg-desktop"><img id="icon-img-wallpaper" src="https://i.postimg.cc/T1j03pQr/IMG-6440.jpg" alt="外观设置"></div>
+                    <span class="label">外观设置</span>
+                </div>
+                <div class="desktop-app-icon" onclick="openRenderingRulesScreen()">
+                    <div class="icon-bg-desktop"><img id="icon-img-renderer" src="https://s3plus.meituan.net/opapisdk/op_ticket_885190757_1756312261242_qdqqd_g0eriz.jpeg" alt="渲染器"></div>
+                    <span class="label">渲染器</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
 
                 <!-- 页面2: 新增的页面，用于放置阅读器等新App -->
                 <div id="home-page-2" class="home-screen-page">
@@ -9329,24 +9421,44 @@
 
 
     
-    <!-- 4. 角色手机 - 相册 App 页面 (这是它应该在的位置，与主屏幕平级) -->
-    <div id="char-album-screen" class="char-screen">
-        <div class="header">
-            <span class="back-btn" onclick="switchToCharHomeScreen()">‹</span>
-            <span>TA的相册</span>
-            <div class="header-actions">
-                <span class="action-btn" id="regenerate-char-album-btn" title="重新生成相册内容">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 11A8.1 8.1 0 0 0 4.5 9M4 5v4h4"></path>
-                        <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>
-                    </svg>
-                </span>
-            </div>
-        </div>
-        <div class="list-container">
-            <div id="char-album-grid"></div>
+<!-- ▼▼▼ 【请用这整块新代码】完整替换旧的 #char-album-screen ▼▼▼ -->
+<div id="char-album-screen" class="char-screen">
+    <div class="header">
+        <span class="back-btn" onclick="switchToCharHomeScreen()">‹</span>
+        <span>TA的相册</span>
+        <div class="header-actions">
+            <!-- 这是您已有的设置按钮 -->
+            <span class="action-btn" id="manage-char-album-settings-btn" title="相册设置">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V15a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </span>
+            <!-- 这是您已有的刷新按钮 -->
+            <span class="action-btn" id="regenerate-char-album-btn" title="重新生成相册内容">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 11A8.1 8.1 0 0 0 4.5 9M4 5v4h4"></path>
+                    <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>
+                </svg>
+            </span>
+            <!-- 【【【核心新增！！！】】】这是我们新添加的“清空”按钮 -->
+            <span class="action-btn" id="clear-char-album-btn" title="清空相册">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+            </span>
+            <!-- 【【【新增结束】】】 -->
         </div>
     </div>
+    <div class="list-container">
+        <div id="char-album-grid"></div>
+    </div>
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+
 
 <!-- ▼▼▼ 【全新V2.0 | 支持文章/图片】请用这整块代码，替换旧的 #char-browser-screen ▼▼▼ -->
 <div id="char-browser-screen" class="char-screen">
@@ -10369,6 +10481,19 @@
                     </label>
                 </div>
                 <!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+<!-- ▼▼▼ 【全新】App名字设置区域 ▼▼▼ -->
+<hr style="width: 80%; opacity: 0.3; margin: 30px 0;">
+<div style="width:100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+    <label style="font-weight: 500; color: var(--text-secondary);">App名字设置</label>
+    <button id="reset-app-names-btn" class="section-reset-btn" title="重置App名称">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 2v6h6M21.5 22v-6h-6"/><path d="M22 11.5A10 10 0 0 0 3.5 12.5M2 12.5a10 10 0 0 0 18.5-1"/></svg>
+    </button>
+</div>
+<!-- 这个div将用来动态显示所有可编辑的App名字 -->
+<div id="app-name-settings-list" style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
+    <!-- JS会在这里生成App名字列表 -->
+</div>
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
 
 <!-- 【【【全新：全局CSS预设管理】】】 -->
 <h3 style="margin-top:0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; width:100%; text-align: left;">CSS 预设管理</h3>
@@ -10901,6 +11026,20 @@
             </label>
         </div>
         <!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+<!-- ▼▼▼ 【全新】共赏桌面开关 ▼▼▼ -->
+<div class="form-group" style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+     <label for="co-viewing-desktop-toggle" style="margin-bottom: 0;">
+        共赏桌面开关
+        <p style="font-size: 12px; font-weight: normal; color: #999; margin-top: 5px;">
+            开启后，返回主屏幕时将出现一个可互动的角色悬浮窗。
+        </p>
+    </label>
+    <label class="toggle-switch">
+        <input type="checkbox" id="co-viewing-desktop-toggle">
+        <span class="slider"></span>
+    </label>
+</div>
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
 
         <hr style="opacity: 0.3; margin: 20px 0;">
         <div class="form-group">
@@ -11962,6 +12101,22 @@ const DEFAULT_NOTIFICATION_SOUND = 'https://www.myinstants.com/media/sounds/noti
         let originalChatMessagesPaddingTop = null; // 用于存储消息区的原始顶部内边距
         
         // ▲▲▲ 新增代码结束 ▲▲▲
+// ▼▼▼ 【全新】这是所有App的默认名称，用于重置 ▼▼▼
+const DEFAULT_APP_LABELS = {
+    'qq': 'QQ',
+    'world-book': '世界书',
+    'wallpaper': '外观设置',
+    'renderer': '渲染器',
+    'api-settings': 'API设置',
+    'font': '字体',
+    'char-phone': 'Cphone',
+    'reader': '阅读器',
+    'television': '电视机',
+    'forum': '论坛',
+    'memo': '备忘录'
+};
+// ▲▲▲ 新增代码结束 ▲▲▲
+
         // ▼▼▼ 【请用这个新版本】替换旧的 DEFAULT_APP_ICONS 常量 ▼▼▼
 // ▼▼▼ 【请用这个新版本】替换旧的 DEFAULT_APP_ICONS 常量 ▼▼▼
 const DEFAULT_APP_ICONS = {
@@ -12749,48 +12904,7 @@ async function handleClearSimulatedQQ() {
                 // ===================================================================
                 // 3. 所有功能函数定义
                 // ===================================================================
-// ▼▼▼ 【全新】这是请求浏览器通知权限的核心函数，请粘贴到JS功能定义区 ▼▼▼
-/**
- * 【全新】请求浏览器桌面通知的权限
- * @returns {Promise<boolean>} - 返回一个Promise，用户授权则为true，否则为false
- */
-async function requestNotificationPermission() {
-    // 检查浏览器是否支持Notifications API
-    if (!('Notification' in window)) {
-        console.warn('此浏览器不支持桌面通知。');
-        return false;
-    }
 
-    // 检查当前是否已经获得了权限
-    if (Notification.permission === 'granted') {
-        return true; // 已经有权限了，直接返回成功
-    }
-
-    // 如果权限是“denied”（被永久拒绝），则无法再次请求，直接提示用户
-    if (Notification.permission === 'denied') {
-        await showCustomAlert(
-            '通知权限已被禁用', 
-            '您已经禁用了本站的通知权限。如果需要开启，请手动前往浏览器的站点设置中进行修改。'
-        );
-        return false;
-    }
-
-    // 如果权限是“default”（默认状态，从未询问过），则发起请求
-    if (Notification.permission === 'default') {
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-            // 用户同意了！
-            new Notification('EPhone 通知已开启', {
-                body: '现在您可以接收到来自角色的新消息提醒了！',
-                icon: 'https://s3plus.meituan.net/opapisdk/op_ticket_885190757_1756312261242_qdqqd_g0eriz.jpeg' // 使用您的App图标
-            });
-            return true;
-        }
-    }
-    
-    return false; // 其他所有情况（例如用户关闭了请求框）都视为失败
-}
-// ▲▲▲ 新增函数结束 ▲▲▲
 
         // ▼▼▼ 请将这个全新的函数，粘贴到“所有功能函数定义”区域的开头 ▼▼▼
 function openForum() {
@@ -14312,6 +14426,11 @@ async function loadAllDataFromDB() {
         if (!chat.longTermMemory) chat.longTermMemory = [];
         if (!chat.lastMemorySummaryTimestamp) chat.lastMemorySummaryTimestamp = 0;
         if (!chat.isGroup) {
+// 【全新】为旧数据添加 coViewingDesktopEnabled 默认值
+if (typeof chat.settings.coViewingDesktopEnabled === 'undefined') {
+    chat.settings.coViewingDesktopEnabled = false;
+}
+
             if (typeof chat.settings.isOfflineMode === 'undefined') chat.settings.isOfflineMode = false;
             if (typeof chat.settings.offlineMinLength === 'undefined') chat.settings.offlineMinLength = 100;
             if (typeof chat.settings.offlineMaxLength === 'undefined') chat.settings.offlineMaxLength = 300;
@@ -14356,6 +14475,7 @@ state.globalSettings = globalSettings || {
     showStatusBar: false, // <-- 新增这一行，默认关闭
     showPaginationDots: true, // <-- 【全新】新增这一行，默认开启
     iconCustomizations: {}, // 【全新】用于存储图标自定义数据
+    appLabels: {}, // <-- 【【【核心新增！！！】】】在这里初始化appLabels
     wallpaper: 'linear-gradient(135deg, #89f7fe, #66a6ff)', 
     fontUrl: '', 
     enableBackgroundActivity: false, 
@@ -24546,33 +24666,42 @@ ${coReadingHistory || "(你们还没开始讨论，你可以主动发起话题)"
             else { await triggerCoReadingAIResponse(); }
         }
         
-        /**
-         * 【全新 | V2.0】关闭共读悬浮窗，并根据设置决定是否保存
-         */
-        async function closeCoReadingSession() { /* 这个函数保持不变 */
-            const windowEl = document.getElementById('co-reading-chat-window');
-            windowEl.style.display = 'none';
-        // 【核心新增】关闭时，确保移除最小化样式，以便下次能正常显示
-        windowEl.classList.remove('minimized');
-        // 并恢复其默认居中定位，防止下次打开时位置错乱
-        windowEl.style.left = '50%';
-        windowEl.style.top = '15%';
-        windowEl.style.right = 'auto';
-        windowEl.style.transform = 'translateX(-50%)';
+// ▼▼▼ 【请用这个【已集成自动重置最小化设置】的新版本】替换旧的 closeCoReadingSession 函数 ▼▼▼
+/**
+ * 【全新 | V3.0 | 自动重置最小化】关闭共读悬浮窗，并根据设置决定是否保存
+ */
+async function closeCoReadingSession() {
+    const windowEl = document.getElementById('co-reading-chat-window');
+    windowEl.style.display = 'none';
+    windowEl.classList.remove('minimized');
+    windowEl.style.left = '50%';
+    windowEl.style.top = '15%';
+    windowEl.style.right = 'auto';
+    windowEl.style.transform = 'translateX(-50%)';
 
-            if (coReadingState.isActive && coReadingState.targetChatId) {
-                const book = await db.readerBooks.get(currentReadingBookId);
-                if (!book) return;
-                const settings = book.coReadingSettings?.[coReadingState.targetChatId] || { persist: false, contextCount: 1 };
-                if (settings.persist) {
-                    if (!book.coReadingHistories) book.coReadingHistories = {};
-                    book.coReadingHistories[coReadingState.targetChatId] = coReadingState.history;
-                    await db.readerBooks.put(book);
-                    console.log(`共读记录已为《${book.title}》与角色 ${coReadingState.targetChatId} 永久保存。`);
-                }
+    if (coReadingState.isActive && coReadingState.targetChatId) {
+        const book = await db.readerBooks.get(currentReadingBookId);
+        if (!book) return;
+        const settings = book.coReadingSettings?.[coReadingState.targetChatId];
+        
+        // 【【【核心修改！！！】】】
+        // 无论用户是否设置了“永久保存”，在关闭窗口时，我们都强制将“最小化”选项重置为 false
+        if (settings) {
+            settings.minimize = false; // <-- 这就是自动重置的核心
+
+            if (settings.persist) {
+                if (!book.coReadingHistories) book.coReadingHistories = {};
+                book.coReadingHistories[coReadingState.targetChatId] = coReadingState.history;
             }
-            coReadingState = { isActive: false, targetChatId: null, history: [], bookSnippets: [] };
+            await db.readerBooks.put(book); // 将包含了“minimize: false”的设置保存回去
+            console.log(`共读窗口关闭：已为《${book.title}》与角色 ${coReadingState.targetChatId} 重置最小化设置。`);
         }
+    }
+    // 重置前端状态（保持不变）
+    coReadingState = { isActive: false, targetChatId: null, history: [], bookSnippets: [] };
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
         // ▼▼▼ 【全新】共读窗口最小化功能的核心JS ▼▼▼
         
         /**
@@ -24588,18 +24717,34 @@ ${coReadingHistory || "(你们还没开始讨论，你可以主动发起话题)"
             windowEl.style.transform = 'translateY(-50%)'; // 只保留垂直居中
         }
 
-        /**
-         * 【全新】恢复共读窗口的正常大小
-         */
-        function restoreCoReadingWindow() {
-            const windowEl = document.getElementById('co-reading-chat-window');
-            windowEl.classList.remove('minimized');
-            // 恢复到屏幕中央
-            windowEl.style.left = '50%';
-            windowEl.style.top = '50%';
-            windowEl.style.right = 'auto';
-            windowEl.style.transform = 'translate(-50%, -50%)';
-        }
+// ▼▼▼ 【请用这个【已集成自动关闭开关】的新版本】替换旧的 restoreCoReadingWindow 函数 ▼▼▼
+/**
+ * 【全新 | 自动关闭开关】恢复共读窗口的正常大小
+ */
+async function restoreCoReadingWindow() {
+    const windowEl = document.getElementById('co-reading-chat-window');
+    windowEl.classList.remove('minimized');
+    // 恢复到屏幕中央
+    windowEl.style.left = '50%';
+    windowEl.style.top = '50%';
+    windowEl.style.right = 'auto';
+    windowEl.style.transform = 'translate(-50%, -50%)';
+
+    // 【【【核心修改！！！】】】
+    // 1. 找到“最小化”的开关，并取消它的选中状态
+    const toggle = document.getElementById('co-reading-minimize-toggle');
+    if (toggle) {
+        toggle.checked = false;
+    }
+
+    // 2. 同时，将这个更改保存回数据库，确保状态同步
+    const book = await db.readerBooks.get(currentReadingBookId);
+    if (book && book.coReadingSettings && book.coReadingSettings[coReadingState.targetChatId]) {
+        book.coReadingSettings[coReadingState.targetChatId].minimize = false;
+        await db.readerBooks.put(book);
+    }
+}
+// ▲▲▲ 替换结束 ▲▲▲
 
         // ▼▼▼ 【全新】这是新功能的事件监听器 ▼▼▼
         // 为共读窗口本身添加点击事件，用于从最小化状态恢复
@@ -24609,14 +24754,18 @@ ${coReadingHistory || "(你们还没开始讨论，你可以主动发起话题)"
             }
         });
 
-        // 监听“最小化”开关的变化
-        document.getElementById('co-reading-minimize-toggle').addEventListener('change', (e) => {
-            if (e.target.checked) {
-                minimizeCoReadingWindow();
-            } else {
-                restoreCoReadingWindow();
-            }
-        });
+// ▼▼▼ 【请用这个【已适配async】的新版本】替换旧的 co-reading-minimize-toggle 事件监听器 ▼▼▼
+// 监听“最小化”开关的变化
+document.getElementById('co-reading-minimize-toggle').addEventListener('change', async (e) => {
+    if (e.target.checked) {
+        minimizeCoReadingWindow();
+    } else {
+        // 【核心修改】因为 restoreCoReadingWindow 现在是异步的，所以这里需要加上 await
+        await restoreCoReadingWindow();
+    }
+});
+// ▲▲▲ 替换结束 ▲▲▲
+
         
         // ▲▲▲ 新增JS代码结束 ▲▲▲
         
@@ -24871,6 +25020,20 @@ document.getElementById('reader-decode-btn').addEventListener('click', openDecod
         });
         // ▲▲▲ 替换结束 ▲▲▲
 
+    // ▼▼▼ 【全新】App名字设置功能的事件监听器 ▼▼▼
+
+    // 1. 使用事件委托，处理列表中所有“编辑”按钮的点击
+    document.getElementById('app-name-settings-list').addEventListener('click', (e) => {
+        const editBtn = e.target.closest('button');
+        if (editBtn && editBtn.dataset.appid) {
+            handleEditAppName(editBtn.dataset.appid);
+        }
+    });
+
+    // 2. 为“重置”按钮绑定打开多选弹窗的事件
+    document.getElementById('reset-app-names-btn').addEventListener('click', handleResetAppNames);
+
+    // ▲▲▲ 新增事件绑定结束 ▲▲▲
 
         // ▼▼▼ 【全新】这是启动主屏幕滑动功能的调用，请粘贴到 init() 函数的末尾 ▼▼▼
         setupHomeScreenScrolling();
@@ -24878,46 +25041,34 @@ document.getElementById('reader-decode-btn').addEventListener('click', openDecod
 
         // ▼▼▼ 【全新】重置App图标功能核心函数 ▼▼▼
         
-        // ▼▼▼ 【请用这个最终修复版】完整替换旧的 openResetIconModal 函数 ▼▼▼
-        /**
-         * 打开重置图标的选择模态框
-         */
-        function openResetIconModal() {
-            const modal = document.getElementById('reset-icons-modal');
-            const listEl = document.getElementById('reset-icons-list');
-            listEl.innerHTML = '';
+// ▼▼▼ 【请用这个【已集成动态名称】的新版本】替换旧的 openResetIconModal 函数 ▼▼▼
+/**
+ * 打开重置图标的选择模态框
+ */
+function openResetIconModal() {
+    const modal = document.getElementById('reset-icons-modal');
+    const listEl = document.getElementById('reset-icons-list');
+    listEl.innerHTML = '';
+
+    // 遍历所有默认图标，生成列表
+    for (const iconId in DEFAULT_APP_ICONS) {
+        // 【核心修改】从这里获取App名称
+        const labelText = state.globalSettings.appLabels?.[iconId] || DEFAULT_APP_LABELS[iconId] || iconId;
         
-            // ▼▼▼ 核心修复：在这里也补上了“电视机”的中文名 ▼▼▼
-            const appLabels = {
-                'world-book': '世界书',
-                'qq': 'QQ',
-                'renderer': '渲染器',
-                'api-settings': 'API设置',
-                'wallpaper': '外观设置',
-                'font': '字体',
-                'char-phone': 'Cphone',
-                'reader': '阅读器',
-                'television': '电视机', // <-- 已添加
-                'forum': '论坛',
-                'memo': '备忘录'
-            };
-            // ▲▲▲ 修复结束 ▲▲▲
-        
-            // 遍历所有默认图标，生成列表
-            for (const iconId in DEFAULT_APP_ICONS) {
-                const item = document.createElement('div');
-                item.className = 'clear-posts-item';
-                item.innerHTML = `
-                    <div class="checkbox"></div>
-                    <span class="name">${appLabels[iconId] || iconId}</span>
-                `;
-                item.querySelector('.checkbox').dataset.value = iconId;
-                listEl.appendChild(item);
-            }
-            
-            modal.classList.add('visible');
-        }
-        // ▲▲▲ 替换结束 ▲▲▲
+        const item = document.createElement('div');
+        item.className = 'clear-posts-item';
+        item.innerHTML = `
+            <div class="checkbox"></div>
+            <span class="name">${labelText}</span>
+        `;
+        item.querySelector('.checkbox').dataset.value = iconId;
+        listEl.appendChild(item);
+    }
+    
+    modal.classList.add('visible');
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
 
         
         /**
@@ -25254,62 +25405,49 @@ document.getElementById('reader-decode-btn').addEventListener('click', openDecod
 
         
         // ▼▼▼ 【请用这个V4.1最终修复版】完整替换旧的 renderIconSettings 函数 ▼▼▼
-        /**
-         * 【最终修复版 | V4.1】在外观设置页面渲染出所有App图标的设置项
-         */
-        function renderIconSettings() {
-            const grid = document.getElementById('icon-settings-grid');
-            if (!grid) return;
-            grid.innerHTML = '';
-        
-            // ▼▼▼ 核心修复：在这里补上了“电视机”的中文名 ▼▼▼
-            const appLabels = {
-                'world-book': '世界书',
-                'qq': 'QQ',
-                'renderer': '渲染器',
-                'api-settings': 'API设置',
-                'wallpaper': '外观设置',
-                'font': '字体',
-                'char-phone': 'Cphone',
-                'reader': '阅读器',
-                'television': '电视机', // <-- 已添加
-                'forum': '论坛',
-                'memo': '备忘录'
-            };
-            // ▲▲▲ 修复结束 ▲▲▲
-        
-            for (const iconId in state.globalSettings.appIcons) {
-                const iconData = state.globalSettings.appIcons[iconId];
-                const labelText = appLabels[iconId] || '未知App';
-        
-                let imageUrlForPreview;
-        
-                if (typeof iconData === 'string') {
-                    imageUrlForPreview = iconData;
-                } 
-                else if (iconData && iconData.buffer instanceof ArrayBuffer) {
-                    const blob = new Blob([iconData.buffer], { type: iconData.type });
-                    imageUrlForPreview = URL.createObjectURL(blob);
-                } 
-                else {
-                    imageUrlForPreview = 'https://i.postimg.cc/pT2xKzPz/album-cover-placeholder.png';
-                }
+// ▼▼▼ 【请用这个【已集成动态名称】的V5.0版本】替换旧的 renderIconSettings 函数 ▼▼▼
+/**
+ * 【V5.0 | 已集成动态名称】在外观设置页面渲染出所有App图标的设置项
+ */
+function renderIconSettings() {
+    const grid = document.getElementById('icon-settings-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
 
-                const item = document.createElement('div');
-                item.className = 'icon-setting-item';
-                item.dataset.iconId = iconId; 
+    for (const iconId in state.globalSettings.appIcons) {
+        // 【核心修改】从这里获取App名称
+        const labelText = state.globalSettings.appLabels?.[iconId] || DEFAULT_APP_LABELS[iconId] || '未知App';
         
-                item.innerHTML = `
-                    <img class="icon-preview" src="${imageUrlForPreview}" alt="${labelText}">
-                    <div style="display: flex; gap: 5px; margin-top: 5px;">
-                        <button class="change-icon-btn">URL</button>
-                        <button class="upload-icon-btn">本地</button>
-                    </div>
-                `;
-                grid.appendChild(item);
-            }
+        const iconData = state.globalSettings.appIcons[iconId];
+        let imageUrlForPreview;
+
+        if (typeof iconData === 'string') {
+            imageUrlForPreview = iconData;
+        } 
+        else if (iconData && iconData.buffer instanceof ArrayBuffer) {
+            const blob = new Blob([iconData.buffer], { type: iconData.type });
+            imageUrlForPreview = URL.createObjectURL(blob);
+        } 
+        else {
+            imageUrlForPreview = 'https://i.postimg.cc/pT2xKzPz/album-cover-placeholder.png';
         }
-        // ▲▲▲ 替换结束 ▲▲▲
+
+        const item = document.createElement('div');
+        item.className = 'icon-setting-item';
+        item.dataset.iconId = iconId; 
+
+        item.innerHTML = `
+            <img class="icon-preview" src="${imageUrlForPreview}" alt="${labelText}">
+            <div style="font-size: 13px; color: var(--text-primary); margin-top: 5px;">${labelText}</div>
+            <div style="display: flex; gap: 5px; margin-top: 5px;">
+                <button class="change-icon-btn">URL</button>
+                <button class="upload-icon-btn">本地</button>
+            </div>
+        `;
+        grid.appendChild(item);
+    }
+}
+// ▲▲▲ 替换结束 ▲▲▲
 
 
         
@@ -32392,44 +32530,47 @@ function closeSimulatedTranscriptModal() {
 }
 
 // ▲▲▲ 全新JS代码粘贴结束 ▲▲▲
-        /**
-         * 【全新 | V3.0 AI指令强化版】当用户点击“重新生成”时，调用AI生成模拟相册内容
-         */
-        async function handleGenerateSimulatedAlbum() {
-            if (!activeCharacterId) return;
-            const chat = state.chats[activeCharacterId];
-        
-            if (!chat) {
-                await showCustomAlert("操作失败", "无法找到当前角色的数据。");
-                return;
-            }
-        
-            await showCustomAlert("请稍候...", `正在请求“${chat.name}”回忆TA的相册照片...`);
-        
-            const { proxyUrl, apiKey, model } = state.apiConfig;
-            if (!proxyUrl || !apiKey || !model) {
-                alert('请先在API设置中配置好API信息。');
-                return;
-            }
-        
-            // 【修复】定义一个更安全的用户显示名
-            const userDisplayNameForAI = (state.qzoneSettings.nickname === '{{user}}' || !state.qzoneSettings.nickname) ? '用户' : state.qzoneSettings.nickname;
-            
-            const longTermMemoryContext = chat.longTermMemory?.map(mem => `- ${mem.content}`).join('\n') || '无';
-            const recentHistoryWithUser = chat.history.slice(-5).map(msg => `${msg.role === 'user' ? userDisplayNameForAI : chat.name}: ${String(msg.content).substring(0, 30)}...`).join('\n');
-            const worldBookContext = (chat.settings.linkedWorldBookIds || [])
-                .map(bookId => state.worldBooks.find(wb => wb.id === bookId))
-                .filter(Boolean)
-                .map(book => `\n## 世界书《${book.name}》设定:\n${book.content.filter(e => e.enabled).map(e => `- ${e.content}`).join('\n')}`)
-                .join('');
-        
-            const systemPrompt = `
-# 你的任务
-你是一个虚拟生活模拟器。你的任务是扮演角色“${chat.name}”，并根据其人设、记忆和最近的互动，构思出【8到10张】TA最近可能会拍摄或珍藏在手机相册里的照片。
+// ▼▼▼ 【请用这个【已集成生图开关】的V4.0版本】替换旧的 handleGenerateSimulatedAlbum 函数 ▼▼▼
+// ▼▼▼ 【请用这个【已集成数量设置】的V5.0版本】替换旧的 handleGenerateSimulatedAlbum 函数 ▼▼▼
+/**
+ * 【V5.0 | 已集成数量设置】当用户点击“重新生成”时，调用AI生成模拟相册内容
+ */
+async function handleGenerateSimulatedAlbum() {
+    if (!activeCharacterId) return;
+    const chat = state.chats[activeCharacterId];
+    if (!chat) return;
+    
+    // 【核心修改1】从新的设置对象中读取开关状态和生成数量
+    const albumSettings = chat.settings.albumSettings || {};
+    const enableImageGeneration = albumSettings.enableImageGeneration ?? true;
+    const generationCount = albumSettings.generationCount ?? 8; // 默认8张
 
+    await showCustomAlert("请稍候...", `正在请求“${chat.name}”回忆TA的相册照片...`);
+
+    const { proxyUrl, apiKey, model } = state.apiConfig;
+    if (!proxyUrl || !apiKey || !model) {
+        alert('请先在API设置中配置好API信息。');
+        return;
+    }
+    
+    const userDisplayNameForAI = (state.qzoneSettings.nickname === '{{user}}' || !state.qzoneSettings.nickname) ? '用户' : state.qzoneSettings.nickname;
+
+    // 上下文构建逻辑不变...
+    const longTermMemoryContext = chat.longTermMemory?.map(mem => `- ${mem.content}`).join('\n') || '无';
+    const recentHistoryWithUser = chat.history.slice(-5).map(msg => `${msg.role === 'user' ? userDisplayNameForAI : chat.name}: ${String(msg.content).substring(0, 30)}...`).join('\n');
+    const worldBookContext = (chat.settings.linkedWorldBookIds || []).map(bookId => state.worldBooks.find(wb => wb.id === bookId)).filter(Boolean).map(book => `\n## 世界书《${book.name}》设定:\n${book.content.filter(e=>e.enabled).map(e => `- ${e.content}`).join('\n')}`).join('');
+    
+    // 【核心修改2】根据开关状态和数量，动态生成AI指令
+    let systemPrompt;
+    const countInstruction = `【${generationCount}张】`; // 将数量作为一个明确的指令
+
+    if (enableImageGeneration) {
+        systemPrompt = `
+# 你的任务
+你是一个虚拟生活模拟器。你的任务是扮演角色“${chat.name}”，并根据其人设、记忆和最近的互动，构思出${countInstruction}TA最近可能会拍摄或珍藏在手机相册里的照片。
 # 核心规则
 1.  **创造性与合理性**: 照片内容必须完全符合角色的性格、爱好、职业和生活环境。
-2.  **多样性**: 照片主题要丰富，可以包括自拍、风景、食物、宠物、朋友合影、工作场景等。
+2.  **多样性**: 照片主题要丰富。
 3.  **格式铁律 (最高优先级)**: 你的回复【必须且只能】是一个JSON数组。数组中的每个元素都是一个对象，代表一张照片，格式【必须】如下:
     \`\`\`json
     [
@@ -32439,120 +32580,125 @@ function closeSimulatedTranscriptModal() {
       }
     ]
     \`\`\`
-    - **【【【image_prompt 绝对禁止】】】**: 绝对禁止包含任何中文字符、句子、特殊符号、或任何可能涉及敏感（NSFW）、暴力、血腥、政治的内容！也禁止真人！
-    - **【【【image_prompt 必须是】】】**: 必须是纯英文的、用逗号分隔的【关键词组合】 (e.g., "1boy, solo, basketball jersey, in locker room, smiling, selfie")。
-    - **【【【画风指令】】】**: 在 prompt 的末尾，总是加上画风指令，例如： \`best quality, masterpiece, anime style, cinematic lighting\`
-
+    - **【image_prompt 绝对禁止】**: 绝对禁止包含任何中文字符、句子、特殊符号、或任何可能涉及敏感（NSFW）、暴力、血腥、政治的内容！也禁止真人！
+    - **【image_prompt 必须是】**: 必须是纯英文的、用逗号分隔的【关键词组合】。
+    - **【画风指令】**: 在 prompt 的末尾，总是加上画风指令，例如： \`best quality, masterpiece, anime style, cinematic lighting\`
 # 供你参考的上下文
 - **你的角色设定**: ${chat.settings.aiPersona}
 ${longTermMemoryContext}
 ${worldBookContext}
 - **你最近和“${userDisplayNameForAI}”的对话摘要**:
 ${recentHistoryWithUser}
-
 现在，请开始生成这组照片的描述和绘画指令。`;
+    } else {
+        systemPrompt = `
+# 你的任务
+你是一个虚拟生活模拟器。你的任务是扮演角色“${chat.name}”，并根据其人设、记忆和最近的互动，虚构出${countInstruction}TA最近可能会写下的“照片描述”。
+# 核心规则
+1.  **创造性与合理性**: 描述内容必须完全符合角色的性格、爱好、职业和生活环境。
+2.  **格式铁律 (最高优先级)**: 你的回复【必须且只能】是一个JSON数组。数组中的每个元素都是一个对象，代表一个“照片描述”，格式【必须】如下:
+    \`\`\`json
+    [
+      {
+        "description": "这是一段照片背后的故事或角色的心情日记，必须使用第一人称“我”来写。"
+      }
+    ]
+    \`\`\`
+    - **【【【绝对禁止】】】**: 你的回复中【绝对不能】包含 "image_prompt" 这个字段！
+# 供你参考的上下文
+- **你的角色设定**: ${chat.settings.aiPersona}
+${longTermMemoryContext}
+${worldBookContext}
+- **你最近和“${userDisplayNameForAI}”的对话摘要**:
+${recentHistoryWithUser}
+现在，请开始生成这组“照片描述”。`;
+    }
+
+    try {
+        // API调用和后续处理逻辑保持不变...
+        const messagesForApi = [{ role: 'user', content: "请根据你的设定，生成你的相册内容。" }];
+        let isGemini = proxyUrl.includes('generativelanguage');
+        let geminiConfig = toGeminiRequestData(model, apiKey, systemPrompt, messagesForApi);
+        const response = isGemini ? await fetch(geminiConfig.url, geminiConfig.data) : await fetch(`${proxyUrl}/v1/chat/completions`, { method: 'POST', headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`}, body: JSON.stringify({ model: model, messages: [{role: 'system', content: systemPrompt}, ...messagesForApi], temperature: 0.9, response_format: { "type": "json_object" } }) });
+        if (!response.ok) throw new Error(`API 错误: ${response.statusText}`);
+        const data = await response.json();
+        const aiResponseContent = getGeminiResponseText(data);
+        const cleanedJson = aiResponseContent.replace(/^```json\s*/, '').replace(/```$/, '');
+        const simulatedAlbumData = JSON.parse(cleanedJson);
+        chat.simulatedAlbum = simulatedAlbumData;
+        await db.chats.put(chat);
+        await renderCharAlbum();
+    } catch (error) {
+        console.error("生成模拟相册失败:", error);
+        await showCustomAlert("生成失败", `无法生成模拟相册，请检查API配置或稍后再试。\n错误: ${error.message}`);
+    }
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
+// ▼▼▼ 【请用这个【已修复“纯文字模式”点击事件】的V6.0版本】替换旧的 renderCharAlbum 函数 ▼▼▼
+/**
+ * 【V6.0 | 已修复“纯文字模式”点击事件】渲染角色相册
+ */
+async function renderCharAlbum() {
+    const gridEl = document.getElementById('char-album-grid');
+    gridEl.innerHTML = '';
+    if (!activeCharacterId) return;
+    const char = state.chats[activeCharacterId];
+
+    const photos = char.simulatedAlbum || [];
+
+    if (photos.length === 0) {
+        gridEl.innerHTML = '<p style="text-align:center; color: var(--text-secondary); padding: 50px 0;">TA的相册还是空的，<br>点击右上角刷新按钮生成一些照片吧！</p>';
+        return;
+    }
+    
+    photos.forEach(photo => {
+        const item = document.createElement('div');
+        item.className = 'char-photo-item';
         
-            try {
-                const messagesForApi = [{ role: 'user', content: "请根据你的设定，生成你的相册内容。" }];
-                let isGemini = proxyUrl.includes('generativelanguage');
-                let geminiConfig = toGeminiRequestData(model, apiKey, systemPrompt, messagesForApi);
-                
-                const response = isGemini 
-                    ? await fetch(geminiConfig.url, geminiConfig.data) 
-                    : await fetch(`${proxyUrl}/v1/chat/completions`, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`},
-                        body: JSON.stringify({
-                            model: model,
-                            messages: [{role: 'system', content: systemPrompt}, ...messagesForApi],
-                            temperature: 0.9,
-                            response_format: { "type": "json_object" } 
-                        })
-                    });
+        // 判断是否需要生成图片
+        if (photo.image_prompt) {
+            // --- 生图模式的逻辑（保持不变）---
+            const containsNonEnglish = /[^\x00-\x7F]/.test(photo.image_prompt);
+            const isValidPrompt = photo.image_prompt && photo.image_prompt.trim() && !containsNonEnglish;
+            const finalPrompt = isValidPrompt ? photo.image_prompt : 'a beautiful scenery, anime style, cinematic lighting';
+            const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(finalPrompt)}`;
 
-                if (!response.ok) throw new Error(`API 错误: ${response.statusText}`);
-                
-                const data = await response.json();
-                const aiResponseContent = getGeminiResponseText(data);
-                const cleanedJson = aiResponseContent.replace(/^```json\s*/, '').replace(/```$/, '');
-                
-                const simulatedAlbumData = JSON.parse(cleanedJson);
-                
-                chat.simulatedAlbum = simulatedAlbumData;
-                await db.chats.put(chat);
-                
-                await renderCharAlbum();
-                
-            } catch (error) {
-                console.error("生成模拟相册失败:", error);
-                await showCustomAlert("生成失败", `无法生成模拟相册，请检查API配置或稍后再试。\n错误: ${error.message}`);
-            }
-        }
+            const img = new Image();
+            img.onload = function() { item.style.backgroundImage = `url(${this.src})`; };
+            img.onerror = function() { 
+                console.warn('图片生成失败，已使用备用图片。失败的Prompt:', finalPrompt);
+                item.style.backgroundImage = `url(https://image.pollinations.ai/prompt/${encodeURIComponent('a beautiful scenery, anime style, cinematic lighting')})`;
+            };
+            img.src = imageUrl;
 
-        /**
-         * 【全新 | V3.0 终极防空窗版】渲染角色相册
-         */
-        async function renderCharAlbum() {
-            const gridEl = document.getElementById('char-album-grid');
-            gridEl.innerHTML = '';
-            if (!activeCharacterId) return;
-            const char = state.chats[activeCharacterId];
-        
-            const photos = char.simulatedAlbum || [];
-        
-            if (photos.length === 0) {
-                gridEl.innerHTML = '<p style="text-align:center; color: var(--text-secondary); padding: 50px 0;">TA的相册还是空的，<br>点击右上角刷新按钮生成一些照片吧！</p>';
-                return;
-            }
-        
-            // 这是我们安全可靠的“备用图片”
-            const fallbackImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent('a beautiful scenery, anime style, cinematic lighting')}`;
+            // 为生成的图片绑定点击事件，显示预设的描述
+            item.addEventListener('click', () => {
+                showCustomAlert("照片详情", photo.description.replace(/\n/g, '<br>'));
+            });
 
-            photos.forEach(photo => {
-                const item = document.createElement('div');
-                item.className = 'char-photo-item';
-                item.dataset.description = photo.description;
-                // 先显示一个灰色占位背景
-                item.style.backgroundColor = '#e9ecef';
-                gridEl.appendChild(item);
-
-                // ▼▼▼ 核心修复就在这里！▼▼▼
-                // 1. 使用正则表达式检查 prompt 是否包含任何非英文字符
-                const containsNonEnglish = /[^\x00-\x7F]/.test(photo.image_prompt);
-                
-                // 2. 我们的“有效性”检查现在变得更严格了：
-                //    - 必须存在
-                //    - 必须不是空字符串
-                //    - 必须不包含任何非英文字符
-                const isValidPrompt = photo.image_prompt && photo.image_prompt.trim() && !containsNonEnglish;
-                
-                // 3. 如果 prompt 有效，就使用它；否则，强制使用我们的备用 prompt
-                const finalPrompt = isValidPrompt ? photo.image_prompt : 'a beautiful scenery, anime style, cinematic lighting';
-                const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(finalPrompt)}`;
-
-                // --- 4. 这就是我们的“图片加载检查器” ---
-                const img = new Image(); // 在后台创建一个临时的<img>标签
-                
-                // a. 如果图片成功加载
-                img.onload = function() {
-                    // 就把这张成功的图片设置为背景
-                    item.style.backgroundImage = `url(${this.src})`;
-                };
-
-                // b. 如果图片加载失败（比如prompt错误，服务器返回404或损坏的图片）
-                img.onerror = function() {
-                    // 就立刻使用我们准备好的、绝对不会出错的“备用图片”
-                    console.warn('图片生成失败，已使用备用图片。失败的Prompt:', finalPrompt);
-                    item.style.backgroundImage = `url(${fallbackImageUrl})`;
-                };
-                
-                // c. 命令浏览器开始加载图片
-                img.src = imageUrl;
-                // --- 检查器工作结束 ---
-                // ▲▲▲ 修复结束 ▲▲▲
+        } else {
+            // --- 【【【核心修复就在这里！！！】】】 ---
+            // --- 纯文字模式的全新逻辑 ---
+            item.style.backgroundImage = 'none';
+            item.style.backgroundColor = '#e9ecef';
+            item.style.cursor = 'pointer';
+            
+            // 为这个灰色的占位图绑定点击事件，直接显示已经生成好的描述！
+            item.addEventListener('click', () => {
+                // 我们直接从 photo 对象中读取早已存在的 description
+                const descriptionText = photo.description || "（AI没有为这张照片提供描述）";
+                showCustomAlert("照片详情", descriptionText.replace(/\n/g, '<br>'));
             });
         }
-// ▼▼▼ 【全新V2.0】这是AI浏览器功能的【全部核心JS代码】，请完整粘贴 ▼▼▼
+        
+        gridEl.appendChild(item);
+    });
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
+
+
 
         /**
          * 【全新 | V2.0 AI指令强化版】当用户点击“重新生成”时，调用AI生成模拟浏览器历史
@@ -34048,6 +34194,28 @@ function setupCharPlayerControls() {
             if (item) item.classList.toggle('selected');
         });
         // ▲▲▲ 新增事件绑定结束 ▲▲▲
+
+    // ▼▼▼ 【全新】角色相册设置功能事件监听器 ▼▼▼
+    
+    // 为右上角的“设置”齿轮图标绑定打开弹窗的事件
+    document.getElementById('manage-char-album-settings-btn').addEventListener('click', openCharAlbumSettingsModal);
+    
+    // 为弹窗内的“完成”按钮绑定关闭弹窗的事件
+    document.getElementById('close-char-album-settings-btn').addEventListener('click', () => {
+        // 在关闭时，最后保存一次设置
+        handleCharAlbumSettingsChange(); 
+        document.getElementById('char-album-settings-modal').classList.remove('visible');
+    });
+    
+    // 为弹窗内的“生图开关”绑定状态改变的事件
+    document.getElementById('char-album-gen-toggle').addEventListener('change', handleCharAlbumSettingsChange);
+    
+    // 【核心新增】为“生成数量”输入框绑定输入事件，实时保存
+    document.getElementById('char-album-gen-count-input').addEventListener('input', handleCharAlbumSettingsChange);
+    
+    // ▲▲▲ 新增事件绑定结束 ▲▲▲
+
+
         // ▼▼▼ 【全新】阅读器解码功能核心JS代码 ▼▼▼
         
 // ▼▼▼ 【V2.0 | UI优化版】请用这个全新的函数，完整替换您现有的 openDecoderModal 函数 ▼▼▼
@@ -34700,6 +34868,515 @@ async function handleUserSentMessageAsChar() {
 }
 
 // ▲▲▲ 全新JS代码粘贴结束 ▲▲▲
+// ▼▼▼ 【全新】角色相册设置功能的所有JS代码 ▼▼▼
+
+// ▼▼▼ 【请用这个【已集成数量设置】的V2.0版本】替换旧的 openCharAlbumSettingsModal 函数 ▼▼▼
+/**
+ * 【V2.0 | 已集成数量设置】打开角色相册的设置弹窗
+ */
+function openCharAlbumSettingsModal() {
+    if (!activeCharacterId) return;
+    const chat = state.chats[activeCharacterId];
+    if (!chat) return;
+
+    // 【核心修改1】确保 settings 和 albumSettings 对象存在
+    if (!chat.settings) chat.settings = {};
+    if (!chat.settings.albumSettings) {
+        chat.settings.albumSettings = {};
+    }
+    
+    const settings = chat.settings.albumSettings;
+    
+    // 【核心修改2】根据保存的设置，初始化两个控件的状态
+    const toggle = document.getElementById('char-album-gen-toggle');
+    const countInput = document.getElementById('char-album-gen-count-input');
+
+    // 使用 ?? true 确保旧数据默认开启生图
+    toggle.checked = settings.enableImageGeneration ?? true; 
+    // 使用 ?? 8 确保旧数据默认生成8张
+    countInput.value = settings.generationCount ?? 8;
+    
+    document.getElementById('char-album-settings-modal').classList.add('visible');
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
+/**
+ * 【核心】处理生图开关状态的改变
+ */
+// ▼▼▼ 【请用这个【已集成数量设置】的V2.0版本】替换旧的 handleCharAlbumSettingsToggle 函数 ▼▼▼
+/**
+ * 【V2.0 | 已集成数量设置】当用户改变任何相册设置时，实时保存
+ */
+async function handleCharAlbumSettingsChange() {
+    if (!activeCharacterId) return;
+    const chat = state.chats[activeCharacterId];
+    if (!chat) return;
+
+    // 确保 settings 和 albumSettings 对象存在
+    if (!chat.settings) chat.settings = {};
+    if (!chat.settings.albumSettings) {
+        chat.settings.albumSettings = {};
+    }
+    
+    // 从UI获取两个控件的当前值
+    const isEnabled = document.getElementById('char-album-gen-toggle').checked;
+    const count = parseInt(document.getElementById('char-album-gen-count-input').value) || 8;
+
+    // 将新状态保存到内存中
+    chat.settings.albumSettings.enableImageGeneration = isEnabled;
+    // 确保数量至少为1
+    chat.settings.albumSettings.generationCount = Math.max(1, count); 
+
+    // 将更新后的整个 chat 对象存回数据库
+    await db.chats.put(chat);
+    
+    console.log(`角色 ${chat.name} 的相册设置已保存:`, chat.settings.albumSettings);
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
+
+// ▲▲▲ 新增JS代码结束 ▲▲▲
+// ▼▼▼ 【全新】清空角色相册功能 ▼▼▼
+/**
+ * 【全新】处理用户点击“清空相册”按钮的逻辑
+ */
+async function handleClearSimulatedAlbum() {
+    // 1. 安全检查，确保当前正在查看某个角色的手机
+    if (!activeCharacterId) return;
+    const chat = state.chats[activeCharacterId];
+    if (!chat) return;
+
+    // 2. 弹出二次确认框，防止误操作
+    const confirmed = await showCustomConfirm(
+        '确认清空相册？',
+        `确定要清空“${chat.name}”的相册中所有照片吗？此操作不可撤销。`,
+        { confirmButtonClass: 'btn-danger', confirmText: '确认清空' }
+    );
+
+    // 3. 如果用户取消，则直接退出
+    if (!confirmed) return;
+
+    // 4. 执行核心清空逻辑
+    if (!chat.simulatedAlbum) {
+        chat.simulatedAlbum = [];
+    } else {
+        chat.simulatedAlbum.length = 0; // 更高效的清空数组方式
+    }
+
+    // 5. 将更新后的数据保存回数据库
+    await db.chats.put(chat);
+    
+    // 6. 重新渲染相册界面，此时会显示“空空如也”的提示
+    await renderCharAlbum();
+
+    // 7. 给予用户成功的反馈
+    await showCustomAlert('操作成功', `“${chat.name}”的相册已被清空。`);
+}
+// ▲▲▲ 新增JS代码结束 ▲▲▲
+// ▼▼▼ 【全新】App名字设置功能的所有核心JS代码 ▼▼▼
+
+/**
+ * 【全新 | 核心渲染函数】根据保存的设置，动态渲染“App名字设置”区域的列表
+ */
+function renderAppNameSettings() {
+    const listEl = document.getElementById('app-name-settings-list');
+    if (!listEl) return;
+    listEl.innerHTML = '';
+
+    // 确保 appLabels 对象存在
+    if (!state.globalSettings.appLabels) {
+        state.globalSettings.appLabels = {};
+    }
+
+    // 遍历默认的App列表来生成每一行
+    for (const appId in DEFAULT_APP_LABELS) {
+        // 优先从用户自定义的名称中获取，如果不存在，则使用默认名称
+        const currentName = state.globalSettings.appLabels[appId] || DEFAULT_APP_LABELS[appId];
+
+        const itemEl = document.createElement('div');
+        // 复用现有样式，确保外观统一
+        itemEl.className = 'existing-group-item'; 
+        itemEl.innerHTML = `
+            <span class="group-name">${currentName}</span>
+            <button class="form-button-secondary" data-appid="${appId}" style="margin-top: 0; padding: 6px 15px;">编辑</button>
+        `;
+        listEl.appendChild(itemEl);
+    }
+}
+
+/**
+ * 【全新 | 核心功能】应用所有自定义的App名称到主屏幕上
+ */
+function applyAppLabels() {
+    // 遍历所有默认App，确保每个图标的名称都被更新
+    for (const appId in DEFAULT_APP_LABELS) {
+        // 优先从用户自定义的名称中获取，如果不存在，则使用默认名称
+        const newName = state.globalSettings.appLabels?.[appId] || DEFAULT_APP_LABELS[appId];
+        
+        // 找到主屏幕上对应的App图标的 <span class="label">
+        // 我们通过图标的父元素来定位，这样更准确
+        const iconEl = document.querySelector(`.desktop-app-icon img[id="icon-img-${appId}"]`);
+        if (iconEl) {
+            const labelEl = iconEl.closest('.desktop-app-icon').querySelector('.label');
+            if (labelEl) {
+                labelEl.textContent = newName;
+            }
+        }
+    }
+}
+
+/**
+ * 【全新 | 核心功能】处理用户点击“编辑”按钮，修改单个App的名称
+ * @param {string} appId - 被编辑的App的ID，例如 'qq', 'reader'
+ */
+async function handleEditAppName(appId) {
+    if (!appId) return;
+    
+    const defaultName = DEFAULT_APP_LABELS[appId] || appId;
+    const currentName = state.globalSettings.appLabels?.[appId] || defaultName;
+
+    // 弹出输入框，让用户输入新名字
+    const newName = await showCustomPrompt(`修改“${currentName}”的名称`, "请输入新的App名称", currentName);
+
+    // 如果用户输入了有效内容并确认
+    if (newName && newName.trim()) {
+        const trimmedName = newName.trim();
+        // 更新内存中的状态
+        state.globalSettings.appLabels[appId] = trimmedName;
+
+        // 刷新“外观设置”页面的列表和主屏幕的显示
+        renderAppNameSettings();
+        applyAppLabels();
+
+        // 提示用户需要保存
+        alert(`名称已临时修改为“${trimmedName}”。请记得点击页面底部的“保存所有外观设置”来使其永久生效！`);
+    }
+}
+
+/**
+ * 【全新 | 核心功能】处理用户点击“重置”按钮，打开多选弹窗
+ */
+async function handleResetAppNames() {
+    // 复用我们现有的 App 选择器弹窗
+    const selectedAppIds = await openAppSelectorModal();
+
+    if (selectedAppIds && selectedAppIds.length > 0) {
+        const confirmed = await showCustomConfirm(
+            '确认重置',
+            `确定要将选中的 ${selectedAppIds.length} 个App的名称恢复为默认吗？`,
+            { confirmButtonClass: 'btn-danger' }
+        );
+
+        if (confirmed) {
+            selectedAppIds.forEach(id => {
+                // 从自定义名称对象中删除对应的键，即可实现恢复默认
+                if (state.globalSettings.appLabels) {
+                    delete state.globalSettings.appLabels[id];
+                }
+            });
+
+            // 刷新UI
+            renderAppNameSettings();
+            applyAppLabels();
+            
+            alert('选中的App名称已重置。请记得点击“保存”来永久生效。');
+        }
+    }
+}
+// ▲▲▲ 新增JS代码结束 ▲▲▲
+
+// ▼▼▼ 【全新】共赏桌面功能的所有核心JS代码 ▼▼▼
+
+let coViewingDesktopState = {
+    isActive: false,
+    targetChatId: null,
+    history: [],
+    desktopSnapshots: [], // 用于存储桌面截图的Base64
+    isWindowOpen: false,
+};
+
+/**
+ * 【总入口】当用户开启或关闭“共赏桌面”开关时调用
+ * @param {string} chatId - 当前聊天的ID
+ */
+function toggleCoViewingDesktop(chatId) {
+    const chat = state.chats[chatId];
+    if (!chat || chat.isGroup) return; // 该功能仅限单聊
+
+    const isEnabled = document.getElementById('co-viewing-desktop-toggle').checked;
+    chat.settings.coViewingDesktopEnabled = isEnabled;
+    db.chats.put(chat); // 保存设置
+
+    const windowEl = document.getElementById('co-viewing-desktop-window');
+
+    if (isEnabled) {
+        // 如果开启，则初始化并显示悬浮窗
+        coViewingDesktopState.isActive = true;
+        coViewingDesktopState.targetChatId = chatId;
+        
+        const avatarUrl = chat.settings.aiAvatar || defaultAvatar;
+        const headerEl = windowEl.querySelector('.co-viewing-desktop-header');
+        headerEl.style.backgroundImage = `url(${avatarUrl})`;
+
+        // 根据保存的设置决定初始状态是最小化还是展开
+        const settings = chat.coViewingDesktopSettings || {};
+        if (settings.minimize) {
+            minimizeCoViewingWindow();
+        } else {
+            restoreCoViewingWindow();
+        }
+        windowEl.style.display = 'block';
+
+    } else {
+        // 如果关闭，则隐藏并重置状态
+        closeCoViewingSession();
+    }
+}
+
+/**
+ * 【核心】当用户点击悬浮窗或需要展开窗口时调用
+ */
+async function expandCoViewingWindow() {
+    if (coViewingDesktopState.isWindowOpen) return; // 如果已经展开，则不执行
+    coViewingDesktopState.isWindowOpen = true;
+
+    // 恢复窗口大小
+    restoreCoViewingWindow();
+
+    const chat = state.chats[coViewingDesktopState.targetChatId];
+    const movie = await db.movies.get(currentWatchingMovieId); // 修正：此行似乎是复制错误，但保留以防万一
+    const settings = chat.coViewingDesktopSettings || {};
+    
+    // 加载聊天记录
+    coViewingDesktopState.history = (settings.persist && chat.coViewingDesktopHistories) ? chat.coViewingDesktopHistories : [];
+    const messagesEl = document.getElementById('co-viewing-desktop-messages');
+    messagesEl.innerHTML = '';
+    if (coViewingDesktopState.history.length > 0) {
+        coViewingDesktopState.history.forEach(msg => appendCoViewingMessage(msg));
+    }
+
+    // 更新标题
+    document.querySelector('#co-viewing-desktop-window .title').textContent = `与 ${chat.name} 共赏桌面`;
+    
+    // 如果是第一次展开，则触发AI分析桌面
+    if (coViewingDesktopState.history.length === 0) {
+        await triggerCoViewingAIResponse(true); // 传入true表示这是初次分析
+    }
+}
+
+
+/**
+ * 【核心】触发共赏桌面的AI响应
+ * @param {boolean} isFirstTime - 是否是第一次分析桌面
+ */
+async function triggerCoViewingAIResponse(isFirstTime = false) {
+    if (!coViewingDesktopState.isActive) return;
+
+    const chat = state.chats[coViewingDesktopState.targetChatId];
+    const settings = chat.coViewingDesktopSettings || {};
+    
+    const titleEl = document.querySelector('#co-viewing-desktop-window .title');
+    const originalTitle = titleEl.textContent;
+    titleEl.textContent = isFirstTime ? `${chat.name}正在观赏桌面中...` : '对方正在输入...';
+    titleEl.classList.add('typing-status');
+
+    try {
+        // 1. 截取主屏幕的截图
+        const mainScreen = document.getElementById('home-screen');
+        const canvas = await html2canvas(mainScreen, { scale: 1, useCORS: true, allowTaint: true });
+        const screenshotBase64 = canvas.toDataURL('image/jpeg', 0.8);
+
+        // 2. 将新截图存入记忆，并根据设置保留数量
+        coViewingDesktopState.desktopSnapshots.push(screenshotBase64);
+        const memoryCount = settings.desktopMemoryCount || 2;
+        if (coViewingDesktopState.desktopSnapshots.length > memoryCount) {
+            coViewingDesktopState.desktopSnapshots.shift();
+        }
+
+        // 3. 构建AI指令
+        const myNickname = chat.settings.myNickname || '我';
+        const recentChatHistory = chat.history.filter(m => !m.isHidden).slice(-10).map(msg => `${msg.role === 'user' ? myNickname : chat.name}: ${String(msg.content).substring(0, 50)}...`).join('\n');
+        const worldBookContext = (chat.settings.linkedWorldBookIds || []).map(bookId => state.worldBooks.find(wb => wb.id === bookId)).filter(Boolean).map(wb => `\n## 世界书《${wb.name}》设定:\n${wb.content.filter(e=>e.enabled).map(e => `- ${e.content}`).join('\n')}`).join('');
+        const chatContextCount = settings.chatContextCount || 10;
+        const coViewingHistory = coViewingDesktopState.history.slice(-chatContextCount).map(msg => `${msg.role === 'user' ? '你' : '我'}: ${msg.content}`).join('\n');
+        
+        const systemPrompt = `
+# 你的任务
+你正在实时观看用户名为“${myNickname}”的手机主屏幕。你的任务是分析你看到的【桌面截图】，并结合所有已知信息，与用户展开一段自然的、符合你人设的对话。
+
+# 核心规则
+1.  **情景感知**: 你【必须】意识到你正在看的是【用户的手机屏幕】，而不是普通的图片。你可以评论壁纸风格、App图标布局、小组件内容等。
+2.  **结合上下文**: 你的发言【必须】与“桌面截图”、“共赏聊天历史”紧密相关，同时要符合【你的人设】以及你和【用户的关系】（可以参考最近的QQ聊天记录）。
+3.  **格式铁律**: 你的回复【必须】是一个JSON数组，可以包含一条或多条简短的消息。格式: \`[{"type": "text", "content": "你想说的话"}]\`
+
+# 你的上下文信息
+---
+## 你的角色设定
+${chat.settings.aiPersona}
+---
+## 用户的角色设定
+${myNickname}: ${chat.settings.myPersona}
+---
+## 你们最近的主线聊天记录 (用于了解关系和当前情绪)
+${recentChatHistory}
+---
+## 世界书设定 (如果存在，必须遵守)
+${worldBookContext}
+---
+## 【当前的共赏聊天记录 (你是“我”，用户是“你”)】
+${coViewingHistory || "(你们还没开始讨论，你可以主动发起话题)"}
+---
+
+# 【【【最关键的分析对象：用户的桌面截图】】】
+用户当前的手机桌面截图已经提供给你了。请仔细分析壁纸、图标、布局、小组件等所有视觉元素。
+
+现在，请根据以上所有信息，开始你的评论和对话。`;
+
+        // 4. 调用图像识别API
+        const useVisionApi = state.apiConfig.visionProxyUrl && state.apiConfig.visionApiKey && state.apiConfig.visionModel;
+        const { proxyUrl, apiKey, model } = useVisionApi ? 
+            { proxyUrl: state.apiConfig.visionProxyUrl, apiKey: state.apiConfig.visionApiKey, model: state.apiConfig.visionModel } : 
+            state.apiConfig;
+
+        if (!proxyUrl || !apiKey || !model) throw new Error('未配置有效的图像描述或主API。');
+
+        const payload = {
+            model: model,
+            messages: [
+                { role: 'system', content: systemPrompt },
+                { role: 'user', content: [
+                    ...coViewingDesktopState.desktopSnapshots.map((ss, index) => ({
+                        type: 'image_url',
+                        image_url: { url: ss }
+                    })),
+                    { type: 'text', text: isFirstTime ? '这是我第一次打开这个悬浮窗，请你对我的桌面发表一下第一印象。' : '请继续我们关于桌面的对话。' }
+                ]}
+            ],
+            max_tokens: 400
+        };
+
+        const response = await fetch(`${proxyUrl}/v1/chat/completions`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error(`API 错误: ${response.statusText}`);
+        const data = await response.json();
+        const aiResponseContent = data.choices[0].message.content;
+        const responseArray = parseAiResponse(aiResponseContent);
+
+        // 清空“正在观赏”的提示
+        const indicatorEl = document.getElementById('co-viewing-desktop-messages').querySelector('p');
+        if (indicatorEl) indicatorEl.remove();
+
+        responseArray.forEach(msgData => {
+            if (msgData.type === 'text' && msgData.content) {
+                const aiMessage = { role: 'assistant', content: msgData.content, timestamp: Date.now() };
+                coViewingDesktopState.history.push(aiMessage);
+                appendCoViewingMessage(aiMessage);
+            }
+        });
+    } catch (error) {
+        console.error("共赏桌面AI响应失败:", error);
+        appendCoViewingMessage({ role: 'assistant', content: `[AI响应失败: ${error.message}]`, timestamp: Date.now() });
+    } finally {
+        titleEl.textContent = `与 ${chat.name} 共赏桌面`;
+        titleEl.classList.remove('typing-status');
+    }
+}
+
+
+// 【辅助函数】（大部分从共读复制而来，并修改了ID）
+function appendCoViewingMessage(msg) {
+    const messagesEl = document.getElementById('co-viewing-desktop-messages');
+    const chat = state.chats[coViewingDesktopState.targetChatId];
+    if (!chat) return;
+    if (messagesEl.querySelector('p')) { messagesEl.innerHTML = ''; }
+    const isUser = msg.role === 'user';
+    const wrapper = document.createElement('div');
+    wrapper.className = `message-wrapper ${isUser ? 'user' : 'ai'}`;
+    const bubble = document.createElement('div');
+    bubble.className = `message-bubble ${isUser ? 'user' : 'ai'}`;
+    let avatarSrc = isUser ? (chat.settings.myAvatar || defaultAvatar) : (chat.settings.aiAvatar || defaultAvatar);
+    bubble.innerHTML = `<div class="avatar-group"><img src="${avatarSrc}" class="avatar"></div><div class="content">${msg.content.replace(/\n/g, '<br>')}</div>`;
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function handleCoViewingSend() {
+    const inputEl = document.getElementById('co-viewing-desktop-input');
+    const content = inputEl.value.trim();
+    if (!content) return;
+    const userMessage = { role: 'user', content, timestamp: Date.now() };
+    coViewingDesktopState.history.push(userMessage);
+    appendCoViewingMessage(userMessage);
+    inputEl.value = '';
+    inputEl.focus();
+    triggerCoViewingAIResponse();
+}
+
+async function handleCoViewingRegenerate() {
+    if (!coViewingDesktopState.isActive) return;
+    const lastUserMsgIndex = coViewingDesktopState.history.findLastIndex(msg => msg.role === 'user');
+    if (lastUserMsgIndex > -1) {
+        coViewingDesktopState.history.splice(lastUserMsgIndex + 1);
+    } else if (coViewingDesktopState.history.some(m => m.role === 'assistant')) {
+        coViewingDesktopState.history = [];
+    }
+    const messagesEl = document.getElementById('co-viewing-desktop-messages');
+    messagesEl.innerHTML = '';
+    coViewingDesktopState.history.forEach(msg => appendCoViewingMessage(msg));
+    await triggerCoViewingAIResponse(coViewingDesktopState.history.length === 0);
+}
+
+function handleCoViewingClear() {
+    const chat = state.chats[coViewingDesktopState.targetChatId];
+    coViewingDesktopState.history = [];
+    coViewingDesktopState.desktopSnapshots = [];
+    const messagesEl = document.getElementById('co-viewing-desktop-messages');
+    messagesEl.innerHTML = `<p style="text-align: center; color: var(--text-secondary);">已清空，AI将重新观赏桌面...</p>`;
+    triggerCoViewingAIResponse(true);
+}
+
+async function closeCoViewingSession() {
+    const windowEl = document.getElementById('co-viewing-desktop-window');
+    windowEl.style.display = 'none';
+    windowEl.classList.remove('minimized');
+    if (coViewingDesktopState.isActive && coViewingDesktopState.targetChatId) {
+        const chat = state.chats[coViewingDesktopState.targetChatId];
+        const settings = chat.coViewingDesktopSettings || {};
+        settings.minimize = false; // 关闭时重置最小化
+        if (settings.persist) {
+            if (!chat.coViewingDesktopHistories) chat.coViewingDesktopHistories = [];
+            chat.coViewingDesktopHistories = coViewingDesktopState.history;
+        }
+        await db.chats.put(chat);
+    }
+    coViewingDesktopState = { isActive: false, targetChatId: null, history: [], desktopSnapshots: [], isWindowOpen: false };
+}
+
+function minimizeCoViewingWindow() {
+    const windowEl = document.getElementById('co-viewing-desktop-window');
+    windowEl.classList.add('minimized');
+    windowEl.style.left = 'auto'; windowEl.style.right = '10px'; windowEl.style.top = '70%'; windowEl.style.transform = 'translateY(-50%)';
+    coViewingDesktopState.isWindowOpen = false; // 最小化时标记窗口为关闭
+}
+
+async function restoreCoViewingWindow() {
+    const windowEl = document.getElementById('co-viewing-desktop-window');
+    windowEl.classList.remove('minimized');
+    windowEl.style.left = '50%'; windowEl.style.top = '50%'; windowEl.style.right = 'auto'; windowEl.style.transform = 'translate(-50%, -50%)';
+    const toggle = document.getElementById('co-viewing-desktop-minimize-toggle');
+    if (toggle) toggle.checked = false;
+    const chat = state.chats[coViewingDesktopState.targetChatId];
+    if (chat && chat.coViewingDesktopSettings) {
+        chat.coViewingDesktopSettings.minimize = false;
+        await db.chats.put(chat);
+    }
+}
+// ▲▲▲ 新增JS代码结束 ▲▲▲
 
               // ===================================================================
                 // 4. 初始化函数 init()
@@ -34719,9 +35396,43 @@ if ('serviceWorker' in navigator) {
 }
 // ▲▲▲ PWA代码粘贴结束 ▲▲▲
 
-    // ▼▼▼ 【全新】将这行代码粘贴到 init() 函数的最开始 ▼▼▼
-    await requestNotificationPermission();
-    // ▲▲▲ 新增代码结束 ▲▲▲
+        // ▼▼▼ 【全新】为角色相册的“清空”按钮绑定事件 ▼▼▼
+        document.getElementById('clear-char-album-btn').addEventListener('click', handleClearSimulatedAlbum);
+        // ▲▲▲ 新增事件绑定结束 ▲▲▲
+
+    // ▼▼▼ 【BUG修复】为角色手机内所有App的“重新生成”按钮重新绑定事件 ▼▼▼
+    
+    // 修复QQ刷新（虽然它现在可能正常，但统一管理更安全）
+    document.getElementById('regenerate-char-qq-btn').addEventListener('click', handleGenerateSimulatedQQ);
+    
+    // 恢复相册的刷新功能
+    document.getElementById('regenerate-char-album-btn').addEventListener('click', handleGenerateSimulatedAlbum);
+    
+    // 恢复日记本的刷新功能
+    document.getElementById('regenerate-char-diary-btn').addEventListener('click', handleGenerateSimulatedDiaries);
+    
+    // 恢复备忘录的刷新功能
+    document.getElementById('regenerate-char-memo-btn').addEventListener('click', handleGenerateSimulatedMemos);
+    
+    // 恢复浏览器历史的刷新功能
+    document.getElementById('regenerate-char-browser-btn').addEventListener('click', handleGenerateBrowserHistory);
+    
+    // 恢复淘宝订单的刷新功能
+    document.getElementById('regenerate-char-taobao-btn').addEventListener('click', handleGenerateTaobaoHistory);
+    
+    // 恢复高德地图足迹的刷新功能
+    document.getElementById('regenerate-char-amap-btn').addEventListener('click', handleGenerateAmapHistory);
+    
+    // 恢复App使用记录的刷新功能
+    document.getElementById('regenerate-char-usage-btn').addEventListener('click', handleGenerateAppUsage);
+    
+    // 恢复网易云音乐歌单的刷新功能
+    document.getElementById('regenerate-char-music-btn').addEventListener('click', handleGenerateSimulatedMusic);
+    
+    // ▲▲▲ 修复代码结束 ▲▲▲
+
+
+
 setupCharPlayerControls();
     // ▼▼▼ 【核心修复】将内部函数暴露到全局，以便HTML中的 onclick 可以调用它们 ▼▼▼
     window.showScreen = showScreen;
@@ -35217,7 +35928,8 @@ function updateChatListItem(chatId) {
             state.globalSettings.globalCss = document.getElementById('global-css-input').value.trim();
             state.globalSettings.notificationSoundUrl = document.getElementById('notification-sound-url-input').value.trim();
             state.globalSettings.showStatusBar = document.getElementById('status-bar-toggle-switch').checked;
-            
+            // 【【【核心新增！！！】】】确保在保存时，appLabels 对象也被包含进去
+            state.globalSettings.appLabels = state.globalSettings.appLabels || {};
             // 一次性保存所有全局设置
             await db.globalSettings.put(state.globalSettings);
             
@@ -35742,6 +36454,15 @@ document.getElementById('fetch-vision-models-btn').addEventListener('click', () 
                     });
                 }
             }
+// 【全新】读取并设置“共赏桌面”开关的状态
+const coViewingDesktopGroup = document.getElementById('co-viewing-desktop-toggle').closest('.form-group');
+if (isGroup) {
+    coViewingDesktopGroup.style.display = 'none'; // 如果是群聊，隐藏这个设置项
+} else {
+    coViewingDesktopGroup.style.display = 'flex'; // 如果是单聊，显示它
+    document.getElementById('co-viewing-desktop-toggle').checked = chat.settings.coViewingDesktopEnabled || false;
+}
+
             // --- 【【【核心修复到这里结束】】】 ---
             // ▼▼▼ 【全新】读取并设置“情头意识”开关的状态 ▼▼▼
             const coupleAvatarGroup = document.getElementById('couple-avatar-awareness-toggle').closest('.form-group');
@@ -35873,6 +36594,7 @@ document.getElementById('fetch-vision-models-btn').addEventListener('click', () 
             // ▼▼▼ 【全新】保存“情头意识”开关的状态 ▼▼▼
             if (!chat.isGroup) { // 这个设置只对单聊有效
                 chat.settings.coupleAvatarAwareness = document.getElementById('couple-avatar-awareness-toggle').checked;
+
             }
             // ▲▲▲ 新增代码结束 ▲▲▲
         
@@ -35900,6 +36622,9 @@ document.getElementById('fetch-vision-models-btn').addEventListener('click', () 
                 chat.settings.groupAvatar = document.getElementById('group-avatar-preview').src;
                 chat.settings.actionCooldownMinutes = parseInt(document.getElementById('group-action-cooldown-input').value) || 10;
             } else {
+// 【全新】保存共赏桌面开关的状态
+chat.settings.coViewingDesktopEnabled = document.getElementById('co-viewing-desktop-toggle').checked;
+
                 chat.settings.isOfflineMode = document.getElementById('offline-mode-toggle').checked;
                 chat.settings.offlineMinLength = parseInt(document.getElementById('offline-min-length-input').value) || 100;
                 chat.settings.offlineMaxLength = parseInt(document.getElementById('offline-max-length-input').value) || 300;
@@ -38641,6 +39366,7 @@ document.getElementById('reset-sound-btn').addEventListener('click', () => {
         
         // 在【外观设置】页面渲染时，同步开关状态
         function renderWallpaperScreen() { 
+            renderAppNameSettings(); // <-- 【【【核心新增！！！】】】
             loadCssPresetsDropdown();
             // ... (你原有的壁纸预览、图标设置等代码保持不变) ...
             const preview = document.getElementById('wallpaper-preview'); 
@@ -39036,19 +39762,8 @@ document.getElementById('add-char-diary-btn').addEventListener('click', () => op
         // 1. 为“重新生成”按钮绑定我们刚刚创建的核心函数
         document.getElementById('regenerate-char-album-btn').addEventListener('click', handleGenerateSimulatedAlbum);
 
-        // 2. 使用事件委托，为整个相册网格添加点击事件
-        document.getElementById('char-album-grid').addEventListener('click', (e) => {
-            // 检查被点击的是否是一张照片
-            const photoItem = e.target.closest('.char-photo-item');
-            
-            // 如果是，并且它身上存有我们之前放进去的“照片详情”
-            if (photoItem && photoItem.dataset.description) {
-                const description = photoItem.dataset.description;
-                
-                // 就用一个漂亮的弹窗把详情显示出来
-                showCustomAlert("照片详情", description.replace(/\n/g, '<br>'));
-            }
-        });
+
+
         document.getElementById('regenerate-char-browser-btn').addEventListener('click', handleGenerateBrowserHistory);
         // 1. 将“重新生成”按钮与AI生成函数绑定
         document.getElementById('regenerate-char-taobao-btn').addEventListener('click', handleGenerateTaobaoHistory);
@@ -39284,6 +39999,88 @@ document.getElementById('male-npc-avatar-grid').addEventListener('click', (e) =>
         document.getElementById('delete-female-npc-avatars-btn').addEventListener('click', () => deleteSelectedNpcAvatars('female'));
         document.getElementById('delete-male-npc-avatars-btn').addEventListener('click', () => deleteSelectedNpcAvatars('male'));
         // ▲▲▲ 新增事件绑定结束 ▲▲▲
+    // ▼▼▼ 【全新】共赏桌面功能的所有事件监听器 ▼▼▼
+
+    // 绑定设置页面的总开关
+    document.getElementById('co-viewing-desktop-toggle').addEventListener('change', () => {
+        toggleCoViewingDesktop(state.activeChatId);
+    });
+
+    // 绑定悬浮窗/小窗的点击事件
+    const coViewingWindow = document.getElementById('co-viewing-desktop-window');
+    coViewingWindow.addEventListener('click', (e) => {
+        // 如果是最小化状态，点击任何地方都展开
+        if (coViewingWindow.classList.contains('minimized')) {
+            expandCoViewingWindow();
+        }
+    });
+
+    // 绑定小窗内部的控制按钮
+    document.getElementById('co-viewing-desktop-close-btn').addEventListener('click', closeCoViewingSession);
+    document.getElementById('co-viewing-desktop-clear-btn').addEventListener('click', handleCoViewingClear);
+    document.getElementById('co-viewing-desktop-send-btn').addEventListener('click', handleCoViewingSend);
+    document.getElementById('co-viewing-desktop-input').addEventListener('keypress', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleCoViewingSend(); } });
+    document.getElementById('co-viewing-desktop-reply-btn').addEventListener('click', () => triggerCoViewingAIResponse());
+    document.getElementById('co-viewing-desktop-regen-btn').addEventListener('click', handleCoViewingRegenerate);
+
+    // 绑定设置弹窗的按钮
+    document.getElementById('co-viewing-desktop-settings-btn').addEventListener('click', async () => {
+        const chat = state.chats[coViewingDesktopState.targetChatId];
+        if (!chat) return;
+        const settings = chat.coViewingDesktopSettings || {};
+        const defaultSettings = { persist: false, desktopMemoryCount: 2, chatContextCount: 10, minimize: false };
+        const finalSettings = { ...defaultSettings, ...settings };
+        document.getElementById('co-viewing-desktop-persist-toggle').checked = finalSettings.persist;
+        document.getElementById('co-viewing-desktop-memory-count').value = finalSettings.desktopMemoryCount;
+        document.getElementById('co-viewing-desktop-chat-context-count').value = finalSettings.chatContextCount;
+        document.getElementById('co-viewing-desktop-minimize-toggle').checked = finalSettings.minimize;
+        document.getElementById('co-viewing-desktop-settings-modal').classList.add('visible');
+    });
+    document.getElementById('cancel-co-viewing-desktop-settings-btn').addEventListener('click', () => {
+        document.getElementById('co-viewing-desktop-settings-modal').classList.remove('visible');
+    });
+    document.getElementById('save-co-viewing-desktop-settings-btn').addEventListener('click', async () => {
+        const chat = state.chats[coViewingDesktopState.targetChatId];
+        if (!chat) return;
+        if (!chat.coViewingDesktopSettings) chat.coViewingDesktopSettings = {};
+        const currentSettings = chat.coViewingDesktopSettings;
+        currentSettings.persist = document.getElementById('co-viewing-desktop-persist-toggle').checked;
+        currentSettings.desktopMemoryCount = parseInt(document.getElementById('co-viewing-desktop-memory-count').value) || 2;
+        currentSettings.chatContextCount = parseInt(document.getElementById('co-viewing-desktop-chat-context-count').value) || 10;
+        currentSettings.minimize = document.getElementById('co-viewing-desktop-minimize-toggle').checked;
+        await db.chats.put(chat);
+        document.getElementById('co-viewing-desktop-settings-modal').classList.remove('visible');
+        alert('共赏设置已保存！');
+    });
+    
+    // 绑定拖拽逻辑
+    const coViewingHeader = document.querySelector('#co-viewing-desktop-window .co-viewing-desktop-header');
+    let coViewingDragState = { isDragging: false, startX: 0, startY: 0, initialX: 0, initialY: 0 };
+    coViewingHeader.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.action-btn')) return;
+        const windowEl = document.getElementById('co-viewing-desktop-window');
+        coViewingDragState.isDragging = true;
+        coViewingDragState.startX = e.clientX;
+        coViewingDragState.startY = e.clientY;
+        const rect = windowEl.getBoundingClientRect();
+        coViewingDragState.initialX = rect.left;
+        coViewingDragState.initialY = rect.top;
+        coViewingHeader.style.cursor = 'grabbing';
+    });
+    document.addEventListener('mousemove', (e) => {
+        if (!coViewingDragState.isDragging) return;
+        const dx = e.clientX - coViewingDragState.startX;
+        const dy = e.clientY - coViewingDragState.startY;
+        const windowEl = document.getElementById('co-viewing-desktop-window');
+        windowEl.style.transform = 'none';
+        windowEl.style.left = `${coViewingDragState.initialX + dx}px`;
+        windowEl.style.top = `${coViewingDragState.initialY + dy}px`;
+    });
+    document.addEventListener('mouseup', () => {
+        coViewingDragState.isDragging = false;
+        coViewingHeader.style.cursor = 'grab';
+    });
+    // ▲▲▲ 新增事件绑定结束 ▲▲▲
 
                     showScreen('home-screen');
                 }
@@ -39965,6 +40762,84 @@ document.getElementById('male-npc-avatar-grid').addEventListener('click', (e) =>
         </div>
     </div>
 </div>
+<!-- ▼▼▼ 【全新】共赏桌面功能的所有HTML ▼▼▼ -->
+
+<!-- 1. 共赏桌面悬浮聊天窗口 (从共读/共看复制并改造) -->
+<div id="co-viewing-desktop-window">
+    <div class="co-viewing-desktop-header">
+        <span class="title">与...共赏桌面</span>
+        <div class="header-actions">
+            <span class="action-btn" id="co-viewing-desktop-clear-btn">清空</span>
+            <span class="action-btn" id="co-viewing-desktop-settings-btn">⚙️</span>
+            <span class="action-btn" id="co-viewing-desktop-close-btn" style="font-size: 20px;">×</span>
+        </div>
+    </div>
+    <div id="co-viewing-desktop-messages">
+        <!-- 共赏消息将在这里生成 -->
+    </div>
+    <div id="co-viewing-desktop-input-area">
+        <textarea id="co-viewing-desktop-input" rows="2" placeholder="输入你想说的话..."></textarea>
+        <div class="co-viewing-desktop-controls">
+            <button id="co-viewing-desktop-regen-btn" class="co-viewing-desktop-control-btn">重说</button>
+            <button id="co-viewing-desktop-reply-btn" class="co-viewing-desktop-control-btn">回复</button>
+            <button id="co-viewing-desktop-send-btn" class="co-viewing-desktop-control-btn">发送</button>
+        </div>
+    </div>
+</div>
+
+<!-- 2. 共赏桌面设置模态框 (从共读/共看复制并改造) -->
+<div id="co-viewing-desktop-settings-modal" class="modal">
+    <div class="modal-content" style="height: auto;">
+        <div class="modal-header">
+            <span>共赏桌面设置</span>
+        </div>
+        <div class="modal-body" style="padding: 0;">
+            <div class="form-group" style="padding: 15px; border-bottom: 1px solid var(--border-color);">
+                <label>
+                    <span>永久保存共赏记录</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="co-viewing-desktop-persist-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </label>
+                <p style="font-size: 12px; color: var(--text-secondary); margin-top: 10px; line-height: 1.5;">
+                    开启后，与该角色的共赏记录将被永久保存。
+                </p>
+            </div>
+            <div class="form-group" style="padding: 15px; border-bottom: 1px solid var(--border-color);">
+                <label for="co-viewing-desktop-memory-count">共赏桌面次数记忆</label>
+                <input type="number" id="co-viewing-desktop-memory-count" min="0" value="2" style="width: 100%; margin-top: 10px; text-align: center;">
+                 <p style="font-size: 12px; color: var(--text-secondary); margin-top: 10px; line-height: 1.5;">
+                    AI会结合最近N次共赏桌面的截图进行综合思考。设为0则只看当前桌面。
+                </p>
+            </div>
+            <div class="form-group" style="padding: 15px;">
+                <label for="co-viewing-desktop-chat-context-count">共赏聊天内容上下文记忆条数</label>
+                <input type="number" id="co-viewing-desktop-chat-context-count" min="0" value="10" style="width: 100%; margin-top: 10px; text-align: center;">
+                 <p style="font-size: 12px; color: var(--text-secondary); margin-top: 10px; line-height: 1.5;">
+                    AI只会记住最近N条共赏聊天记录。
+                </p>
+            </div>
+             <div class="form-group" style="padding: 15px; border-top: 1px solid var(--border-color);">
+                <label>
+                    <span>默认最小化共赏窗口</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="co-viewing-desktop-minimize-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </label>
+                 <p style="font-size: 12px; color: var(--text-secondary); margin-top: 10px; line-height: 1.5;">
+                    开启后，共赏窗口将默认以悬浮球形式存在。
+                </p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="cancel" id="cancel-co-viewing-desktop-settings-btn">取消</button>
+            <button class="save" id="save-co-viewing-desktop-settings-btn">保存</button>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
 
 <!-- 2. 共看设置模态框 (从共读复制而来) -->
     <!-- 2. 共看设置模态框 (V2.0 | 已新增电影记忆次数) -->
@@ -40089,6 +40964,48 @@ document.getElementById('male-npc-avatar-grid').addEventListener('click', (e) =>
 <!-- ▼▼▼ 【全新】这是用于播放通知提示音的播放器，请粘贴到 </body> 的正上方 ▼▼▼ -->
 <audio id="notification-sound-player" preload="auto"></audio>
 <!-- ▲▲▲ 粘贴结束 ▲▲▲ -->
+<!-- ▼▼▼ 【全新】角色相册设置弹窗 ▼▼▼ -->
+<!-- ▼▼▼ 【请用这个【已添加图片数量设置】的V2.0版本】替换旧的 #char-album-settings-modal ▼▼▼ -->
+<div id="char-album-settings-modal" class="modal">
+    <div class="modal-content" style="height: auto;">
+        <div class="modal-header">
+            <span>相册生成设置</span>
+        </div>
+        <div class="modal-body" style="padding: 15px; display: flex; flex-direction: column; gap: 20px;">
+            <!-- AI生图开关 (保持不变) -->
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
+                <label for="char-album-gen-toggle" style="margin-bottom: 0;">
+                    AI 生成图片开关
+                    <p style="font-size: 12px; font-weight: normal; color: #999; margin-top: 5px;">
+                        关闭后，刷新相册将只生成文字描述，可节省API费用。
+                    </p>
+                </label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="char-album-gen-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <!-- 【【【核心新增！！！】】】这是我们新添加的“生成数量”设置区域 -->
+            <div class="form-group">
+                <label for="char-album-gen-count-input" style="margin-bottom: 10px;">
+                    单次刷新生成数量
+                    <p style="font-size: 12px; font-weight: normal; color: #999; margin-top: 5px;">
+                        设置每次点击刷新按钮时，AI需要生成的照片/描述的数量。
+                    </p>
+                </label>
+                <input type="number" id="char-album-gen-count-input" value="8" min="1" style="width: 100%; text-align: center; padding: 10px; font-size: 16px; box-sizing: border-box;">
+            </div>
+            <!-- 【【【新增结束】】】 -->
+            
+        </div>
+        <div class="modal-footer">
+            <button class="save" id="close-char-album-settings-btn" style="width: 100%;">完成</button>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+
 
 </body>
 </html>
