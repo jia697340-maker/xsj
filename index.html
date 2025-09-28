@@ -9285,16 +9285,22 @@
             <div id="desktop-dock">
                 <div class="desktop-app-icon" onclick="showScreen('api-settings-screen')">
                     <div class="icon-bg-desktop"><img id="icon-img-api-settings" src="https://i.postimg.cc/MK8rJ8t7/IMG-6438.jpg" alt="API设置"></div>
+                      <span class="label">API设置</span>
                 </div>
                 <div class="desktop-app-icon" onclick="showScreen('font-settings-screen')">
                     <div class="icon-bg-desktop"><img id="icon-img-font" src="https://i.postimg.cc/pXxk1JXk/IMG-6442.jpg" alt="字体"></div>
+
+                      <span class="label">字体</span>
                 </div>
                 <div class="desktop-app-icon" onclick="openCharacterSelector()">
                     <div class="icon-bg-desktop"><img id="icon-img-char-phone" src="https://i.postimg.cc/pXj9h20L/IMG-7275.jpg" alt="角色手机"></div>
+
+                    <span class="label">Cphone</span>
                 </div>
     <!-- 【【【核心新增！！！】】】这就是我们新添加的“论坛”App图标 -->
     <div class="desktop-app-icon" onclick="openForum()">
         <div class="icon-bg-desktop"><img id="icon-img-forum" src="https://i.postimg.cc/mD8c5sT9/IMG-7303.jpg" alt="论坛"></div>
+          <span class="label">论坛</span>
     </div>
     <!-- 【【【新增结束】】】 -->
             </div>
@@ -9505,6 +9511,25 @@
                     <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>
                 </svg>
             </span>
+<!-- ▼▼▼ 在这里粘贴新的“管理设置”按钮 ▼▼▼ -->
+<span class="action-btn" id="manage-char-taobao-settings-btn" title="购物设置">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V15a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+</span>
+<!-- ▲▲▲ 粘贴结束 ▲▲▲ -->
+<!-- ▼▼▼ 在这里粘贴新的“清空”按钮 ▼▼▼ -->
+<span class="action-btn" id="clear-char-taobao-btn" title="清空购物记录" style="color: #ff3b30;">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        <line x1="10" y1="11" x2="10" y2="17"></line>
+        <line x1="14" y1="11" x2="14" y2="17"></line>
+    </svg>
+</span>
+<!-- ▲▲▲ 粘贴结束 ▲▲▲ -->
+
         </div>
     </div>
     <!-- 购买记录列表 (复用旧的grid，但内容会是动态的) -->
@@ -9705,6 +9730,13 @@
                             <polyline points="10 9 9 9 8 9"></polyline>
                         </svg>
                     </span>
+    <!-- 【核心新增】导入和导出按钮 -->
+    <span class="action-btn" id="world-book-import-btn" title="导入">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+    </span>
+    <span class="action-btn" id="world-book-export-btn" title="导出">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+    </span>
                     <span class="action-btn" id="add-world-book-btn">+</span>
                 </div>
             </div>
@@ -9842,14 +9874,16 @@
                     <input type="number" id="block-cooldown-input" min="0.1" step="0.1" value="1" style="width: 80px; text-align: center;">
                 </div>
                 <!-- 保存与导入导出 -->
+<!-- ▼▼▼ 请用这整块已修复的代码，替换从“保存所有设置”到“清除本机所有数据”的所有按钮 ▼▼▼ -->
+                <!-- 保存与导入导出 -->
                 <hr style="margin: 30px 0; opacity: 0.3;">
-                <button class="form-button" id="save-api-settings-btn" style="margin-top: 20px;">保存所有设置</button>
-                <button class="form-button" id="export-data-btn">导出数据</button>
-                <button class="form-button" id="import-btn">导入备份文件</button>
-<!-- ▼▼▼ 在这里粘贴下面的新按钮代码 ▼▼▼ -->
-<button class="form-button form-button-secondary" id="cleanup-data-btn" style="background-color: #ffebee; color: #c62828; border-color: #ef9a9a; margin-top: 10px;">清理冗余数据</button>
-<!-- ▲▲▲ 粘贴结束 ▲▲▲ -->
-<button class="form-button form-button-secondary" id="delete-all-data-btn" style="background-color: #ffcdd2; color: #b71c1c; border-color: #ef5350; margin-top: 10px; font-weight: bold;">清除本机所有数据 (危险)</button>
+                <button type="button" class="form-button" id="save-api-settings-btn" style="margin-top: 20px;">保存所有设置</button>
+                <button type="button" class="form-button" id="export-data-btn">导出数据</button>
+                <button type="button" class="form-button" id="import-btn">导入备份文件</button>
+                <button type="button" class="form-button form-button-secondary" id="cleanup-data-btn" style="background-color: #ffebee; color: #c62828; border-color: #ef9a9a; margin-top: 10px;">清理冗余数据</button>
+                <button type="button" class="form-button form-button-secondary" id="delete-all-data-btn" style="background-color: #ffcdd2; color: #b71c1c; border-color: #ef5350; margin-top: 10px; font-weight: bold;">清除本机所有数据 (危险)</button>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+
 
                 <input id="import-data-input" type="file" accept="application/json" hidden>
 
@@ -12837,7 +12871,7 @@ async function handleClearSimulatedQQ() {
                 // ===================================================================
         
         // ▼▼▼ 【请用这个 V30 版本】完整替换旧的 db.version(...) 代码块 ▼▼▼
-        db.version(36).stores({ 
+        db.version(37).stores({ 
                         // ▼▼▼ 核心修改：为 chats 表添加新字段 ▼▼▼
             // ▼▼▼ 核心修改：为 chats 表添加新字段 ▼▼▼
             // ▼▼▼ 核心修改：为 chats 表添加NPC头像库字段 ▼▼▼
@@ -12872,7 +12906,10 @@ async function handleClearSimulatedQQ() {
             stickerCategories: '++id, name', // 新增的表情分类表
             readerBooks: '++id, title, isPinned, coReadingSettings, coReadingHistories',
             // ▼▼▼ 在这里添加新的电影表 ▼▼▼
-            movies: '++id, title, isPinned, coWatchingSettings, coWatchingHistories',
+                // 【核心修改1】为影片表移除 content 字段，它现在只存元数据
+            movies: '++id, title, isPinned',
+    // 【核心修改2】新增一个专门用于存储影片分块的表
+           movieChunks: '++id, movieId, chunkIndex',
             // ▲▲▲ 添加结束 ▲▲▲
             bookPages: '++id, bookId, pageNumber',
  // <-- 【核心新增】在这里添加了新的书籍表
@@ -12916,24 +12953,40 @@ function openMemoApp() {
     alert("备忘录功能正在火速开发中，敬请期待！");
 }
 // ▲▲▲ 新增函数结束 ▲▲▲
-                function showScreen(screenId) {
-                    if (screenId === 'chat-list-screen') {
-                        window.renderChatListProxy(); 
-                        switchToChatListView('messages-view');
-                    }
-                    if (screenId === 'api-settings-screen') window.renderApiSettingsProxy();
-                    if (screenId === 'wallpaper-screen') window.renderWallpaperScreenProxy();
-                    if (screenId === 'world-book-screen') window.renderWorldBookScreenProxy();
-                    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                    const screenToShow = document.getElementById(screenId);
-                    if (screenToShow) screenToShow.classList.add('active');
-                    if (screenId === 'chat-interface-screen') window.updateListenTogetherIconProxy(state.activeChatId);
-                    if (screenId === 'font-settings-screen') {
-            loadFontPresetsDropdown(); // <-- 新增这一行
-                        document.getElementById('font-url-input').value = state.globalSettings.fontUrl || '';
-                        applyCustomFont(state.globalSettings.fontUrl || '', true);
-                    }
-                }
+// ▼▼▼ 【请用这个【已集成共赏桌面检查】的V2.0版本】替换旧的 showScreen 函数 ▼▼▼
+function showScreen(screenId) {
+    // 【【【核心修复！！！】】】
+    // 1. 检查目标屏幕是不是主屏幕
+    if (screenId === 'home-screen') {
+        // 如果是，就调用我们的新函数来检查并显示悬浮窗
+        checkAndDisplayCoViewingWindow();
+    } else {
+        // 如果不是，就确保共赏窗口是关闭的，防止它意外出现在其他页面
+        if (coViewingDesktopState.isActive) {
+            closeCoViewingSession();
+        }
+    }
+    // 【【【修复结束】】】
+
+    if (screenId === 'chat-list-screen') {
+        window.renderChatListProxy(); 
+        switchToChatListView('messages-view');
+    }
+    if (screenId === 'api-settings-screen') window.renderApiSettingsProxy();
+    if (screenId === 'wallpaper-screen') window.renderWallpaperScreenProxy();
+    if (screenId === 'world-book-screen') window.renderWorldBookScreenProxy();
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const screenToShow = document.getElementById(screenId);
+    if (screenToShow) screenToShow.classList.add('active');
+    if (screenId === 'chat-interface-screen') window.updateListenTogetherIconProxy(state.activeChatId);
+    if (screenId === 'font-settings-screen') {
+        loadFontPresetsDropdown();
+        document.getElementById('font-url-input').value = state.globalSettings.fontUrl || '';
+        applyCustomFont(state.globalSettings.fontUrl, true);
+    }
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
                 window.updateListenTogetherIconProxy = () => {};
         
                 function switchToChatListView(viewId) {
@@ -14805,7 +14858,31 @@ function showNotification(chatId, messageContent) {
             document.getElementById('background-activity-switch').checked = state.globalSettings.enableBackgroundActivity || false;
             document.getElementById('background-interval-input').value = state.globalSettings.backgroundActivityInterval || 60;
             document.getElementById('block-cooldown-input').value = state.globalSettings.blockCooldownHours || 1;
-        
+            // --- 【【【核心修复就在这里！】】】 ---
+
+    // 2. 为【主模型】下拉框创建并选中已保存的模型
+    const mainModelSelect = document.getElementById('model-select');
+    mainModelSelect.innerHTML = ''; // 清空旧选项
+    if (state.apiConfig.model) {
+        const option = document.createElement('option');
+        option.value = state.apiConfig.model;
+        option.textContent = state.apiConfig.model;
+        option.selected = true;
+        mainModelSelect.appendChild(option);
+    }
+
+    // 3. 为【副模型】下拉框创建并选中已保存的模型
+    const secondaryModelSelect = document.getElementById('secondary-model-select');
+    secondaryModelSelect.innerHTML = ''; // 清空旧选项
+    if (state.apiConfig.secondaryModel) {
+        const option = document.createElement('option');
+        option.value = state.apiConfig.secondaryModel;
+        option.textContent = state.apiConfig.secondaryModel;
+        option.selected = true;
+        secondaryModelSelect.appendChild(option);
+    }
+    
+    // --- 修复结束 ---
             // 2. 【核心新增】加载并渲染预设下拉菜单
             loadApiPresetsDropdown();
         }
@@ -16217,6 +16294,38 @@ function showNotification(chatId, messageContent) {
         /* ▲▲▲ 替换结束 ▲▲▲ */
         
         
+// ▼▼▼ 【全新】这是清空角色淘宝记录的核心功能，请粘贴到JS功能区 ▼▼▼
+/**
+ * 【全新】处理用户点击“清空角色淘宝记录”按钮的逻辑
+ */
+async function handleClearSimulatedTaobao() {
+    // 1. 安全检查
+    if (!activeCharacterId) return;
+    const chat = state.chats[activeCharacterId];
+    if (!chat || !chat.simulatedTaobaoHistory || !chat.simulatedTaobaoHistory.purchases || chat.simulatedTaobaoHistory.purchases.length === 0) {
+        alert("购物记录已经是空的了。");
+        return;
+    }
+
+    // 2. 弹出二次确认框，防止误操作
+    const confirmed = await showCustomConfirm(
+        '确认清空',
+        `确定要清空“${chat.name}”的所有淘宝购物记录吗？`,
+        { confirmButtonClass: 'btn-danger', confirmText: '确认清空' }
+    );
+
+    if (confirmed) {
+        // 3. 执行清空逻辑
+        chat.simulatedTaobaoHistory.purchases = [];
+        
+        // 4. 将更新后的数据保存回数据库
+        await db.chats.put(chat);
+        
+        // 5. 重新渲染淘宝界面，此时会显示“空空如也”的提示
+        await renderCharTaobao();
+    }
+}
+// ▲▲▲ 新增函数结束 ▲▲▲
         
         
         
@@ -22438,6 +22547,125 @@ async function endVideoCall() {
             }
         }
         // ▲▲▲ 替换结束 ▲▲▲
+// ▼▼▼ 【全新】世界书导入/导出功能核心函数 ▼▼▼
+
+/**
+ * 【总入口】打开世界书导出选择模态框
+ */
+async function openWorldBookExportModal() {
+    const modal = document.getElementById('world-book-export-modal');
+    const listEl = document.getElementById('world-book-export-list');
+    listEl.innerHTML = '';
+    const books = await db.worldBooks.toArray();
+
+    if (books.length === 0) {
+        alert("世界书中没有可导出的内容。");
+        return;
+    }
+
+    books.forEach(book => {
+        const item = document.createElement('div');
+        item.className = 'clear-posts-item'; // 复用现有样式
+        item.innerHTML = `
+            <div class="checkbox" data-book-id="${book.id}"></div>
+            <span class="name">${book.name}</span>
+        `;
+        listEl.appendChild(item);
+    });
+    
+    document.getElementById('select-all-world-books-export').checked = false;
+    modal.classList.add('visible');
+}
+
+/**
+ * 【核心】处理用户确认导出世界书的逻辑
+ */
+async function handleConfirmWorldBookExport() {
+    const selectedItems = document.querySelectorAll('#world-book-export-list .clear-posts-item.selected');
+    if (selectedItems.length === 0) {
+        alert("请至少选择一本要导出的世界书。");
+        return;
+    }
+    
+    const bookIdsToExport = Array.from(selectedItems).map(item => item.querySelector('.checkbox').dataset.bookId);
+    
+    // 从数据库中批量获取选中的世界书数据
+    const booksToExport = await db.worldBooks.where('id').anyOf(bookIdsToExport).toArray();
+    
+    if (booksToExport.length === 0) {
+        alert("未能找到要导出的世界书数据。");
+        return;
+    }
+
+    const exportData = {
+        type: "EPhoneWorldBooksBackup", // 添加一个类型标记
+        version: 1,
+        books: booksToExport
+    };
+    
+    // 生成并下载JSON文件
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `EPhone-WorldBooks-Backup-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    document.getElementById('world-book-export-modal').classList.remove('visible');
+}
+
+/**
+ * 【核心】处理导入世界书文件的逻辑
+ */
+async function handleWorldBookImport(event) {
+    const files = event.target.files;
+    if (!files.length) return;
+
+    await showCustomAlert("请稍候...", "正在处理导入的世界书文件...");
+    
+    let importCount = 0;
+    let failedFiles = [];
+
+    for (const file of files) {
+        try {
+            const text = await file.text();
+            const data = JSON.parse(text);
+
+            if (data.type !== 'EPhoneWorldBooksBackup' || !Array.isArray(data.books)) {
+                throw new Error("文件格式不正确，不是有效的世界书备份文件。");
+            }
+            
+            // 使用事务确保导入的原子性
+            await db.transaction('rw', db.worldBooks, async () => {
+                for (const book of data.books) {
+                    // 为了避免ID冲突，我们在导入时移除旧的ID，让数据库自动生成新的
+                    delete book.id; 
+                    const newBookId = await db.worldBooks.add(book);
+                    state.worldBooks.push({ id: newBookId, ...book });
+                    importCount++;
+                }
+            });
+
+        } catch (e) {
+            console.error(`导入文件 ${file.name} 失败:`, e);
+            failedFiles.push(file.name);
+        }
+    }
+
+    if (importCount > 0) {
+        await renderWorldBookScreen(); // 重新渲染世界书列表
+        let successMessage = `成功导入 ${importCount} 本世界书！`;
+        if (failedFiles.length > 0) {
+            successMessage += `\n\n${failedFiles.length} 个文件导入失败: \n- ${failedFiles.join('\n- ')}`;
+        }
+        await showCustomAlert('导入完成', successMessage);
+    } else if (failedFiles.length > 0) {
+        await showCustomAlert('导入失败', `所有文件都导入失败了。`);
+    }
+
+    event.target.value = null; // 清空文件输入框
+}
+// ▲▲▲ 新增函数结束 ▲▲▲
         
         // ▼▼▼ 【全新】红包功能核心函数 ▼▼▼
         
@@ -24144,6 +24372,84 @@ async function unzipAndRead(buffer) {
             await triggerCoReadingAIResponse();
         }
 
+// ▼▼▼ 【BUG修复】为角色手机日记中的“涂黑”内容添加点击显示功能 ▼▼▼
+document.getElementById('char-diary-detail-content-wrapper').addEventListener('click', (e) => {
+    // 检查被点击的元素是否是涂黑块
+    const censoredSpan = e.target.closest('.diary-censored');
+    
+    if (censoredSpan) {
+        // 1. 临时改变样式以显示内容
+        censoredSpan.style.backgroundColor = '#E0E0E0'; // 设置一个浅灰色背景
+        censoredSpan.style.color = 'inherit';         // 恢复为正常的文字颜色
+
+        // 2. 10秒后自动恢复涂黑状态
+        setTimeout(() => {
+            // 检查元素是否还在DOM中，防止在切换页面后报错
+            if (document.body.contains(censoredSpan)) {
+                censoredSpan.style.backgroundColor = ''; // 移除临时背景色，恢复CSS控制
+                censoredSpan.style.color = '';         // 移除临时文字颜色，恢复CSS控制
+            }
+        }, 10000); // 2000毫秒 = 2秒
+    }
+});
+// ▲▲▲ 修复结束 ▲▲▲
+// ▼▼▼ 【全新】世界书导入/导出事件监听器 ▼▼▼
+document.getElementById('world-book-export-btn').addEventListener('click', openWorldBookExportModal);
+document.getElementById('world-book-import-btn').addEventListener('click', () => {
+    document.getElementById('world-book-import-input').click();
+});
+document.getElementById('world-book-import-input').addEventListener('change', handleWorldBookImport);
+
+// 导出模态框的按钮
+document.getElementById('cancel-world-book-export-btn').addEventListener('click', () => {
+    document.getElementById('world-book-export-modal').classList.remove('visible');
+});
+document.getElementById('confirm-world-book-export-btn').addEventListener('click', handleConfirmWorldBookExport);
+
+// 导出模态框内的列表点击事件 (事件委托)
+document.getElementById('world-book-export-list').addEventListener('click', (e) => {
+    const item = e.target.closest('.clear-posts-item');
+    if (item) {
+        item.classList.toggle('selected');
+        const checkbox = item.querySelector('.checkbox');
+        checkbox.classList.toggle('selected'); // 视觉效果，实际不重要
+    }
+});
+
+// 导出模态框内的“全选”复选框
+document.getElementById('select-all-world-books-export').addEventListener('change', function(e) {
+    const isChecked = e.target.checked;
+    document.querySelectorAll('#world-book-export-list .clear-posts-item').forEach(item => {
+        item.classList.toggle('selected', isChecked);
+        const checkbox = item.querySelector('.checkbox');
+        checkbox.classList.toggle('selected', isChecked);
+    });
+});
+// ▲▲▲ 新增事件绑定结束 ▲▲▲
+
+// ▼▼▼ 【全新】角色淘宝设置功能事件监听器 ▼▼▼
+document.getElementById('manage-char-taobao-settings-btn').addEventListener('click', () => {
+    if (!activeCharacterId) return;
+    const chat = state.chats[activeCharacterId];
+    // 读取设置并初始化开关状态
+    const toggle = document.getElementById('char-taobao-gen-toggle');
+    toggle.checked = chat.settings.taobaoImageGeneration ?? true;
+    document.getElementById('char-taobao-settings-modal').classList.add('visible');
+});
+
+document.getElementById('close-char-taobao-settings-btn').addEventListener('click', () => {
+    document.getElementById('char-taobao-settings-modal').classList.remove('visible');
+});
+
+document.getElementById('char-taobao-gen-toggle').addEventListener('change', async (e) => {
+    if (!activeCharacterId) return;
+    const chat = state.chats[activeCharacterId];
+    if (!chat.settings) chat.settings = {};
+    
+    chat.settings.taobaoImageGeneration = e.target.checked;
+    await db.chats.put(chat);
+});
+// ▲▲▲ 新增事件绑定结束 ▲▲▲
 
         
         // ▼▼▼ 【全新】这是新功能的事件监听器 ▼▼▼
@@ -31499,44 +31805,58 @@ function renderCharBrowserHistory() {
     }
 }
 
-        /**
-         * 【全新 | V3.0 无钱包版 | 最终修复】渲染角色的淘宝“购买记录”页面
-         */
-        function renderCharTaobao() {
-            const gridEl = document.getElementById('char-product-grid');
-            gridEl.innerHTML = '';
-            if (!activeCharacterId) return;
+// ▼▼▼ 【请用这个支持新开关的V2.0版本】完整替换旧的 renderCharTaobao 函数 ▼▼▼
+/**
+ * 【V2.0 | 支持生图开关】渲染角色的淘宝“购买记录”页面
+ */
+function renderCharTaobao() {
+    const gridEl = document.getElementById('char-product-grid');
+    gridEl.innerHTML = '';
+    if (!activeCharacterId) return;
 
-            const char = state.chats[activeCharacterId];
-            
-            // ▼▼▼ 核心修复就在这里！▼▼▼
-            // 我们现在告诉代码，要去 simulatedTaobaoHistory 这个“包裹”里，
-            // 拿出名叫 purchases 的“购物清单”（数组）。
-            const purchases = char.simulatedTaobaoHistory?.purchases || [];
-            // ▲▲▲ 修复结束 ▲▲▲
+    const char = state.chats[activeCharacterId];
+    
+    // 【核心修改1】读取新开关的状态，默认开启
+    const enableImageGeneration = char.settings.taobaoImageGeneration ?? true;
+    
+    const purchases = char.simulatedTaobaoHistory?.purchases || [];
 
-            if (purchases.length === 0) {
-                gridEl.innerHTML = '<p style="text-align:center; color: var(--text-secondary); padding: 50px 0;">TA最近好像什么都没买呢，<br>点击右上角刷新按钮生成一些记录吧！</p>';
-                return;
-            }
+    if (purchases.length === 0) {
+        gridEl.innerHTML = '<p style="text-align:center; color: var(--text-secondary); padding: 50px 0;">TA最近好像什么都没买呢，<br>点击右上角刷新按钮生成一些记录吧！</p>';
+        return;
+    }
 
-            purchases.forEach(item => {
-                const itemEl = document.createElement('div');
-                itemEl.className = 'char-product-item';
-                itemEl.dataset.reason = item.reason;
-                
-                const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(item.image_prompt || 'a random product')}`;
-
-                itemEl.innerHTML = `
-                    <img src="${imageUrl}" class="product-image">
-                    <div class="product-info">
-                        <div class="product-name">${item.itemName}</div>
-                        <div class="product-price">${(item.price || 0).toFixed(2)}</div>
-                    </div>
-                `;
-                gridEl.appendChild(itemEl);
-            });
+    purchases.forEach(item => {
+        const itemEl = document.createElement('div');
+        itemEl.className = 'char-product-item';
+        
+        // 【核心修改2】根据开关状态决定图片URL
+        let imageUrl;
+        if (enableImageGeneration && item.image_prompt) {
+            // 开启状态：使用AI生图
+            imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(item.image_prompt)}`;
+        } else {
+            // 关闭状态：使用灰色占位图
+            imageUrl = 'https://i.postimg.cc/pT2xKzPz/album-cover-placeholder.png'; // 这是一个通用的灰色图片
         }
+
+        // 【核心修改3】将所有需要的数据都存入data-*属性，方便点击时读取
+        itemEl.dataset.itemName = item.itemName;
+        itemEl.dataset.reason = item.reason;
+        itemEl.dataset.description = item.description || ''; // 如果没有描述，存入空字符串
+
+        itemEl.innerHTML = `
+            <img src="${imageUrl}" class="product-image">
+            <div class="product-info">
+                <div class="product-name">${item.itemName}</div>
+                <div class="product-price">${(item.price || 0).toFixed(2)}</div>
+            </div>
+        `;
+        gridEl.appendChild(itemEl);
+    });
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
 /**
  * 切换回角色手机的主屏幕
  */
@@ -32393,12 +32713,12 @@ ${recentHistoryWithUser}
         }
 
 // ▼▼▼ 【请用这个 V3.3 | 最终修复版】完整替换旧的 openCharSimulatedConversation 函数 ▼▼▼
+// ▼▼▼ 【请用这个 V4.0 | 性能与表情包终极修复版】完整替换旧的 openCharSimulatedConversation 函数 ▼▼▼
 /**
- * 【全新 | V3.3 | 最终修复版】打开并显示指定的模拟聊天记录
+ * 【V4.0 | 终极修复版】打开并显示指定的模拟聊天记录
  */
 async function openCharSimulatedConversation(conversationIndex) {
     const mainChar = state.chats[activeCharacterId];
-    // 安全检查
     if (!mainChar.simulatedConversations || !mainChar.simulatedConversations[conversationIndex]) {
         console.error(`尝试打开一个不存在的模拟对话，索引: ${conversationIndex}`);
         switchToCharScreen('char-qq-screen');
@@ -32419,11 +32739,9 @@ async function openCharSimulatedConversation(conversationIndex) {
     const isDarkMode = document.getElementById('phone-screen').classList.contains('dark-mode');
     bodyEl.style.backgroundColor = isDarkMode ? '#000000' : '#f0f2f5';
 
-    // 构建一个参与者头像的映射表，方便后续使用
     const participantMap = new Map();
     const enableAvatarGeneration = mainChar.settings.qqAvatarGeneration || false;
-    
-    // ▼▼▼ 头像分配逻辑优化 ▼▼▼
+
     let femaleAvatars = [...(mainChar.settings.npcFemaleAvatarLibrary || [])];
     let maleAvatars = [...(mainChar.settings.npcMaleAvatarLibrary || [])];
     function getRandomAvatar(gender) {
@@ -32431,55 +32749,46 @@ async function openCharSimulatedConversation(conversationIndex) {
         if (gender === 'male' && maleAvatars.length > 0) return maleAvatars.splice(Math.floor(Math.random() * maleAvatars.length), 1)[0].url;
         return defaultAvatar;
     }
-    // ▲▲▲ 优化结束 ▲▲▲
 
-    // 设置主角（也就是正在查看手机的CHAR）的头像
     participantMap.set(mainChar.originalName, mainChar.settings.aiAvatar);
     
     // ==========================================================
     //            ★★★ 核心修复逻辑从这里开始 ★★★
-    //  我们现在根据对话类型，决定是渲染真实历史还是模拟历史
     // ==========================================================
     
-    // --- 情况一：如果这是【与用户的私聊】 ---
     if (conversation.type === 'private_with_user') {
         titleEl.textContent = "与 " + conversation.participant.name;
         inputEl.placeholder = `以“${mainChar.name}”的身份回复...`;
         inputEl.disabled = false;
         sendBtn.disabled = false;
-        participantMap.set(conversation.participant.name, mainChar.settings.myAvatar || defaultAvatar);
-        
-        // 【【【核心】】】从主聊天记录(mainChar.history)中筛选并渲染消息
-        const messagesToRender = mainChar.history; // 直接使用完整的历史记录
 
+        // 【【【核心修复1：性能优化】】】
+        // 不再加载全部历史，只截取最近的15条进行显示！
+        const messagesToRender = mainChar.history.filter(m => !m.isHidden).slice(-15);
+
+        // 【【【核心修复2：复用强大的 createMessageElement】】】
+        // 我们不再手动拼接HTML，而是让现有的、功能完善的函数来处理渲染。
         for (const msg of messagesToRender) {
-            // 跳过隐藏的系统消息
-            if (msg.isHidden) continue;
-
-            // 从“主角”的视角来看，主角自己发的消息是 "user" (右边)，对方（用户）发的是 "assistant" (左边)
-            const roleForDisplay = (msg.role === 'user') ? 'assistant' : 'user';
+            // 从“主角”的视角来看，主角自己发的消息是 'user' (右边)，对方（用户）发的是 'assistant' (左边)
+            // 所以我们需要创建一个临时的消息对象，并反转它的 role
+            const msgForDisplay = { ...msg, role: (msg.role === 'user') ? 'assistant' : 'user' };
             
-            // 获取正确的发送者头像
-            const senderAvatar = (roleForDisplay === 'user') ? mainChar.settings.aiAvatar : mainChar.settings.myAvatar;
+            // 为了正确显示头像，我们需要创建一个临时的、符合 createMessageElement 要求的 chat 对象
+            const tempChatForRendering = {
+                isGroup: false, // 这是一个私聊
+                settings: {
+                    myAvatar: mainChar.settings.aiAvatar,  // "我的"头像是角色的头像
+                    aiAvatar: mainChar.settings.myAvatar   // "对方的"头像是用户的头像
+                }
+            };
             
-            // 复用消息气泡的创建逻辑
-            const wrapper = document.createElement('div');
-            wrapper.className = `message-wrapper ${roleForDisplay}`;
-            const bubble = document.createElement('div');
-            bubble.className = `message-bubble ${roleForDisplay}`;
-            
-            // 此处简化渲染，只处理文本，不处理复杂卡片
-            bubble.innerHTML = `
-                <div class="avatar-group"><img src="${senderAvatar || defaultAvatar}" class="avatar"></div>
-                <div class="content">${String(msg.content).replace(/\n/g, '<br>')}</div>
-            `;
-            wrapper.appendChild(bubble);
-            bodyEl.appendChild(wrapper);
+            const messageElement = await createMessageElement(msgForDisplay, tempChatForRendering);
+            if (messageElement) {
+                bodyEl.appendChild(messageElement);
+            }
         }
-
-    } 
-    // --- 情况二：如果这是【与NPC的私聊】或【群聊】 ---
-    else {
+        
+    } else { // 与NPC的私聊或群聊（这部分逻辑保持不变，因为模拟消息数量可控）
         titleEl.textContent = conversation.groupName || conversation.participant.name;
         inputEl.placeholder = "此对话为只读";
         inputEl.disabled = true;
@@ -32489,13 +32798,11 @@ async function openCharSimulatedConversation(conversationIndex) {
              (conversation.participants || []).forEach(p => {
                 participantMap.set(p.name, enableAvatarGeneration ? `https://image.pollinations.ai/prompt/${encodeURIComponent(p.avatar_prompt)}` : getRandomAvatar(p.gender));
              });
-        } else { // private_npc
+        } else {
             participantMap.set(conversation.participant.name, enableAvatarGeneration ? `https://image.pollinations.ai/prompt/${encodeURIComponent(conversation.participant.avatar_prompt)}` : getRandomAvatar(conversation.participant.gender));
         }
 
-        // 【【【核心】】】从模拟数据(conversation.messages)中渲染消息
         for (const msg of conversation.messages) {
-            // 从“主角”的视角来看，主角自己发的消息是 "user" (右边)，对方发的是 "assistant" (左边)
             const roleForDisplay = (msg.sender === mainChar.originalName) ? 'user' : 'assistant';
             const senderAvatar = participantMap.get(msg.sender) || defaultAvatar;
 
@@ -32503,9 +32810,18 @@ async function openCharSimulatedConversation(conversationIndex) {
             wrapper.className = `message-wrapper ${roleForDisplay}`;
             const bubble = document.createElement('div');
             bubble.className = `message-bubble ${roleForDisplay}`;
+            
+            // 【【【核心修复3：在这里也加入对表情包的判断】】】
+            let contentHtml;
+            if (STICKER_REGEX.test(msg.content)) {
+                contentHtml = `<img src="${msg.content}" class="sticker-image">`;
+            } else {
+                contentHtml = String(msg.content).replace(/\n/g, '<br>');
+            }
+
             bubble.innerHTML = `
                 <div class="avatar-group"><img src="${senderAvatar}" class="avatar"></div>
-                <div class="content">${String(msg.content).replace(/\n/g, '<br>')}</div>
+                <div class="content">${contentHtml}</div>
             `;
             wrapper.appendChild(bubble);
             bodyEl.appendChild(wrapper);
@@ -32522,6 +32838,7 @@ async function openCharSimulatedConversation(conversationIndex) {
 // ▲▲▲ 替换结束 ▲▲▲
 
 
+
 /**
  * 【全新】关闭模拟聊天记录弹窗
  */
@@ -32531,19 +32848,16 @@ function closeSimulatedTranscriptModal() {
 
 // ▲▲▲ 全新JS代码粘贴结束 ▲▲▲
 // ▼▼▼ 【请用这个【已集成生图开关】的V4.0版本】替换旧的 handleGenerateSimulatedAlbum 函数 ▼▼▼
-// ▼▼▼ 【请用这个【已集成数量设置】的V5.0版本】替换旧的 handleGenerateSimulatedAlbum 函数 ▼▼▼
 /**
- * 【V5.0 | 已集成数量设置】当用户点击“重新生成”时，调用AI生成模拟相册内容
+ * 【V4.0 | 支持生图开关】当用户点击“重新生成”时，调用AI生成模拟相册内容
  */
 async function handleGenerateSimulatedAlbum() {
     if (!activeCharacterId) return;
     const chat = state.chats[activeCharacterId];
     if (!chat) return;
-    
-    // 【核心修改1】从新的设置对象中读取开关状态和生成数量
-    const albumSettings = chat.settings.albumSettings || {};
-    const enableImageGeneration = albumSettings.enableImageGeneration ?? true;
-    const generationCount = albumSettings.generationCount ?? 8; // 默认8张
+
+    // 【核心修改1】读取生图开关的状态，默认开启
+    const enableImageGeneration = chat.settings.albumImageGeneration ?? true;
 
     await showCustomAlert("请稍候...", `正在请求“${chat.name}”回忆TA的相册照片...`);
 
@@ -32555,22 +32869,21 @@ async function handleGenerateSimulatedAlbum() {
     
     const userDisplayNameForAI = (state.qzoneSettings.nickname === '{{user}}' || !state.qzoneSettings.nickname) ? '用户' : state.qzoneSettings.nickname;
 
-    // 上下文构建逻辑不变...
+    // 上下文构建逻辑不变
     const longTermMemoryContext = chat.longTermMemory?.map(mem => `- ${mem.content}`).join('\n') || '无';
     const recentHistoryWithUser = chat.history.slice(-5).map(msg => `${msg.role === 'user' ? userDisplayNameForAI : chat.name}: ${String(msg.content).substring(0, 30)}...`).join('\n');
     const worldBookContext = (chat.settings.linkedWorldBookIds || []).map(bookId => state.worldBooks.find(wb => wb.id === bookId)).filter(Boolean).map(book => `\n## 世界书《${book.name}》设定:\n${book.content.filter(e=>e.enabled).map(e => `- ${e.content}`).join('\n')}`).join('');
     
-    // 【核心修改2】根据开关状态和数量，动态生成AI指令
+    // 【核心修改2】根据开关状态，动态生成不同的系统指令
     let systemPrompt;
-    const countInstruction = `【${generationCount}张】`; // 将数量作为一个明确的指令
-
     if (enableImageGeneration) {
+        // --- 这是【开启】生图时的指令，要求AI提供 image_prompt ---
         systemPrompt = `
 # 你的任务
-你是一个虚拟生活模拟器。你的任务是扮演角色“${chat.name}”，并根据其人设、记忆和最近的互动，构思出${countInstruction}TA最近可能会拍摄或珍藏在手机相册里的照片。
+你是一个虚拟生活模拟器。你的任务是扮演角色“${chat.name}”，并根据其人设、记忆和最近的互动，构思出【8到10张】TA最近可能会拍摄或珍藏在手机相册里的照片。
 # 核心规则
 1.  **创造性与合理性**: 照片内容必须完全符合角色的性格、爱好、职业和生活环境。
-2.  **多样性**: 照片主题要丰富。
+2.  **多样性**: 照片主题要丰富，可以包括自拍、风景、食物、宠物、朋友合影、工作场景等。
 3.  **格式铁律 (最高优先级)**: 你的回复【必须且只能】是一个JSON数组。数组中的每个元素都是一个对象，代表一张照片，格式【必须】如下:
     \`\`\`json
     [
@@ -32591,9 +32904,10 @@ ${worldBookContext}
 ${recentHistoryWithUser}
 现在，请开始生成这组照片的描述和绘画指令。`;
     } else {
+        // --- 这是【关闭】生图时的指令，明确告诉AI【不要】提供 image_prompt ---
         systemPrompt = `
 # 你的任务
-你是一个虚拟生活模拟器。你的任务是扮演角色“${chat.name}”，并根据其人设、记忆和最近的互动，虚构出${countInstruction}TA最近可能会写下的“照片描述”。
+你是一个虚拟生活模拟器。你的任务是扮演角色“${chat.name}”，并根据其人设、记忆和最近的互动，虚构出【8到10段】TA最近可能会写下的“照片描述”。
 # 核心规则
 1.  **创造性与合理性**: 描述内容必须完全符合角色的性格、爱好、职业和生活环境。
 2.  **格式铁律 (最高优先级)**: 你的回复【必须且只能】是一个JSON数组。数组中的每个元素都是一个对象，代表一个“照片描述”，格式【必须】如下:
@@ -32615,11 +32929,18 @@ ${recentHistoryWithUser}
     }
 
     try {
-        // API调用和后续处理逻辑保持不变...
+        // 后续的API调用和数据处理逻辑保持不变
         const messagesForApi = [{ role: 'user', content: "请根据你的设定，生成你的相册内容。" }];
         let isGemini = proxyUrl.includes('generativelanguage');
         let geminiConfig = toGeminiRequestData(model, apiKey, systemPrompt, messagesForApi);
-        const response = isGemini ? await fetch(geminiConfig.url, geminiConfig.data) : await fetch(`${proxyUrl}/v1/chat/completions`, { method: 'POST', headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`}, body: JSON.stringify({ model: model, messages: [{role: 'system', content: systemPrompt}, ...messagesForApi], temperature: 0.9, response_format: { "type": "json_object" } }) });
+        
+        const response = isGemini 
+            ? await fetch(geminiConfig.url, geminiConfig.data) 
+            : await fetch(`${proxyUrl}/v1/chat/completions`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`},
+                body: JSON.stringify({ model: model, messages: [{role: 'system', content: systemPrompt}, ...messagesForApi], temperature: 0.9, response_format: { "type": "json_object" } })
+            });
         if (!response.ok) throw new Error(`API 错误: ${response.statusText}`);
         const data = await response.json();
         const aiResponseContent = getGeminiResponseText(data);
@@ -32868,34 +33189,55 @@ function renderCharArticle(articleData) {
 }
 
 // ▲▲▲ 全新JS代码粘贴结束 ▲▲▲
-        /**
-         * 【全新 | V3.0 无钱包版 | 最终修复】当用户点击“重新生成”时，调用AI生成模拟淘宝记录
-         */
-        async function handleGenerateTaobaoHistory() {
-            if (!activeCharacterId) return;
-            const chat = state.chats[activeCharacterId];
-            if (!chat) return;
-        
-            await showCustomAlert("请稍候...", `正在模拟“${chat.name}”的购物习惯...`);
-        
-            const { proxyUrl, apiKey, model } = state.apiConfig;
-            if (!proxyUrl || !apiKey || !model) {
-                alert('API未配置，无法生成内容。');
-                return;
-            }
+// ▼▼▼ 【请用这个支持新开关的V2.0版本】完整替换旧的 handleGenerateTaobaoHistory 函数 ▼▼▼
+/**
+ * 【V2.0 | 支持生图开关】当用户点击“重新生成”时，调用AI生成模拟淘宝记录
+ */
+async function handleGenerateTaobaoHistory() {
+    if (!activeCharacterId) return;
+    const chat = state.chats[activeCharacterId];
+    if (!chat) return;
 
-            // 【修复】定义一个更安全的用户显示名
-            const userDisplayNameForAI = (state.qzoneSettings.nickname === '{{user}}' || !state.qzoneSettings.nickname) ? '用户' : state.qzoneSettings.nickname;
-        
-            const longTermMemoryContext = chat.longTermMemory?.map(mem => `- ${mem.content}`).join('\n') || '无';
-            const recentHistoryWithUser = chat.history.slice(-5).map(msg => `${msg.role === 'user' ? userDisplayNameForAI : chat.name}: ${String(msg.content).substring(0, 30)}...`).join('\n');
-            const worldBookContext = (chat.settings.linkedWorldBookIds || [])
-                .map(bookId => state.worldBooks.find(wb => wb.id === bookId))
-                .filter(Boolean)
-                .map(book => `\n## 世界书《${book.name}》设定:\n${book.content.filter(e => e.enabled).map(e => `- ${e.content}`).join('\n')}`)
-                .join('');
-        
-            const systemPrompt = `
+    // 【核心修改1】读取新开关的状态，默认开启
+    const enableImageGeneration = chat.settings.taobaoImageGeneration ?? true;
+
+    await showCustomAlert("请稍候...", `正在模拟“${chat.name}”的购物习惯...`);
+
+    const { proxyUrl, apiKey, model } = state.apiConfig;
+    if (!proxyUrl || !apiKey || !model) {
+        alert('API未配置，无法生成内容。');
+        return;
+    }
+    
+    const userDisplayNameForAI = (state.qzoneSettings.nickname === '{{user}}' || !state.qzoneSettings.nickname) ? '用户' : state.qzoneSettings.nickname;
+
+    const longTermMemoryContext = chat.longTermMemory?.map(mem => `- ${mem.content}`).join('\n') || '无';
+    const recentHistoryWithUser = chat.history.slice(-10).map(msg => `${msg.role === 'user' ? userDisplayNameForAI : chat.name}: ${String(msg.content).substring(0, 30)}...`).join('\n');
+    const worldBookContext = (chat.settings.linkedWorldBookIds || []).map(bookId => state.worldBooks.find(wb => wb.id === bookId)).filter(Boolean).map(book => `\n## 世界书《${book.name}》设定:\n${book.content.filter(e=>e.enabled).map(e => `- ${e.content}`).join('\n')}`).join('');
+    
+    // 【核心修改2】根据开关状态，动态生成不同的指令
+    let itemFormatInstruction;
+    if (enableImageGeneration) {
+        // --- 开启生图时的指令 ---
+        itemFormatInstruction = `
+          "itemName": "一个具体、生动的商品名称",
+          "price": 128.80,
+          "status": "已签收",
+          "reason": "这是角色购买这件商品的内心独白或理由，必须使用第一人称“我”来写。",
+          "image_prompt": "一段用于生成这张商品图片的、详细的【英文】关键词, 风格为 realistic product photo, high quality, on a clean white background"
+        `;
+    } else {
+        // --- 关闭生图时的指令 ---
+        itemFormatInstruction = `
+          "itemName": "一个具体、生动的商品名称",
+          "price": 128.80,
+          "status": "已签收",
+          "reason": "这是角色购买这件商品的内心独白或理由，必须使用第一人称“我”来写。",
+          "description": "一段关于这个商品的、客观详细的【文字描述】，用于在用户点击时展示。"
+        `;
+    }
+
+    const systemPrompt = `
 # 你的任务
 你是一个虚拟生活模拟器。你的任务是扮演角色“${chat.name}”，并根据其人设、记忆和最近的互动，虚构出TA最近的淘宝购物记录。
 
@@ -32906,11 +33248,7 @@ function renderCharArticle(articleData) {
     {
       "purchases": [
         {
-          "itemName": "一个具体、生动的商品名称",
-          "price": 128.80,
-          "status": "已签收",
-          "reason": "这是角色购买这件商品的内心独白或理由，必须使用第一人称“我”来写。",
-          "image_prompt": "一段用于生成这张商品图片的、详细的【英文】关键词, 风格为 realistic product photo, high quality, on a clean white background"
+          ${itemFormatInstruction}
         }
       ]
     }
@@ -32927,42 +33265,43 @@ ${worldBookContext}
 ${recentHistoryWithUser}
 
 现在，请生成包含购买记录的JSON对象。`;
+    
+    try {
+        const messagesForApi = [{ role: 'user', content: "请根据你的设定，生成你的淘宝购买记录。" }];
+        let isGemini = proxyUrl.includes('generativelanguage');
+        let geminiConfig = toGeminiRequestData(model, apiKey, systemPrompt, messagesForApi);
         
-            try {
-                const messagesForApi = [{ role: 'user', content: "请根据你的设定，生成你的淘宝购买记录。" }];
-                let isGemini = proxyUrl.includes('generativelanguage');
-                let geminiConfig = toGeminiRequestData(model, apiKey, systemPrompt, messagesForApi);
-                
-                const response = isGemini 
-                    ? await fetch(geminiConfig.url, geminiConfig.data) 
-                    : await fetch(`${proxyUrl}/v1/chat/completions`, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`},
-                        body: JSON.stringify({
-                            model: model,
-                            messages: [{role: 'system', content: systemPrompt}, ...messagesForApi],
-                            temperature: 0.9,
-                            response_format: { "type": "json_object" } 
-                        })
-                    });
+        const response = isGemini 
+            ? await fetch(geminiConfig.url, geminiConfig.data) 
+            : await fetch(`${proxyUrl}/v1/chat/completions`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`},
+                body: JSON.stringify({
+                    model: model,
+                    messages: [{role: 'system', content: systemPrompt}, ...messagesForApi],
+                    temperature: 0.9,
+                    response_format: { "type": "json_object" } 
+                })
+            });
+
+        if (!response.ok) throw new Error(`API 错误: ${response.statusText}`);
         
-                if (!response.ok) throw new Error(`API 错误: ${response.statusText}`);
-                
-                const data = await response.json();
-                const aiResponseContent = getGeminiResponseText(data);
-                const cleanedJson = aiResponseContent.replace(/^```json\s*/, '').replace(/```$/, '');
-                
-                const simulatedTaobaoData = JSON.parse(cleanedJson);
-                chat.simulatedTaobaoHistory = simulatedTaobaoData;
-                await db.chats.put(chat);
-                
-                await renderCharTaobao();
-                
-            } catch (error) {
-                console.error("生成模拟淘宝记录失败:", error);
-                await showCustomAlert("生成失败", `无法生成购物记录，请检查API配置或稍后再试。\n错误: ${error.message}`);
-            }
-        }
+        const data = await response.json();
+        const aiResponseContent = getGeminiResponseText(data);
+        const cleanedJson = aiResponseContent.replace(/^```json\s*/, '').replace(/```$/, '');
+        
+        const simulatedTaobaoData = JSON.parse(cleanedJson);
+        chat.simulatedTaobaoHistory = simulatedTaobaoData;
+        await db.chats.put(chat);
+        
+        await renderCharTaobao();
+        
+    } catch (error) {
+        console.error("生成模拟淘宝记录失败:", error);
+        await showCustomAlert("生成失败", `无法生成购物记录，请检查API配置或稍后再试。\n错误: ${error.message}`);
+    }
+}
+// ▲▲▲ 替换结束 ▲▲▲
 
 /**
  * 【全新】打开并渲染角色的钱包页面
@@ -34046,13 +34385,23 @@ function setupCharPlayerControls() {
                 movieWrapper.appendChild(titleWrapper);
 
                 movieCover.addEventListener('click', () => openMovie(movie.id));
-                addLongPressListener(movieCover, async () => {
-                     const confirmed = await showCustomConfirm('删除影片', `确定要从影集移除《${movie.title}》吗？`, { confirmButtonClass: 'btn-danger' });
-                     if (confirmed) {
-                         await db.movies.delete(movie.id);
-                         await renderMovieShelf();
-                     }
-                });
+addLongPressListener(movieCover, async () => {
+    // ▼▼▼ 请用这整块新代码，替换旧的删除逻辑 ▼▼▼
+    const confirmed = await showCustomConfirm('删除影片', `确定要从影集移除《${movie.title}》吗？`, { confirmButtonClass: 'btn-danger' });
+    if (confirmed) {
+        // 【核心修改】使用数据库事务，确保两个删除操作要么都成功，要么都失败
+        await db.transaction('rw', db.movies, db.movieChunks, async () => {
+            // 1. 删除影片的所有文件分块
+            await db.movieChunks.where('movieId').equals(movie.id).delete();
+            // 2. 删除影片的元数据记录
+            await db.movies.delete(movie.id);
+        });
+
+        await renderMovieShelf();
+        alert('影片已成功删除。');
+    }
+    // ▲▲▲ 替换结束 ▲▲▲
+});
                 shelfEl.appendChild(movieWrapper);
             });
         }
@@ -34084,48 +34433,125 @@ function setupCharPlayerControls() {
         }
 
 
-        /**
-         * 打开一个影片进行播放
-         */
-        async function openMovie(movieId) {
-            currentWatchingMovieId = movieId;
-            const movie = await db.movies.get(movieId);
-            if (!movie) return;
-            
-            document.getElementById('movie-viewer-title').textContent = movie.title;
-            
-            const player = document.getElementById('movie-player');
-            const blob = new Blob([movie.content.buffer], { type: movie.content.type });
-            player.src = URL.createObjectURL(blob);
-            
-            showScreen('movie-viewer-screen');
+// ▼▼▼ 【请用这个支持分块读取的全新版本】完整替换旧的 openMovie 函数 ▼▼▼
+/**
+ * 【全新 | 分块读取版】打开一个影片进行播放
+ */
+async function openMovie(movieId) {
+    currentWatchingMovieId = movieId;
+    const movie = await db.movies.get(movieId);
+    if (!movie) return;
+
+    await showCustomAlert("请稍候...", "正在加载影片文件...");
+
+    try {
+        // 1. 从 movieChunks 表中，获取属于这部电影的所有分块，并按顺序排好
+        const chunks = await db.movieChunks.where('movieId').equals(movieId).sortBy('chunkIndex');
+
+        if (chunks.length === 0) {
+            throw new Error("在数据库中找不到该影片的文件数据。");
         }
 
-        /**
-         * 导入本地影片文件
-         */
-        async function handleMovieImport(event) {
-            const files = event.target.files;
-            if (!files.length) return;
-            
-            let importCount = 0;
-            for (const file of files) {
-                try {
-                    const title = file.name.replace(/\.(mp4|mov|webm)$/i, '');
-                    const buffer = await file.arrayBuffer();
-                    const movieContent = { buffer, type: file.type };
-                    await db.movies.add({ title, content: movieContent });
-                    importCount++;
-                } catch (e) {
-                    console.error(`导入影片 ${file.name} 失败:`, e);
-                }
+        // 2. 将所有分块的二进制内容提取出来，放入一个数组
+        const chunkBuffers = chunks.map(chunk => chunk.content);
+
+        // 3. 使用这些分块数据，创建一个新的 Blob 对象
+        const videoBlob = new Blob(chunkBuffers, { type: movie.content.type });
+
+        // 4. 为这个 Blob 对象创建一个临时的、可播放的 URL
+        const videoUrl = URL.createObjectURL(videoBlob);
+        
+        // 5. 将 URL 交给播放器，并显示屏幕
+        document.getElementById('movie-viewer-title').textContent = movie.title;
+        const player = document.getElementById('movie-player');
+        player.src = videoUrl;
+        
+        showScreen('movie-viewer-screen');
+
+    } catch (error) {
+        console.error("加载影片失败:", error);
+        await showCustomAlert("加载失败", `无法加载影片文件: ${error.message}`);
+        // 加载失败时，返回到影集列表
+        showScreen('television-screen');
+    } finally {
+        // 关闭“加载中”的弹窗
+        hideCustomModal();
+    }
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
+
+// ▼▼▼ 【请用这个支持分块存储的全新版本】完整替换旧的 handleMovieImport 函数 ▼▼▼
+/**
+ * 【全新 | 分块存储版】导入本地影片文件
+ */
+async function handleMovieImport(event) {
+    const files = event.target.files;
+    if (!files.length) return;
+
+    await showCustomAlert("请稍候...", "正在处理导入的影片，大文件可能需要一点时间...");
+
+    let importCount = 0;
+    let failedFiles = [];
+
+    for (const file of files) {
+        try {
+            const title = file.name.replace(/\.(mp4|mov|webm)$/i, '');
+
+            // 1. 先在主表中创建一个元数据记录，以获取唯一的 movieId
+            const movieId = await db.movies.add({
+                title: title,
+                isPinned: false,
+                content: { type: file.type } // 我们仍然需要保存文件类型
+            });
+
+            // 2. 读取整个文件的二进制数据
+            const fileBuffer = await file.arrayBuffer();
+
+            // 3. 定义每个分块的大小（例如：5MB）
+            const CHUNK_SIZE = 5 * 1024 * 1024;
+            let offset = 0;
+            let chunkIndex = 0;
+            const chunksToSave = [];
+
+            // 4. 循环切割文件，并准备好要存入数据库的分块对象数组
+            while (offset < fileBuffer.byteLength) {
+                const chunk = fileBuffer.slice(offset, offset + CHUNK_SIZE);
+                chunksToSave.push({
+                    movieId: movieId,
+                    chunkIndex: chunkIndex,
+                    content: chunk
+                });
+                offset += CHUNK_SIZE;
+                chunkIndex++;
             }
-            if (importCount > 0) {
-                await renderMovieShelf();
-                alert(`成功导入 ${importCount} 部影片！`);
-            }
-            event.target.value = null;
+
+            // 5. 使用 Dexie 的 bulkAdd() 方法，一次性高效地将所有分块写入数据库
+            await db.movieChunks.bulkAdd(chunksToSave);
+
+            importCount++;
+
+        } catch (e) {
+            console.error(`导入影片 ${file.name} 失败:`, e);
+            failedFiles.push(file.name);
         }
+    }
+
+    // 提示逻辑保持不变
+    if (importCount > 0) {
+        await renderMovieShelf();
+        let successMessage = `成功导入 ${importCount} 部影片！`;
+        if (failedFiles.length > 0) {
+            successMessage += `\n\n${failedFiles.length} 个文件导入失败: \n- ${failedFiles.join('\n- ')}`;
+        }
+        await showCustomAlert('导入完成', successMessage);
+    } else if (failedFiles.length > 0) {
+        await showCustomAlert('导入失败', `所有文件都导入失败了。`);
+    }
+    event.target.value = null;
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
 
         /**
          * 打开置顶影片的选择模态框
@@ -34202,19 +34628,13 @@ function setupCharPlayerControls() {
     
     // 为弹窗内的“完成”按钮绑定关闭弹窗的事件
     document.getElementById('close-char-album-settings-btn').addEventListener('click', () => {
-        // 在关闭时，最后保存一次设置
-        handleCharAlbumSettingsChange(); 
         document.getElementById('char-album-settings-modal').classList.remove('visible');
     });
     
     // 为弹窗内的“生图开关”绑定状态改变的事件
-    document.getElementById('char-album-gen-toggle').addEventListener('change', handleCharAlbumSettingsChange);
-    
-    // 【核心新增】为“生成数量”输入框绑定输入事件，实时保存
-    document.getElementById('char-album-gen-count-input').addEventListener('input', handleCharAlbumSettingsChange);
+    document.getElementById('char-album-gen-toggle').addEventListener('change', handleCharAlbumSettingsToggle);
     
     // ▲▲▲ 新增事件绑定结束 ▲▲▲
-
 
         // ▼▼▼ 【全新】阅读器解码功能核心JS代码 ▼▼▼
         
@@ -34870,70 +35290,42 @@ async function handleUserSentMessageAsChar() {
 // ▲▲▲ 全新JS代码粘贴结束 ▲▲▲
 // ▼▼▼ 【全新】角色相册设置功能的所有JS代码 ▼▼▼
 
-// ▼▼▼ 【请用这个【已集成数量设置】的V2.0版本】替换旧的 openCharAlbumSettingsModal 函数 ▼▼▼
 /**
- * 【V2.0 | 已集成数量设置】打开角色相册的设置弹窗
+ * 【总入口】打开角色相册的设置弹窗
  */
 function openCharAlbumSettingsModal() {
     if (!activeCharacterId) return;
     const chat = state.chats[activeCharacterId];
     if (!chat) return;
 
-    // 【核心修改1】确保 settings 和 albumSettings 对象存在
-    if (!chat.settings) chat.settings = {};
-    if (!chat.settings.albumSettings) {
-        chat.settings.albumSettings = {};
-    }
-    
-    const settings = chat.settings.albumSettings;
-    
-    // 【核心修改2】根据保存的设置，初始化两个控件的状态
+    // 根据当前角色的设置，初始化开关状态
     const toggle = document.getElementById('char-album-gen-toggle');
-    const countInput = document.getElementById('char-album-gen-count-input');
-
-    // 使用 ?? true 确保旧数据默认开启生图
-    toggle.checked = settings.enableImageGeneration ?? true; 
-    // 使用 ?? 8 确保旧数据默认生成8张
-    countInput.value = settings.generationCount ?? 8;
+    // 使用 ?? true 确保旧数据（没有这个设置时）默认开启生图
+    toggle.checked = chat.settings.albumImageGeneration ?? true; 
     
     document.getElementById('char-album-settings-modal').classList.add('visible');
 }
-// ▲▲▲ 替换结束 ▲▲▲
 
 /**
  * 【核心】处理生图开关状态的改变
  */
-// ▼▼▼ 【请用这个【已集成数量设置】的V2.0版本】替换旧的 handleCharAlbumSettingsToggle 函数 ▼▼▼
-/**
- * 【V2.0 | 已集成数量设置】当用户改变任何相册设置时，实时保存
- */
-async function handleCharAlbumSettingsChange() {
+async function handleCharAlbumSettingsToggle() {
     if (!activeCharacterId) return;
     const chat = state.chats[activeCharacterId];
     if (!chat) return;
 
-    // 确保 settings 和 albumSettings 对象存在
-    if (!chat.settings) chat.settings = {};
-    if (!chat.settings.albumSettings) {
-        chat.settings.albumSettings = {};
-    }
-    
-    // 从UI获取两个控件的当前值
+    // 获取开关当前的状态
     const isEnabled = document.getElementById('char-album-gen-toggle').checked;
-    const count = parseInt(document.getElementById('char-album-gen-count-input').value) || 8;
-
-    // 将新状态保存到内存中
-    chat.settings.albumSettings.enableImageGeneration = isEnabled;
-    // 确保数量至少为1
-    chat.settings.albumSettings.generationCount = Math.max(1, count); 
-
-    // 将更新后的整个 chat 对象存回数据库
-    await db.chats.put(chat);
     
-    console.log(`角色 ${chat.name} 的相册设置已保存:`, chat.settings.albumSettings);
+    // 确保 settings 对象存在
+    if (!chat.settings) chat.settings = {};
+    
+    // 将新状态保存到内存中
+    chat.settings.albumImageGeneration = isEnabled;
+    
+    // 将更新后的整个 chat 对象存回数据库，实现永久保存
+    await db.chats.put(chat);
 }
-// ▲▲▲ 替换结束 ▲▲▲
-
 
 // ▲▲▲ 新增JS代码结束 ▲▲▲
 // ▼▼▼ 【全新】清空角色相册功能 ▼▼▼
@@ -35095,74 +35487,80 @@ let coViewingDesktopState = {
     isWindowOpen: false,
 };
 
+// ▼▼▼ 【请用这个【已修复BUG】的V2.0版本】替换旧的 toggleCoViewingDesktop 函数 ▼▼▼
 /**
- * 【总入口】当用户开启或关闭“共赏桌面”开关时调用
+ * 【V2.0 | 已修复BUG】当用户开启或关闭“共赏桌面”开关时调用
  * @param {string} chatId - 当前聊天的ID
  */
-function toggleCoViewingDesktop(chatId) {
+async function toggleCoViewingDesktop(chatId) {
     const chat = state.chats[chatId];
-    if (!chat || chat.isGroup) return; // 该功能仅限单聊
+    if (!chat || chat.isGroup) return;
 
     const isEnabled = document.getElementById('co-viewing-desktop-toggle').checked;
+    
+    // 【核心修复1】确保 settings 对象总是存在
+    if (!chat.settings) chat.settings = {};
     chat.settings.coViewingDesktopEnabled = isEnabled;
-    db.chats.put(chat); // 保存设置
+    await db.chats.put(chat); // 保存设置
 
     const windowEl = document.getElementById('co-viewing-desktop-window');
 
     if (isEnabled) {
-        // 如果开启，则初始化并显示悬浮窗
-        coViewingDesktopState.isActive = true;
-        coViewingDesktopState.targetChatId = chatId;
+        // 如果是【开启】开关
         
-        const avatarUrl = chat.settings.aiAvatar || defaultAvatar;
-        const headerEl = windowEl.querySelector('.co-viewing-desktop-header');
-        headerEl.style.backgroundImage = `url(${avatarUrl})`;
-
-        // 根据保存的设置决定初始状态是最小化还是展开
-        const settings = chat.coViewingDesktopSettings || {};
-        if (settings.minimize) {
-            minimizeCoViewingWindow();
-        } else {
-            restoreCoViewingWindow();
-        }
-        windowEl.style.display = 'block';
+        // 【核心修复2】我们在这里不再调用 expandCoViewingWindow()
+        // 而是直接调用 checkAndDisplayCoViewingWindow()，让它来处理显示逻辑。
+        // 这确保了在设置页面开启时，只会显示悬浮球，而不是直接展开小窗。
+        checkAndDisplayCoViewingWindow();
 
     } else {
-        // 如果关闭，则隐藏并重置状态
+        // 如果是【关闭】开关，逻辑保持不变：隐藏并重置状态
         closeCoViewingSession();
     }
 }
+// ▲▲▲ 替换结束 ▲▲▲
 
+// ▼▼▼ 【请用这个【已彻底修复所有BUG】的V2.0版本】替换旧的 expandCoViewingWindow 函数 ▼▼▼
 /**
- * 【核心】当用户点击悬浮窗或需要展开窗口时调用
+ * 【V2.0 | 修复所有BUG】当用户点击悬浮窗或需要展开窗口时调用
  */
 async function expandCoViewingWindow() {
-    if (coViewingDesktopState.isWindowOpen) return; // 如果已经展开，则不执行
-    coViewingDesktopState.isWindowOpen = true;
-
-    // 恢复窗口大小
-    restoreCoViewingWindow();
+    // 1. 如果窗口已经展开，则不执行任何操作，防止重复触发
+    if (coViewingDesktopState.isWindowOpen) return; 
 
     const chat = state.chats[coViewingDesktopState.targetChatId];
-    const movie = await db.movies.get(currentWatchingMovieId); // 修正：此行似乎是复制错误，但保留以防万一
+    if (!chat) return; // 安全检查
+
+    // 2. 将窗口标记为“已展开”
+    coViewingDesktopState.isWindowOpen = true;
+
+    // 3. 恢复窗口的正常大小和位置
+    restoreCoViewingWindow();
+
+    // 4. 正确设置窗口标题
+    document.querySelector('#co-viewing-desktop-window .title').textContent = `与 ${chat.name} 共赏桌面`;
+
     const settings = chat.coViewingDesktopSettings || {};
-    
-    // 加载聊天记录
-    coViewingDesktopState.history = (settings.persist && chat.coViewingDesktopHistories) ? chat.coViewingDesktopHistories : [];
     const messagesEl = document.getElementById('co-viewing-desktop-messages');
-    messagesEl.innerHTML = '';
+    
+    // 5. 加载或重置聊天记录
+    // 如果设置了“永久保存”，则从数据库加载；否则，清空历史记录。
+    coViewingDesktopState.history = (settings.persist && chat.coViewingDesktopHistories) ? chat.coViewingDesktopHistories : [];
+    
+    messagesEl.innerHTML = ''; // 确保清空旧内容
     if (coViewingDesktopState.history.length > 0) {
         coViewingDesktopState.history.forEach(msg => appendCoViewingMessage(msg));
     }
 
-    // 更新标题
-    document.querySelector('#co-viewing-desktop-window .title').textContent = `与 ${chat.name} 共赏桌面`;
-    
-    // 如果是第一次展开，则触发AI分析桌面
+    // 6. 【【【核心修复！！！】】】
+    // 只有在历史记录为空（即首次展开）时，才触发AI进行分析。
+    // 这可以防止每次展开窗口都重新分析桌面，也确保了AI会主动说话。
     if (coViewingDesktopState.history.length === 0) {
         await triggerCoViewingAIResponse(true); // 传入true表示这是初次分析
     }
 }
+// ▲▲▲ 替换结束 ▲▲▲
+
 
 
 /**
@@ -35377,11 +35775,60 @@ async function restoreCoViewingWindow() {
     }
 }
 // ▲▲▲ 新增JS代码结束 ▲▲▲
+// ▼▼▼ 【全新 | BUG修复核心】检查并显示共赏桌面悬浮窗 ▼▼▼
+/**
+ * 【全新】检查所有聊天设置，并根据需要显示或隐藏“共赏桌面”的悬浮窗
+ */
+function checkAndDisplayCoViewingWindow() {
+    const windowEl = document.getElementById('co-viewing-desktop-window');
+    
+    // 1. 在所有聊天中寻找那个开启了“共赏桌面”的角色
+    const activeCoViewChat = Object.values(state.chats).find(
+        chat => !chat.isGroup && chat.settings.coViewingDesktopEnabled
+    );
+
+    // 2. 如果找到了
+    if (activeCoViewChat) {
+        console.log(`检测到角色“${activeCoViewChat.name}”开启了共赏桌面，正在显示悬浮窗...`);
+        
+        // a. 更新全局状态，告诉程序哪个角色是活跃的
+        coViewingDesktopState.isActive = true;
+        coViewingDesktopState.targetChatId = activeCoViewChat.id;
+        
+        // b. 设置悬浮球的背景为该角色的头像
+        const avatarUrl = activeCoViewChat.settings.aiAvatar || defaultAvatar;
+        const headerEl = windowEl.querySelector('.co-viewing-desktop-header');
+        headerEl.style.backgroundImage = `url(${avatarUrl})`;
+
+        // c. 根据角色的个人设置，决定初始是最小化还是展开
+        const settings = activeCoViewChat.coViewingDesktopSettings || {};
+        if (settings.minimize) {
+            minimizeCoViewingWindow();
+        } else {
+            // 如果不最小化，确保窗口是关闭的，等待用户点击悬浮球展开
+            windowEl.classList.remove('minimized');
+            coViewingDesktopState.isWindowOpen = false;
+        }
+
+        // d. 让悬浮窗可见
+        windowEl.style.display = 'block';
+
+    } else {
+        // 3. 如果没有找到任何开启此功能的角色，确保悬浮窗是隐藏的
+        console.log("未检测到任何角色开启共赏桌面，确保悬浮窗已隐藏。");
+        windowEl.style.display = 'none';
+        
+        // 同时重置状态，防止数据残留
+        coViewingDesktopState = { isActive: false, targetChatId: null, history: [], desktopSnapshots: [], isWindowOpen: false };
+    }
+}
+// ▲▲▲ 新增JS代码结束 ▲▲▲
 
               // ===================================================================
                 // 4. 初始化函数 init()
                 // ===================================================================
                 async function init() {
+setupCoViewingDesktopEventListeners(); // <-- 【【【核心新增！！！】】】
 // ▼▼▼ 【全新】PWA Service Worker 注册代码 ▼▼▼
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -35419,7 +35866,10 @@ if ('serviceWorker' in navigator) {
     
     // 恢复淘宝订单的刷新功能
     document.getElementById('regenerate-char-taobao-btn').addEventListener('click', handleGenerateTaobaoHistory);
-    
+    // ▼▼▼ 【全新】为角色淘宝“清空”按钮绑定事件 ▼▼▼
+document.getElementById('clear-char-taobao-btn').addEventListener('click', handleClearSimulatedTaobao);
+// ▲▲▲ 新增事件绑定结束 ▲▲▲
+
     // 恢复高德地图足迹的刷新功能
     document.getElementById('regenerate-char-amap-btn').addEventListener('click', handleGenerateAmapHistory);
     
@@ -35624,6 +36074,51 @@ document.getElementById('select-all-frames-export').addEventListener('change', f
 
 
 // ▲▲▲ 新增事件监听器结束 ▲▲▲
+// ▼▼▼ 【BUG修复】为角色手机的备忘录和日记详情页返回按钮重新绑定事件 ▼▼▼
+document.getElementById('char-memo-detail-back-btn').addEventListener('click', () => {
+    // 点击后切换回备忘录列表屏幕
+    switchToCharScreen('char-memo-screen');
+});
+
+document.getElementById('char-diary-detail-back-btn').addEventListener('click', () => {
+    // 点击后切换回日记列表屏幕
+    switchToCharScreen('char-diary-screen');
+});
+// ▲▲▲ 修复结束 ▲▲▲
+// ▼▼▼ 【BUG修复】为角色手机淘宝的商品卡片绑定点击显示“想法”的事件 ▼▼▼
+// ▼▼▼ 【请用这个支持两种模式的V2.0版本】替换旧的 char-product-grid 事件监听器 ▼▼▼
+document.getElementById('char-product-grid').addEventListener('click', (e) => {
+    const item = e.target.closest('.char-product-item');
+    if (!item) return;
+
+    const char = state.chats[activeCharacterId];
+    const enableImageGeneration = char.settings.taobaoImageGeneration ?? true;
+
+    const itemName = item.dataset.itemName;
+    const reason = item.dataset.reason;
+    const description = item.dataset.description;
+    
+    // 【核心修改】根据开关状态，构建不同的弹窗内容
+    let alertContent;
+    if (enableImageGeneration) {
+        // 开启生图时，只显示“想法”
+        alertContent = reason.replace(/\n/g, '<br>');
+    } else {
+        // 关闭生图时，同时显示“描述”和“想法”
+        alertContent = `
+            <div style="text-align: left;">
+                <strong style="display: block; margin-bottom: 5px;">【商品描述】</strong>
+                <p style="margin: 0 0 15px 0;">${description.replace(/\n/g, '<br>')}</p>
+                <strong style="display: block; margin-bottom: 5px;">【购买想法】</strong>
+                <p style="margin: 0;">${reason.replace(/\n/g, '<br>')}</p>
+            </div>
+        `;
+    }
+
+    showCustomAlert(itemName, alertContent);
+});
+// ▲▲▲ 替换结束 ▲▲▲
+
 
 // ▼▼▼ 在 init() 的事件监听器区域添加 ▼▼▼
 document.getElementById('regenerate-char-qq-btn').addEventListener('click', handleGenerateSimulatedQQ);
@@ -39999,32 +40494,48 @@ document.getElementById('male-npc-avatar-grid').addEventListener('click', (e) =>
         document.getElementById('delete-female-npc-avatars-btn').addEventListener('click', () => deleteSelectedNpcAvatars('female'));
         document.getElementById('delete-male-npc-avatars-btn').addEventListener('click', () => deleteSelectedNpcAvatars('male'));
         // ▲▲▲ 新增事件绑定结束 ▲▲▲
-    // ▼▼▼ 【全新】共赏桌面功能的所有事件监听器 ▼▼▼
+// ▼▼▼ 【请用这个【已彻底修复所有事件绑定】的V2.0版本】替换旧的共赏桌面事件监听器 ▼▼▼
 
-    // 绑定设置页面的总开关
-    document.getElementById('co-viewing-desktop-toggle').addEventListener('change', () => {
-        toggleCoViewingDesktop(state.activeChatId);
-    });
+// 【【【核心修复：将所有事件监听器移出 init()，创建为一个独立的设置函数】】】
+/**
+ * 【全新】为“共赏桌面”功能的所有UI元素设置事件监听器
+ */
+function setupCoViewingDesktopEventListeners() {
+    // 使用克隆节点技巧，确保每次调用都绑定全新的、干净的事件
+    const cloneAndRebind = (elementId, event, handler) => {
+        const oldElement = document.getElementById(elementId);
+        if (oldElement) {
+            const newElement = oldElement.cloneNode(true);
+            oldElement.parentNode.replaceChild(newElement, oldElement);
+            newElement.addEventListener(event, handler);
+        }
+    };
 
-    // 绑定悬浮窗/小窗的点击事件
+    // --- 窗口主体 ---
     const coViewingWindow = document.getElementById('co-viewing-desktop-window');
     coViewingWindow.addEventListener('click', (e) => {
-        // 如果是最小化状态，点击任何地方都展开
         if (coViewingWindow.classList.contains('minimized')) {
             expandCoViewingWindow();
         }
     });
 
-    // 绑定小窗内部的控制按钮
-    document.getElementById('co-viewing-desktop-close-btn').addEventListener('click', closeCoViewingSession);
-    document.getElementById('co-viewing-desktop-clear-btn').addEventListener('click', handleCoViewingClear);
-    document.getElementById('co-viewing-desktop-send-btn').addEventListener('click', handleCoViewingSend);
-    document.getElementById('co-viewing-desktop-input').addEventListener('keypress', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleCoViewingSend(); } });
-    document.getElementById('co-viewing-desktop-reply-btn').addEventListener('click', () => triggerCoViewingAIResponse());
-    document.getElementById('co-viewing-desktop-regen-btn').addEventListener('click', handleCoViewingRegenerate);
-
-    // 绑定设置弹窗的按钮
-    document.getElementById('co-viewing-desktop-settings-btn').addEventListener('click', async () => {
+    // --- 头部按钮 ---
+    cloneAndRebind('co-viewing-desktop-close-btn', 'click', closeCoViewingSession);
+    cloneAndRebind('co-viewing-desktop-clear-btn', 'click', handleCoViewingClear);
+    
+    // --- 输入区域按钮 ---
+    cloneAndRebind('co-viewing-desktop-send-btn', 'click', handleCoViewingSend);
+    document.getElementById('co-viewing-desktop-input').addEventListener('keypress', (e) => { 
+        if (e.key === 'Enter' && !e.shiftKey) { 
+            e.preventDefault(); 
+            handleCoViewingSend(); 
+        } 
+    });
+    cloneAndRebind('co-viewing-desktop-reply-btn', 'click', () => triggerCoViewingAIResponse());
+    cloneAndRebind('co-viewing-desktop-regen-btn', 'click', handleCoViewingRegenerate);
+    
+    // --- 设置弹窗相关 ---
+    cloneAndRebind('co-viewing-desktop-settings-btn', 'click', async () => {
         const chat = state.chats[coViewingDesktopState.targetChatId];
         if (!chat) return;
         const settings = chat.coViewingDesktopSettings || {};
@@ -40036,10 +40547,10 @@ document.getElementById('male-npc-avatar-grid').addEventListener('click', (e) =>
         document.getElementById('co-viewing-desktop-minimize-toggle').checked = finalSettings.minimize;
         document.getElementById('co-viewing-desktop-settings-modal').classList.add('visible');
     });
-    document.getElementById('cancel-co-viewing-desktop-settings-btn').addEventListener('click', () => {
+    cloneAndRebind('cancel-co-viewing-desktop-settings-btn', 'click', () => {
         document.getElementById('co-viewing-desktop-settings-modal').classList.remove('visible');
     });
-    document.getElementById('save-co-viewing-desktop-settings-btn').addEventListener('click', async () => {
+    cloneAndRebind('save-co-viewing-desktop-settings-btn', 'click', async () => {
         const chat = state.chats[coViewingDesktopState.targetChatId];
         if (!chat) return;
         if (!chat.coViewingDesktopSettings) chat.coViewingDesktopSettings = {};
@@ -40052,8 +40563,8 @@ document.getElementById('male-npc-avatar-grid').addEventListener('click', (e) =>
         document.getElementById('co-viewing-desktop-settings-modal').classList.remove('visible');
         alert('共赏设置已保存！');
     });
-    
-    // 绑定拖拽逻辑
+
+    // --- 拖拽逻辑 (保持不变) ---
     const coViewingHeader = document.querySelector('#co-viewing-desktop-window .co-viewing-desktop-header');
     let coViewingDragState = { isDragging: false, startX: 0, startY: 0, initialX: 0, initialY: 0 };
     coViewingHeader.addEventListener('mousedown', (e) => {
@@ -40080,9 +40591,12 @@ document.getElementById('male-npc-avatar-grid').addEventListener('click', (e) =>
         coViewingDragState.isDragging = false;
         coViewingHeader.style.cursor = 'grab';
     });
-    // ▲▲▲ 新增事件绑定结束 ▲▲▲
+}
+// ▲▲▲ 替换结束 ▲▲▲
 
                     showScreen('home-screen');
+checkAndDisplayCoViewingWindow(); // 在首次加载主屏幕后，检查并显示悬浮窗
+
                 }
         
                 init();
@@ -40965,15 +41479,13 @@ document.getElementById('male-npc-avatar-grid').addEventListener('click', (e) =>
 <audio id="notification-sound-player" preload="auto"></audio>
 <!-- ▲▲▲ 粘贴结束 ▲▲▲ -->
 <!-- ▼▼▼ 【全新】角色相册设置弹窗 ▼▼▼ -->
-<!-- ▼▼▼ 【请用这个【已添加图片数量设置】的V2.0版本】替换旧的 #char-album-settings-modal ▼▼▼ -->
 <div id="char-album-settings-modal" class="modal">
     <div class="modal-content" style="height: auto;">
         <div class="modal-header">
             <span>相册生成设置</span>
         </div>
-        <div class="modal-body" style="padding: 15px; display: flex; flex-direction: column; gap: 20px;">
-            <!-- AI生图开关 (保持不变) -->
-            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
+        <div class="modal-body" style="padding: 15px;">
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
                 <label for="char-album-gen-toggle" style="margin-bottom: 0;">
                     AI 生成图片开关
                     <p style="font-size: 12px; font-weight: normal; color: #999; margin-top: 5px;">
@@ -40985,27 +41497,62 @@ document.getElementById('male-npc-avatar-grid').addEventListener('click', (e) =>
                     <span class="slider"></span>
                 </label>
             </div>
-            
-            <!-- 【【【核心新增！！！】】】这是我们新添加的“生成数量”设置区域 -->
-            <div class="form-group">
-                <label for="char-album-gen-count-input" style="margin-bottom: 10px;">
-                    单次刷新生成数量
-                    <p style="font-size: 12px; font-weight: normal; color: #999; margin-top: 5px;">
-                        设置每次点击刷新按钮时，AI需要生成的照片/描述的数量。
-                    </p>
-                </label>
-                <input type="number" id="char-album-gen-count-input" value="8" min="1" style="width: 100%; text-align: center; padding: 10px; font-size: 16px; box-sizing: border-box;">
-            </div>
-            <!-- 【【【新增结束】】】 -->
-            
         </div>
         <div class="modal-footer">
             <button class="save" id="close-char-album-settings-btn" style="width: 100%;">完成</button>
         </div>
     </div>
 </div>
-<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+<!-- ▼▼▼ 【全新】角色淘宝设置弹窗 ▼▼▼ -->
+<div id="char-taobao-settings-modal" class="modal">
+    <div class="modal-content" style="height: auto;">
+        <div class="modal-header">
+            <span>购物记录生成设置</span>
+        </div>
+        <div class="modal-body" style="padding: 15px;">
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                <label for="char-taobao-gen-toggle" style="margin-bottom: 0;">
+                    AI 生成商品图开关
+                    <p style="font-size: 12px; font-weight: normal; color: #999; margin-top: 5px;">
+                        关闭后将用灰色图片替代，并生成文字描述，可节省API费用。
+                    </p>
+                </label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="char-taobao-gen-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="save" id="close-char-taobao-settings-btn" style="width: 100%;">完成</button>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+<!-- ▼▼▼ 【全新】世界书导出模态框 ▼▼▼ -->
+<div id="world-book-export-modal" class="modal">
+    <div class="modal-content" style="height: 70%;">
+        <div class="modal-header">
+            <span>选择要导出的世界书</span>
+            <label style="font-size: 14px; font-weight: normal; display: flex; align-items: center; gap: 5px;">
+                <input type="checkbox" id="select-all-world-books-export"> 全选
+            </label>
+        </div>
+        <div class="modal-body" id="world-book-export-list" style="padding: 0;">
+            <!-- 可导出的世界书列表将由JS动态生成在这里 -->
+        </div>
+        <div class="modal-footer">
+            <button class="cancel" id="cancel-world-book-export-btn">取消</button>
+            <button class="save" id="confirm-world-book-export-btn">导出选中</button>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
 
+<!-- ▼▼▼ 【全新】世界书导入文件输入框 ▼▼▼ -->
+<input type="file" id="world-book-import-input" accept=".json" multiple hidden>
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
 
 </body>
 </html>
