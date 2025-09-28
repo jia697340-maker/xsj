@@ -9164,6 +9164,63 @@
     background-size: cover; background-position: center;
 }
 /* ▲▲▲ 新增CSS结束 ▲▲▲ */
+/* ▼▼▼ 【全新】共读窗口删除模式样式 ▼▼▼ */
+
+/* 1. 当共读窗口进入删除模式时，隐藏默认按钮，显示删除按钮 */
+#co-reading-chat-window.delete-mode .default-controls {
+    display: none !important;
+}
+#co-reading-chat-window.delete-mode .delete-controls {
+    display: flex !important;
+}
+
+/* 2. 删除模式下，鼠标悬停在消息上时，显示手型光标 */
+#co-reading-chat-window.delete-mode .message-wrapper {
+    cursor: pointer;
+}
+
+/* 3. 消息被选中时的样式：整个消息块变暗，并显示一个半透明的勾选覆盖层 */
+.message-wrapper.co-reading-selected {
+    position: relative;
+    opacity: 0.6;
+}
+.message-wrapper.co-reading-selected::after {
+    content: '✔';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(0, 123, 255, 0.7);
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+/* ▲▲▲ 新增CSS结束 ▲▲▲ */
+/* ▼▼▼ 【全新】书籍目录列表样式 ▼▼▼ */
+.toc-item {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+.toc-item:hover {
+    background-color: #f5f5f5;
+}
+
+#phone-screen.dark-mode .toc-item:hover {
+    background-color: #2c2c2e;
+}
+/* ▲▲▲ 新增CSS结束 ▲▲▲ */
 
     </style>
 </head>
@@ -14402,6 +14459,7 @@ if (data.worldBooks && Array.isArray(data.worldBooks)) {
                 }
         
 // ▼▼▼ 【最终修复版】请用这个【已彻底修复数据迁移和语法错误】的版本，完整替换旧的 loadAllDataFromDB 函数 ▼▼▼
+// ▼▼▼ 【请用这个V2版本】替换旧的 loadAllDataFromDB 函数 ▼▼▼
 async function loadAllDataFromDB() {
     const [
         chatsArr, apiConfig, globalSettings, userStickers, worldBooks,
@@ -14414,7 +14472,9 @@ async function loadAllDataFromDB() {
         db.memories.toArray()
     ]);
 
+    // ... (所有对 chatsArr 的处理逻辑保持不变) ...
     chatsArr.forEach(chat => {
+        // ... (此处省略，保持您现有的代码不变)
         if (!chat.settings.lyricsPosition) {
             chat.settings.lyricsPosition = { vertical: 'top', horizontal: 'center', offset: 10 };
         }
@@ -14427,6 +14487,7 @@ async function loadAllDataFromDB() {
     });
 
     state.chats = chatsArr.reduce((acc, chat) => {
+        // ... (这里的 reduce 逻辑也保持不变) ...
         if (typeof chat.unreadCount === 'undefined') chat.unreadCount = 0;
         if (chat.isGroup && chat.members && chat.members.length > 0 && chat.members[0].name) {
             chat.members.forEach(member => {
@@ -14479,10 +14540,9 @@ async function loadAllDataFromDB() {
         if (!chat.longTermMemory) chat.longTermMemory = [];
         if (!chat.lastMemorySummaryTimestamp) chat.lastMemorySummaryTimestamp = 0;
         if (!chat.isGroup) {
-// 【全新】为旧数据添加 coViewingDesktopEnabled 默认值
-if (typeof chat.settings.coViewingDesktopEnabled === 'undefined') {
-    chat.settings.coViewingDesktopEnabled = false;
-}
+            if (typeof chat.settings.coViewingDesktopEnabled === 'undefined') {
+                chat.settings.coViewingDesktopEnabled = false;
+            }
 
             if (typeof chat.settings.isOfflineMode === 'undefined') chat.settings.isOfflineMode = false;
             if (typeof chat.settings.offlineMinLength === 'undefined') chat.settings.offlineMinLength = 100;
@@ -14496,7 +14556,8 @@ if (typeof chat.settings.coViewingDesktopEnabled === 'undefined') {
         acc[chat.id] = chat;
         return acc;
     }, {});
-
+    
+    // ... (所有对 memoriesToUpdate 的处理逻辑也保持不变) ...
     const memoriesToUpdate = [];
     allMemories.forEach(memory => {
         if (memory.type === 'ai_generated' && memory.authorName && !memory.authorId) {
@@ -14514,39 +14575,41 @@ if (typeof chat.settings.coViewingDesktopEnabled === 'undefined') {
             }
         }
     });
-
     if (memoriesToUpdate.length > 0) {
         await db.memories.bulkPut(memoriesToUpdate);
     }
+    
+    state.apiConfig = apiConfig || { id: 'main', proxyUrl: '', apiKey: '', model: '', secondaryProxyUrl: '', secondaryApiKey: '', secondaryModel: '', whisperModel: '', visionProxyUrl: '', visionApiKey: '', visionModel: '' };
 
-state.apiConfig = apiConfig || { id: 'main', proxyUrl: '', apiKey: '', model: '', secondaryProxyUrl: '', secondaryApiKey: '', secondaryModel: '', whisperModel: '', visionProxyUrl: '', visionApiKey: '', visionModel: '' };
-
-
-// ▼▼▼ 【请用这个 V2 版本】替换旧的 state.globalSettings 初始化代码 ▼▼▼
-state.globalSettings = globalSettings || { 
-    id: 'main', 
-    showStatusBar: false, // <-- 新增这一行，默认关闭
-    showPaginationDots: true, // <-- 【全新】新增这一行，默认开启
-    iconCustomizations: {}, // 【全新】用于存储图标自定义数据
-    appLabels: {}, // <-- 【【【核心新增！！！】】】在这里初始化appLabels
-    wallpaper: 'linear-gradient(135deg, #89f7fe, #66a6ff)', 
-    fontUrl: '', 
-    enableBackgroundActivity: false, 
-    backgroundActivityInterval: 60, 
-    blockCooldownHours: 1, 
-    appIcons: { ...DEFAULT_APP_ICONS },
-    globalCss: '',
-    notificationSoundUrl: '',
-    widgetData: {},
-    globalChatBackground: '' // 【核心新增】全局聊天背景
-};
-// 确保即使从旧数据库加载，这个属性也存在
-if (!state.globalSettings.widgetData) {
-    state.globalSettings.widgetData = {};
-}
-// ▲▲▲ 替换结束 ▲▲▲
+    // ▼▼▼ 【核心修复】用这个V3版本替换旧的 state.globalSettings 初始化代码 ▼▼▼
+    state.globalSettings = globalSettings || { 
+        id: 'main', 
+        showStatusBar: false,
+        showPaginationDots: true,
+        iconCustomizations: {},
+        wallpaper: 'linear-gradient(135deg, #89f7fe, #66a6ff)', 
+        fontUrl: '', 
+        enableBackgroundActivity: false, 
+        backgroundActivityInterval: 60, 
+        blockCooldownHours: 1, 
+        appIcons: { ...DEFAULT_APP_ICONS },
+        globalCss: '',
+        notificationSoundUrl: '',
+        widgetData: {},
+        globalChatBackground: ''
+    };
     // 【【【这就是最关键的修复！】】】
-    // 下面这行代码确保了即使是从旧数据库加载的数据，也能拥有 appIcons 这个属性，避免了后续代码出错。
+    // 下面这行代码确保了，即使是从旧数据库加载的数据（没有appLabels属性），
+    // 也能在内存中正确地初始化为一个空对象，从而避免后续代码出错。
+    if (!state.globalSettings.appLabels) {
+        state.globalSettings.appLabels = {};
+    }
+    // ▲▲▲ 修复结束 ▲▲▲
+
+    // ... (所有后续的 state 赋值和检查逻辑保持不变) ...
+    if (!state.globalSettings.widgetData) {
+        state.globalSettings.widgetData = {};
+    }
     state.globalSettings.appIcons = { ...DEFAULT_APP_ICONS, ...(state.globalSettings.appIcons || {}) };
     if (!state.globalSettings.globalCss) state.globalSettings.globalCss = '';
     state.userStickers = userStickers || [];
@@ -14557,6 +14620,7 @@ if (!state.globalSettings.widgetData) {
     allFavoriteItems = initialFavorites || [];
 }
 // ▲▲▲ 替换结束 ▲▲▲
+
         
                 async function saveGlobalPlaylist() { await db.musicLibrary.put({ id: 'main', playlist: musicState.playlist }); }
         
@@ -24008,7 +24072,7 @@ async function handleWorldBookImport(event) {
         }
 
         /**
-         * 【全新 | 核心辅助】按需加载书籍的页面
+         * 【全新 | 核心辅助 | V2.0 顺滑滚动版】按需加载书籍的页面
          * @param {number} bookId - 书籍ID
          * @param {string} direction - 加载方向 ('next' 或 'prev')
          */
@@ -24058,13 +24122,17 @@ async function handleWorldBookImport(event) {
                     contentEl.appendChild(fragment);
                 } else {
                     contentEl.prepend(fragment);
-                    // 保持滚动位置不变
-                    contentEl.scrollTop += (contentEl.scrollHeight - oldScrollHeight);
+                    
+                    // ▼▼▼ 核心修复：用平滑滚动替代瞬移 ▼▼▼
+                    const scrollOffset = contentEl.scrollHeight - oldScrollHeight;
+                    contentEl.scrollBy({ top: scrollOffset, behavior: 'auto' }); // 先瞬间跳过去，避免闪烁
+                    // ▲▲▲ 修复结束 ▲▲▲
                 }
             }
             
             contentEl.dataset.isLoading = 'false';
         }
+
 
         /**
          * 【全新 | 核心辅助】处理阅读器滚动事件，实现无限滚动
@@ -24158,7 +24226,10 @@ async function handleBookImport(event) {
                                 scrollPosition: 0,
                                 isPinned: false
                             });
-                            
+                            // ▼▼▼ 【核心新增】在书籍数据存入后，立刻解析并存储章节信息 ▼▼▼
+await parseAndStoreChapters(bookId, bookContentText);
+// ▲▲▲ 新增代码结束 ▲▲▲
+
                             // 分块逻辑保持不变
                             const CHUNK_SIZE = 50 * 1024;
                             let offset = 0;
@@ -24205,6 +24276,10 @@ async function handleBookImport(event) {
                     scrollPosition: 0,
                     isPinned: false
                 });
+// ▼▼▼ 【核心新增】在书籍数据存入后，立刻解析并存储章节信息 ▼▼▼
+await parseAndStoreChapters(bookId, bookContentText);
+// ▲▲▲ 新增代码结束 ▲▲▲
+
                 // ==========================================================
                 //                    ★★★ 修复结束 ★★★
                 // ==========================================================
@@ -24736,24 +24811,86 @@ document.getElementById('char-taobao-gen-toggle').addEventListener('change', asy
             bookSnippets: []
         };
 
-        /**
-         * 【辅助】获取当前屏幕上可见的书本内容片段
-         */
-        function getVisibleBookSnippet() {
-            const contentEl = document.getElementById('book-content');
-            if (!contentEl.textContent) return "(书籍内容为空)";
-            const fullText = contentEl.textContent;
-            const SNIPPET_LENGTH = 800;
-            const scrollableHeight = contentEl.scrollHeight - contentEl.clientHeight;
-            const scrollPercentage = scrollableHeight > 0 ? (contentEl.scrollTop / scrollableHeight) : 0;
-            const centerIndex = Math.floor(fullText.length * scrollPercentage);
-            const startIndex = Math.max(0, centerIndex - SNIPPET_LENGTH / 2);
-            const endIndex = Math.min(fullText.length, centerIndex + SNIPPET_LENGTH / 2);
-            let snippet = fullText.substring(startIndex, endIndex);
-            if (startIndex > 0) snippet = "......\n" + snippet;
-            if (endIndex < fullText.length) snippet = snippet + "\n......";
-            return snippet;
+// ▼▼▼ 【V3.0 | DOM可见性算法终极版】请用这个全新的、精准定位的版本完整替换旧的 getVisibleBookSnippet 函数 ▼▼▼
+// ▼▼▼ 【V4.0 | 像素级精准版】请用这个全新的函数，完整替换旧的 getVisibleBookSnippet 函数 ▼▼▼
+/**
+ * 【全新 | 精准定位版】获取当前屏幕上可见的书本内容片段
+ * @returns {string} - 一段精准的书籍内容摘要
+ */
+function getVisibleBookSnippet() {
+    const contentEl = document.getElementById('book-content');
+    if (!contentEl.textContent.trim()) {
+        return "(书籍内容为空)";
+    }
+
+    try {
+        // 1. 获取阅读器视口的几何边界
+        const rect = contentEl.getBoundingClientRect();
+        
+        // 为了避免边缘误差，稍微向内偏移1个像素
+        const startX = rect.left + 1;
+        const startY = rect.top + 1;
+        const endX = rect.right - 1;
+        const endY = rect.bottom - 1;
+
+        let rangeStart, rangeEnd;
+
+        // 2. 使用浏览器的"文本GPS" API，找到左上角和右下角对应的文本位置
+        if (document.caretRangeFromPoint) {
+            rangeStart = document.caretRangeFromPoint(startX, startY);
+            rangeEnd = document.caretRangeFromPoint(endX, endY);
+        } else if (document.caretPositionFromPoint) { // 兼容旧版浏览器
+            const posStart = document.caretPositionFromPoint(startX, startY);
+            const posEnd = document.caretPositionFromPoint(endX, endY);
+            rangeStart = document.createRange();
+            rangeStart.setStart(posStart.offsetNode, posStart.offset);
+            rangeEnd = document.createRange();
+            rangeEnd.setStart(posEnd.offsetNode, posEnd.offset);
+        } else {
+            throw new Error("浏览器不支持精准定位API。");
         }
+
+        if (!rangeStart || !rangeEnd) {
+            throw new Error("无法在屏幕边界找到文本内容，可能是空白区域。");
+        }
+
+        // 3. 创建一个新的、横跨整个可见区域的文本范围 (Range)
+        const selectionRange = document.createRange();
+        selectionRange.setStart(rangeStart.startContainer, rangeStart.startOffset);
+        selectionRange.setEnd(rangeEnd.endContainer, rangeEnd.endOffset);
+
+        // 4. 直接获取这个范围内的所有文本内容
+        const visibleText = selectionRange.toString();
+
+        if (visibleText.trim() === '') {
+            throw new Error("可见区域内没有捕获到有效文本。");
+        }
+
+        console.log("像素级精准定位成功！获取到的屏幕内容:", visibleText);
+        return visibleText;
+
+    } catch (error) {
+        // 5. 如果上面的高精度方法因任何原因失败，则执行备用方案，确保功能可用
+        console.warn("像素级精准定位失败，已切换至备用方案:", error);
+        const pages = contentEl.querySelectorAll('.book-page');
+        if (!pages || pages.length === 0) return "(书籍内容为空)";
+
+        const viewportTop = contentEl.getBoundingClientRect().top;
+        const viewportBottom = contentEl.getBoundingClientRect().bottom;
+        let visibleTextArray = [];
+        pages.forEach(page => {
+            const pageRect = page.getBoundingClientRect();
+            const isVisible = pageRect.top < viewportBottom && pageRect.bottom > viewportTop;
+            if (isVisible) {
+                visibleTextArray.push(page.textContent);
+            }
+        });
+        return visibleTextArray.length > 0 ? visibleTextArray.join('\n\n') : "(当前屏幕无可见内容)";
+    }
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
+
 
         /**
          * 【核心V4.0 | 正在输入状态版】触发共读AI进行响应
@@ -24868,26 +25005,42 @@ ${coReadingHistory || "(你们还没开始讨论，你可以主动发起话题)"
             }
         }
 
-        /**
-         * 【辅助】向共读窗口中追加一条消息
-         */
-        function appendCoReadingMessage(msg) { /* 这个函数保持不变 */
-            const messagesEl = document.getElementById('co-reading-messages');
-            const chat = state.chats[coReadingState.targetChatId];
-            if (messagesEl.querySelector('p')) { messagesEl.innerHTML = ''; }
-            const isUser = msg.role === 'user';
-            const wrapper = document.createElement('div');
-            wrapper.className = `message-wrapper ${isUser ? 'user' : 'ai'}`;
-            const bubble = document.createElement('div');
-            bubble.className = `message-bubble ${isUser ? 'user' : 'ai'}`;
-            let avatarSrc;
-            if (isUser) { avatarSrc = state.qzoneSettings.avatar; } 
-            else { avatarSrc = chat.isGroup ? (chat.settings.groupAvatar || defaultGroupAvatar) : (chat.settings.aiAvatar || defaultAvatar); }
-            bubble.innerHTML = `<div class="avatar-group"><img src="${avatarSrc}" class="avatar"></div><div class="content">${msg.content.replace(/\n/g, '<br>')}</div>`;
-            wrapper.appendChild(bubble);
-            messagesEl.appendChild(wrapper);
-            messagesEl.scrollTop = messagesEl.scrollHeight;
-        }
+// ▼▼▼ 【请用这个已添加时间戳的版本】替换旧的 appendCoReadingMessage 函数 ▼▼▼
+/**
+ * 【辅助】向共读窗口中追加一条消息
+ */
+async function appendCoReadingMessage(msg) {
+    const messagesEl = document.getElementById('co-reading-messages');
+    const coReaderChat = state.chats[coReadingState.targetChatId];
+    
+    if (messagesEl.querySelector('p')) { messagesEl.innerHTML = ''; }
+    
+    const isUser = msg.role === 'user';
+    
+    // 【核心修改】在最外层wrapper上保存时间戳
+    const wrapper = document.createElement('div');
+    wrapper.className = `message-wrapper ${isUser ? 'user' : 'ai'}`;
+    wrapper.dataset.timestamp = msg.timestamp; // <-- 新增这一行
+
+    const bubble = document.createElement('div');
+    bubble.className = `message-bubble ${isUser ? 'user' : 'ai'}`;
+    bubble.dataset.timestamp = msg.timestamp; // Bubble上依然保留，以防万一
+
+    let avatarSrc;
+    if (isUser) {
+        avatarSrc = state.qzoneSettings.avatar;
+    } else {
+        avatarSrc = coReaderChat.isGroup ? (coReaderChat.settings.groupAvatar || defaultGroupAvatar) : (coReaderChat.settings.aiAvatar || defaultAvatar);
+    }
+    
+    bubble.innerHTML = `<div class="avatar-group"><img src="${avatarSrc}" class="avatar"></div><div class="content">${msg.content.replace(/\n/g, '<br>')}</div>`;
+    
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
 
         /**
          * 【全新】处理用户在共读窗口点击“发送”按钮
@@ -25059,6 +25212,27 @@ async function restoreCoReadingWindow() {
                 restoreCoReadingWindow();
             }
         });
+// ▼▼▼ 【全新】共读窗口删除功能事件监听器 ▼▼▼
+// 1. "删除"按钮 -> 进入删除模式
+document.getElementById('co-reading-delete-mode-btn').addEventListener('click', enterCoReadingDeleteMode);
+
+// 2. "取消"按钮 -> 退出删除模式
+document.getElementById('co-reading-cancel-delete-btn').addEventListener('click', exitCoReadingDeleteMode);
+
+// 3. "确认删除"按钮 -> 执行删除
+document.getElementById('co-reading-confirm-delete-btn').addEventListener('click', executeCoReadingDelete);
+
+// 4. 使用事件委托，处理消息的点击选择
+document.getElementById('co-reading-messages').addEventListener('click', (e) => {
+    // 仅在删除模式下响应点击
+    if (isCoReadingDeleteMode) {
+        const messageWrapper = e.target.closest('.message-wrapper');
+        if (messageWrapper) {
+            handleCoReadingMessageSelection(messageWrapper);
+        }
+    }
+});
+// ▲▲▲ 新增事件绑定结束 ▲▲▲
 
 // ▼▼▼ 【请用这个【已适配async】的新版本】替换旧的 co-reading-minimize-toggle 事件监听器 ▼▼▼
 // 监听“最小化”开关的变化
@@ -25162,6 +25336,112 @@ document.getElementById('reader-decode-btn').addEventListener('click', openDecod
 
 
         // ▲▲▲ 新增JS代码结束 ▲▲▲
+// ▼▼▼ 【全新】共读窗口删除功能的核心JS代码 ▼▼▼
+
+let isCoReadingDeleteMode = false; // 标记是否处于删除模式
+let coReadingSelectedMessages = new Set(); // 存储被选中的消息时间戳
+
+/**
+ * 【总入口】进入共读删除模式
+ */
+function enterCoReadingDeleteMode() {
+    isCoReadingDeleteMode = true;
+    const windowEl = document.getElementById('co-reading-chat-window');
+    windowEl.classList.add('delete-mode');
+    
+    // 清空上一次的选择
+    coReadingSelectedMessages.clear();
+    windowEl.querySelectorAll('.message-wrapper.co-reading-selected').forEach(el => {
+        el.classList.remove('co-reading-selected');
+    });
+}
+
+/**
+ * 退出共读删除模式
+ */
+function exitCoReadingDeleteMode() {
+    isCoReadingDeleteMode = false;
+    const windowEl = document.getElementById('co-reading-chat-window');
+    windowEl.classList.remove('delete-mode');
+
+    // 清空所有选择状态和样式
+    coReadingSelectedMessages.clear();
+    windowEl.querySelectorAll('.message-wrapper.co-reading-selected').forEach(el => {
+        el.classList.remove('co-reading-selected');
+    });
+}
+
+/**
+ * 处理用户在删除模式下点击消息
+ * @param {HTMLElement} messageWrapper - 被点击的消息的 .message-wrapper 元素
+ */
+function handleCoReadingMessageSelection(messageWrapper) {
+    // 从消息气泡中找到时间戳
+    const bubble = messageWrapper.querySelector('.message-bubble');
+    if (!bubble || !bubble.dataset.timestamp) return;
+    
+    const timestamp = parseInt(bubble.dataset.timestamp);
+    if (isNaN(timestamp)) return;
+
+    // 切换选中状态
+    if (coReadingSelectedMessages.has(timestamp)) {
+        coReadingSelectedMessages.delete(timestamp);
+        messageWrapper.classList.remove('co-reading-selected');
+    } else {
+        coReadingSelectedMessages.add(timestamp);
+        messageWrapper.classList.add('co-reading-selected');
+    }
+}
+
+/**
+ * 【核心】执行删除操作
+ */
+async function executeCoReadingDelete() {
+    if (coReadingSelectedMessages.size === 0) {
+        alert("请先选择要删除的消息。");
+        return;
+    }
+
+    const confirmed = await showCustomConfirm(
+        '确认删除',
+        `确定要从共读记录中永久删除这 ${coReadingSelectedMessages.size} 条消息吗？`,
+        { confirmButtonClass: 'btn-danger' }
+    );
+
+    if (confirmed) {
+        // 1. 从共读历史记录 (coReadingState.history) 中过滤掉被选中的消息
+        coReadingState.history = coReadingState.history.filter(
+            msg => !coReadingSelectedMessages.has(msg.timestamp)
+        );
+
+        // 2. 从DOM中移除对应的消息元素
+        coReadingSelectedMessages.forEach(timestamp => {
+            const bubble = document.querySelector(`#co-reading-messages .message-bubble[data-timestamp="${timestamp}"]`);
+            if (bubble) {
+                const wrapper = bubble.closest('.message-wrapper');
+                if (wrapper) {
+                    wrapper.remove();
+                }
+            }
+        });
+
+        // 3. 退出删除模式
+        exitCoReadingDeleteMode();
+        
+        // 4. (可选但推荐) 如果设置了永久保存，则更新数据库
+        const chat = state.chats[coReadingState.targetChatId];
+        const book = await db.readerBooks.get(currentReadingBookId);
+        if (chat && book && book.coReadingSettings?.[chat.id]?.persist) {
+            if (!book.coReadingHistories) book.coReadingHistories = {};
+            book.coReadingHistories[chat.id] = coReadingState.history;
+            await db.readerBooks.put(book);
+            console.log("已同步删除的共读记录到数据库。");
+        }
+    }
+}
+
+// ▲▲▲ 新增JS代码结束 ▲▲▲
+
         // ▼▼▼ 【全新】阅读器共读功能的核心JS代码 ▼▼▼
         
         /**
@@ -30873,7 +31153,7 @@ async function handleManualLrcImport(trackIndex) {
 }
 
 /**
- * 【全新】清理音乐播放列表中的所有无效或无法播放的歌曲链接
+ * 【全新 V2.0 | 支持智能修复】清理音乐播放列表中的所有无效或无法播放的歌曲链接
  */
 async function cleanupInvalidSongs() {
     if (musicState.playlist.length === 0) {
@@ -30883,7 +31163,7 @@ async function cleanupInvalidSongs() {
 
     const confirmed = await showCustomConfirm(
         '确认清理无效歌曲？',
-        '此操作将检查播放列表中的每一首网络歌曲，并移除所有无法播放的“死链”。本地歌曲不会受影响。',
+        '此操作将检查网络歌曲，移除“死链”，并尝试为您找到可替换的音源。本地歌曲不受影响。',
         { confirmText: '开始清理' }
     );
 
@@ -30891,52 +31171,148 @@ async function cleanupInvalidSongs() {
 
     await showCustomAlert("请稍候...", `正在检查 ${musicState.playlist.length} 首歌曲，这可能需要一些时间...`);
 
-    const originalCount = musicState.playlist.length;
-    const validPlaylist = [];
-    const invalidSongs = [];
+    const originalPlaylist = [...musicState.playlist]; // 复制一份原始列表
+    const validTracks = [];
+    const invalidTracks = [];
 
-    const checkPromises = musicState.playlist.map(async (track) => {
-        if (track.isLocal) {
-            validPlaylist.push(track);
-            return;
-        }
-        
-        const isAvailable = await checkAudioAvailability(track.src);
-        if (isAvailable) {
-            validPlaylist.push(track);
+    // 1. 分类有效和无效的歌曲
+    const checkPromises = originalPlaylist.map(async (track) => {
+        if (track.isLocal || await checkAudioAvailability(track.src)) {
+            validTracks.push(track);
         } else {
-            invalidSongs.push(track.name);
-            console.warn(`无效链接: ${track.name} - ${track.src}`);
+            invalidTracks.push(track);
         }
     });
 
     await Promise.all(checkPromises);
 
-    const removedCount = originalCount - validPlaylist.length;
+    const removedCount = invalidTracks.length;
+    if (removedCount === 0) {
+        await showCustomAlert("检查完成", "所有歌曲链接均有效，无需清理！");
+        return;
+    }
 
-    if (removedCount > 0) {
-        const currentPlayingTrack = musicState.playlist[musicState.currentIndex];
-        const isCurrentTrackRemoved = invalidSongs.includes(currentPlayingTrack?.name);
+    // 2. 交互式修复流程
+    const successfulReplacements = [];
+    const failedReplacements = [];
 
-        musicState.playlist = validPlaylist;
-        await saveGlobalPlaylist();
+    hideCustomModal(); // 隐藏“检查中”的弹窗
 
-        if (isCurrentTrackRemoved) {
-            audioPlayer.pause();
-            audioPlayer.src = '';
-            musicState.currentIndex = musicState.playlist.length > 0 ? 0 : -1;
-            musicState.isPlaying = false;
-        } else if (currentPlayingTrack) {
-            musicState.currentIndex = musicState.playlist.findIndex(t => t.src === currentPlayingTrack.src);
+    for (const invalidTrack of invalidTracks) {
+        const newTrackData = await promptForSongReplacement(invalidTrack);
+        if (newTrackData) {
+            // 获取新音源的完整信息
+            const fullNewTrack = await getPlayableSongDetails(newTrackData);
+            if (fullNewTrack) {
+                // 在有效列表中找到正确的位置并替换
+                const indexToReplace = validTracks.findIndex(t => t.src === invalidTrack.src);
+                if (indexToReplace > -1) {
+                     validTracks[indexToReplace] = fullNewTrack;
+                } else {
+                     // 如果原位置已不存在（不太可能发生），则直接添加到列表
+                     validTracks.push(fullNewTrack);
+                }
+                successfulReplacements.push(invalidTrack.name);
+            } else {
+                failedReplacements.push(invalidTrack.name);
+            }
+        } else {
+            // 用户选择跳过
+            failedReplacements.push(invalidTrack.name);
+        }
+    }
+
+    // 3. 更新最终的播放列表
+    const currentPlayingTrack = musicState.playlist[musicState.currentIndex];
+    musicState.playlist = validTracks; // 使用修复后的新列表
+    await saveGlobalPlaylist();
+
+    // 检查当前播放的歌曲是否已被移除
+    if (currentPlayingTrack && !validTracks.some(t => t.src === currentPlayingTrack.src)) {
+        audioPlayer.pause();
+        audioPlayer.src = '';
+        musicState.currentIndex = -1; // 重置播放索引
+        musicState.isPlaying = false;
+    } else if (currentPlayingTrack) {
+        // 如果没被移除，则更新它的索引
+        musicState.currentIndex = validTracks.findIndex(t => t.src === currentPlayingTrack.src);
+    }
+    
+    // 4. 刷新UI并显示最终报告
+    updatePlaylistUI();
+    updatePlayerUI();
+
+    let reportMessage = `清理完成！\n\n移除了 ${removedCount} 首无效歌曲。`;
+    if (successfulReplacements.length > 0) {
+        reportMessage += `\n\n成功修复了 ${successfulReplacements.length} 首:\n- ${successfulReplacements.join('\n- ')}`;
+    }
+    if (failedReplacements.length > 0) {
+        reportMessage += `\n\n未能修复 ${failedReplacements.length} 首 (已从列表移除):\n- ${failedReplacements.join('\n- ')}`;
+    }
+    await showCustomAlert("操作结果", reportMessage);
+}
+
+/**
+ * 【全新】弹窗提示用户为一首无效歌曲选择替换音源
+ * @param {object} invalidTrack - 无效的歌曲对象
+ * @returns {Promise<object|null>} - 返回用户选择的新歌曲数据，如果跳过则返回null
+ */
+function promptForSongReplacement(invalidTrack) {
+    return new Promise(async (resolve) => {
+        const modal = document.getElementById('music-replacement-modal');
+        const titleEl = document.getElementById('replacement-modal-title');
+        const listEl = document.getElementById('replacement-options-list');
+        const skipBtn = document.getElementById('skip-replacement-btn');
+
+        titleEl.textContent = `为《${invalidTrack.name}》选择一个新音源`;
+        listEl.innerHTML = '<p style="text-align:center; padding: 20px;">正在搜索...</p>';
+        modal.classList.add('visible');
+
+        // 1. 自动搜索
+        const [neteaseResults, tencentResults] = await Promise.all([
+            searchNeteaseMusic(invalidTrack.name, invalidTrack.artist),
+            searchTencentMusic(invalidTrack.name)
+        ]);
+        const combinedResults = [...neteaseResults, ...tencentResults];
+
+        listEl.innerHTML = ''; // 清空“正在搜索”
+
+        if (combinedResults.length === 0) {
+            listEl.innerHTML = '<p style="text-align:center; padding: 20px; color: #888;">未找到可用的替换音源。</p>';
+            // 稍等片刻后自动跳过
+            setTimeout(() => {
+                modal.classList.remove('visible');
+                resolve(null);
+            }, 1500);
+            return;
         }
 
-        updatePlaylistUI();
-        updatePlayerUI();
+        // 2. 渲染选项并绑定事件
+        combinedResults.forEach(song => {
+            const item = document.createElement('div');
+            item.className = 'search-result-item'; // 复用现有样式
+            item.innerHTML = `
+                <div class="search-result-info">
+                    <div class="title">${song.name}</div>
+                    <div class="artist">${song.artist} <span class="source">${song.source === 'netease' ? '网易云' : 'QQ音乐'}</span></div>
+                </div>
+            `;
+            item.addEventListener('click', () => {
+                modal.classList.remove('visible');
+                resolve(song); // 用户选择了这一首
+            });
+            listEl.appendChild(item);
+        });
 
-        await showCustomAlert("清理完成", `成功移除了 ${removedCount} 首无效歌曲:\n\n- ${invalidSongs.join('\n- ')}`);
-    } else {
-        await showCustomAlert("检查完成", "所有歌曲链接均有效，无需清理！");
-    }
+        // 3. 绑定“跳过”按钮
+        // 使用克隆节点技巧，确保每次都绑定新的、干净的事件
+        const newSkipBtn = skipBtn.cloneNode(true);
+        skipBtn.parentNode.replaceChild(newSkipBtn, skipBtn);
+        newSkipBtn.addEventListener('click', () => {
+            modal.classList.remove('visible');
+            resolve(null); // 用户选择跳过
+        });
+    });
 }
 
 // ▼▼▼ 【全新】这是应用状态栏显示/隐藏设置的函数 ▼▼▼
@@ -31289,51 +31665,78 @@ document.getElementById('thoughts-history-list').addEventListener('click', (e) =
             });
         }
 
-        /**
-         * 当用户从下拉框选择一个主题预设时，加载该预设
-         */
-        async function handleThemePresetSelectionChange() {
-            const selectEl = document.getElementById('theme-preset-select');
-            const selectedId = parseInt(selectEl.value);
-            if (isNaN(selectedId)) return;
-        
-            const preset = await db.appearancePresets.get(selectedId);
-            if (preset) {
-                const themeRadio = document.querySelector(`input[name="theme-select"][value="${preset.value}"]`);
-                if (themeRadio) {
-                    themeRadio.checked = true;
-                    updateSettingsPreview(); // 实时更新预览
-                }
-            }
+// ▼▼▼ 【请用这个支持CSS的V2.0版本】替换旧的 handleThemePresetSelectionChange 函数 ▼▼▼
+/**
+ * 当用户从下拉框选择一个主题预设时，加载该预设并实时应用
+ */
+async function handleThemePresetSelectionChange() {
+    const selectEl = document.getElementById('theme-preset-select');
+    const selectedId = parseInt(selectEl.value);
+    if (isNaN(selectedId)) return;
+
+    const preset = await db.appearancePresets.get(selectedId);
+    if (preset && typeof preset.value === 'object') {
+        const { theme, css } = preset.value;
+
+        // 1. 切换主题单选框
+        const themeRadio = document.querySelector(`input[name="theme-select"][value="${theme}"]`);
+        if (themeRadio) {
+            themeRadio.checked = true;
         }
+
+        // 2. 【核心】将预设的CSS代码填充到文本框
+        const customCssInput = document.getElementById('custom-css-input');
+        customCssInput.value = css || ''; // 如果没有css字段，则清空
+
+        // 3. 【核心】立即触发预览更新，让用户看到效果
+        updateSettingsPreview();
+    }
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
+
         
-        /**
-         * 将当前选择的气泡主题保存为一个新的预设
-         */
-        async function saveThemePreset() {
-            const name = await showCustomPrompt('保存主题预设', '请输入预设名称');
-            if (!name || !name.trim()) return;
+// ▼▼▼ 【请用这个支持CSS的V2.0版本】替换旧的 saveThemePreset 函数 ▼▼▼
+/**
+ * 将当前选择的气泡主题和自定义CSS保存为一个新的预设
+ */
+async function saveThemePreset() {
+    const name = await showCustomPrompt('保存主题预设', '请输入预设名称');
+    if (!name || !name.trim()) return;
+
+    // 1. 获取当前选中的主题名称
+    const selectedThemeRadio = document.querySelector('input[name="theme-select"]:checked');
+    const themeValue = selectedThemeRadio ? selectedThemeRadio.value : 'default';
+
+    // 2. 【核心新增】获取当前自定义CSS文本框的内容
+    const cssValue = document.getElementById('custom-css-input').value.trim();
+
+    // 3. 将主题和CSS打包成一个对象
+    const presetValue = {
+        theme: themeValue,
+        css: cssValue
+    };
+
+    // 后续的保存逻辑与之前类似，但现在保存的是一个对象
+    const existingPreset = await db.appearancePresets.where({ name: name.trim(), type: 'bubble_theme' }).first();
+    if (existingPreset) {
+        const confirmed = await showCustomConfirm('覆盖预设', `名为 “${name.trim()}” 的预设已存在。要覆盖它吗？`, { confirmButtonClass: 'btn-danger' });
+        if (!confirmed) return;
         
-            const selectedThemeRadio = document.querySelector('input[name="theme-select"]:checked');
-            const themeValue = selectedThemeRadio ? selectedThemeRadio.value : 'default';
-        
-            const existingPreset = await db.appearancePresets.where({ name: name.trim(), type: 'bubble_theme' }).first();
-            if (existingPreset) {
-                const confirmed = await showCustomConfirm('覆盖预设', `名为 “${name.trim()}” 的预设已存在。要覆盖它吗？`, { confirmButtonClass: 'btn-danger' });
-                if (!confirmed) return;
-                
-                await db.appearancePresets.update(existingPreset.id, { value: themeValue });
-            } else {
-                await db.appearancePresets.add({
-                    name: name.trim(),
-                    type: 'bubble_theme',
-                    value: themeValue
-                });
-            }
-        
-            await loadThemePresetsDropdown();
-            alert('主题预设已保存！');
-        }
+        await db.appearancePresets.update(existingPreset.id, { value: presetValue });
+    } else {
+        await db.appearancePresets.add({
+            name: name.trim(),
+            type: 'bubble_theme',
+            value: presetValue
+        });
+    }
+
+    await loadThemePresetsDropdown();
+    alert('主题预设已保存！');
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
         
         /**
          * 删除当前选中的主题预设
@@ -34098,50 +34501,54 @@ function changeCharPlayMode() {
 }
 
 
-/**
- * 【总入口】为新播放器的所有按钮和事件绑定功能
- */
-function setupCharPlayerControls() {
-    const player = document.getElementById('char-audio-player');
-    const playBtn = document.getElementById('char-music-play-pause-btn');
-    const vinyl = document.getElementById('char-vinyl-container');
+        /**
+         * 【总入口】为新播放器的所有按钮和事件绑定功能
+         */
+        function setupCharPlayerControls() {
+            const player = document.getElementById('char-audio-player');
+            const playBtn = document.getElementById('char-music-play-pause-btn');
+            const vinyl = document.getElementById('char-vinyl-container');
 
-    playBtn.addEventListener('click', () => {
-        if (player.paused) {
-            if(charPlayerState.currentIndex > -1) player.play();
-        } else {
-            player.pause();
+            // 【【【核心修复！！！】】】
+            // 为关闭按钮绑定关闭播放器的函数
+            document.getElementById('close-char-music-player-btn').addEventListener('click', closeCharMusicPlayer);
+
+            playBtn.addEventListener('click', () => {
+                if (player.paused) {
+                    if(charPlayerState.currentIndex > -1) player.play();
+                } else {
+                    player.pause();
+                }
+            });
+            
+            player.onplay = () => {
+                playBtn.innerHTML = `<svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>`;
+                vinyl.classList.add('spinning');
+                charPlayerState.isPlaying = true;
+            };
+            player.onpause = () => {
+                playBtn.innerHTML = `<svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>`;
+                vinyl.classList.remove('spinning');
+                charPlayerState.isPlaying = false;
+            };
+            player.onended = () => {
+                vinyl.classList.remove('spinning');
+                charPlayerState.isPlaying = false;
+                playNextCharSong();
+            };
+
+            document.getElementById('char-music-prev-btn').addEventListener('click', playPrevCharSong);
+            document.getElementById('char-music-next-btn').addEventListener('click', playNextCharSong);
+            document.getElementById('char-music-mode-btn').addEventListener('click', changeCharPlayMode);
+
+            document.getElementById('char-music-progress-bar').addEventListener('click', (e) => {
+                if (!player.duration) return;
+                const bar = e.currentTarget;
+                const clickX = e.offsetX;
+                player.currentTime = (clickX / bar.clientWidth) * player.duration;
+            });
         }
-    });
-    
-    player.onplay = () => {
-        playBtn.innerHTML = `<svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>`;
-        vinyl.classList.add('spinning');
-        charPlayerState.isPlaying = true;
-    };
-    player.onpause = () => {
-        playBtn.innerHTML = `<svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>`;
-        vinyl.classList.remove('spinning');
-        charPlayerState.isPlaying = false;
-    };
-    player.onended = () => {
-        vinyl.classList.remove('spinning');
-        charPlayerState.isPlaying = false;
-        playNextCharSong();
-    };
 
-    document.getElementById('char-music-prev-btn').addEventListener('click', playPrevCharSong);
-    document.getElementById('char-music-next-btn').addEventListener('click', playNextCharSong);
-    document.getElementById('char-music-mode-btn').addEventListener('click', changeCharPlayMode);
-
-    document.getElementById('char-music-progress-bar').addEventListener('click', (e) => {
-        if (!player.duration) return;
-        const bar = e.currentTarget;
-        const clickX = e.offsetX;
-        player.currentTime = (clickX / bar.clientWidth) * player.duration;
-    });
-}
-/* ▲▲▲ JS代码替换结束 ▲▲▲ */
 
     // ▼▼▼ 【全新】真实语音功能核心函数 ▼▼▼
 
@@ -35823,6 +36230,175 @@ function checkAndDisplayCoViewingWindow() {
     }
 }
 // ▲▲▲ 新增JS代码结束 ▲▲▲
+// ▼▼▼ 【全新】书籍目录与跳转功能的核心函数 ▼▼▼
+
+/**
+ * 【辅助】解析文本内容，提取章节信息
+ * @param {string} text - 完整的书籍文本内容
+ * @returns {Array} - 包含章节标题和位置的数组
+ */
+function parseChapters(text) {
+    const chapters = [];
+    // 一个强大的正则表达式，可以匹配多种章节格式
+    const chapterRegex = /^(第[一二三四五六七八九十百千万\d]+\s*[章节回卷篇]|Chapter\s*\d+)[\s.:：]?(.*)$/gm;
+    let match;
+
+    while ((match = chapterRegex.exec(text)) !== null) {
+        chapters.push({
+            title: match[0].trim(), // 完整标题，如 "第一章 新的开始"
+            position: match.index  // 章节标题在全文中的起始位置
+        });
+    }
+    // 如果没有匹配到任何章节，就返回一个空数组
+    return chapters;
+}
+
+/**
+ * 【核心】在书籍导入时，解析并存储章节信息
+ * @param {number} bookId - 刚刚存入数据库的书籍ID
+ * @param {string} fullText - 书籍的完整文本内容
+ */
+async function parseAndStoreChapters(bookId, fullText) {
+    console.log(`正在为书籍 ID:${bookId} 解析章节...`);
+    const chapters = parseChapters(fullText);
+    if (chapters.length > 0) {
+        // 将解析出的章节信息更新到数据库中
+        await db.readerBooks.update(bookId, { chapters: chapters });
+        console.log(`成功解析并存储了 ${chapters.length} 个章节。`);
+    } else {
+        console.log("未在该书籍中找到标准的章节格式。");
+    }
+}
+
+/**
+ * 【总入口】打开目录弹窗
+ */
+async function openTableOfContents() {
+    if (!currentReadingBookId) return;
+
+    const book = await db.readerBooks.get(currentReadingBookId);
+    const modal = document.getElementById('reader-toc-modal');
+    const listEl = document.getElementById('reader-toc-list');
+    const titleEl = document.getElementById('toc-modal-title');
+    listEl.innerHTML = ''; // 清空旧内容
+
+    titleEl.textContent = `《${book.title}》目录`;
+
+    if (!book.chapters || book.chapters.length === 0) {
+        listEl.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 50px 0;">这本书没有找到可供跳转的目录。</p>';
+        modal.classList.add('visible');
+        return;
+    }
+
+    // 动态创建目录列表
+    book.chapters.forEach(chapter => {
+        const item = document.createElement('div');
+        item.className = 'toc-item';
+        item.textContent = chapter.title;
+        item.dataset.position = chapter.position; // 将章节位置存储起来
+        item.addEventListener('click', () => {
+            modal.classList.remove('visible'); // 先关闭弹窗
+            jumpToChapter(chapter.position); // 然后执行跳转
+        });
+        listEl.appendChild(item);
+    });
+
+    modal.classList.add('visible');
+}
+
+/**
+ * 【跳转中转】处理点击目录项后的跳转逻辑
+ * @param {number} position - 要跳转到的字符位置
+ */
+function jumpToChapter(position) {
+    if (currentReadingBookId === null || position === undefined) return;
+    loadAndJumpToPosition(currentReadingBookId, position);
+}
+        /**
+         * 【核心跳转逻辑 | V3.0 终极时序修复版】加载并滚动到指定位置
+         * @param {number} bookId - 书籍ID
+         * @param {number} position - 目标字符位置
+         */
+        async function loadAndJumpToPosition(bookId, position) {
+            await showCustomAlert("请稍候...", "正在跳转到指定章节...");
+
+            const contentEl = document.getElementById('book-content');
+            contentEl.innerHTML = '';
+
+            const CHUNK_SIZE = 50 * 1024;
+            const targetPageNumber = Math.floor(position / CHUNK_SIZE);
+            const charOffsetInPage = position % CHUNK_SIZE;
+
+            const startPage = Math.max(0, targetPageNumber - 1);
+            const endPage = targetPageNumber + 1;
+
+            const pagesToLoad = await db.bookPages
+                .where('bookId').equals(bookId)
+                .and(p => p.pageNumber >= startPage && p.pageNumber <= endPage)
+                .toArray();
+
+            if (pagesToLoad.length === 0) {
+                hideCustomModal();
+                alert("跳转失败，找不到对应的章节内容。");
+                return;
+            }
+
+            contentEl.dataset.currentTopPage = pagesToLoad[0].pageNumber;
+            contentEl.dataset.currentBottomPage = pagesToLoad[pagesToLoad.length - 1].pageNumber;
+
+            const fragment = document.createDocumentFragment();
+            pagesToLoad.forEach(page => {
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'book-page';
+                pageDiv.dataset.pageNumber = page.pageNumber;
+                const decodedText = new TextDecoder('UTF-8', { fatal: false }).decode(page.content);
+                pageDiv.textContent = decodedText;
+                fragment.appendChild(pageDiv);
+            });
+            contentEl.appendChild(fragment);
+
+            // ▼▼▼ 【【【核心修复就在这里！】】】 ▼▼▼
+            // 我们将跳转逻辑包裹在 requestAnimationFrame 中。
+            // 这能确保浏览器在完成新页面的渲染和布局计算后，才执行跳转操作。
+            requestAnimationFrame(() => {
+                const targetPageEl = contentEl.querySelector(`.book-page[data-page-number="${targetPageNumber}"]`);
+                
+                if (targetPageEl && targetPageEl.firstChild && targetPageEl.firstChild.nodeType === Node.TEXT_NODE) {
+                    const textNode = targetPageEl.firstChild;
+                    const fullText = textNode.textContent;
+
+                    // 1. 将文本内容分割成两部分
+                    const beforeText = fullText.substring(0, charOffsetInPage);
+                    const afterText = fullText.substring(charOffsetInPage);
+                    
+                    // 2. 创建两个 span 来包裹这两部分文本
+                    const beforeSpan = document.createElement('span');
+                    beforeSpan.textContent = beforeText;
+
+                    const targetSpan = document.createElement('span');
+                    targetSpan.textContent = afterText;
+
+                    // 3. 清空原始的 div，并把两个新的 span 加进去
+                    targetPageEl.innerHTML = '';
+                    targetPageEl.appendChild(beforeSpan);
+                    targetPageEl.appendChild(targetSpan);
+                    
+                    // 4. 精准跳转到包含目标章节开头文字的那个 span
+                    targetSpan.scrollIntoView({ behavior: 'auto', block: 'start' });
+
+                } else {
+                    // 如果找不到或发生意外，提供备用跳转方案
+                    if (targetPageEl) {
+                        targetPageEl.scrollIntoView({ behavior: 'auto', block: 'start' });
+                    }
+                    console.warn("无法执行精准跳转，已回退到页面跳转。");
+                }
+                
+                hideCustomModal(); // 隐藏"跳转中"的提示
+            });
+            // ▲▲▲ 修复结束 ▲▲▲
+        }
+
 
               // ===================================================================
                 // 4. 初始化函数 init()
@@ -35972,7 +36548,8 @@ window.switchToCharHomeScreen = switchToCharHomeScreen;
                     initBatteryManager(); 
         
         applyAppIcons();
-        applyWidgetData(); // <-- 添加这一行
+        applyWidgetData();
+        applyAppLabels();  // <-- 添加这一行
         
                     // ==========================================================
                     // --- 各种事件监听器 ---
@@ -36118,6 +36695,12 @@ document.getElementById('char-product-grid').addEventListener('click', (e) => {
     showCustomAlert(itemName, alertContent);
 });
 // ▲▲▲ 替换结束 ▲▲▲
+        // ▼▼▼ 【全新】书籍目录功能事件监听器 ▼▼▼
+        document.getElementById('reader-toc-btn').addEventListener('click', openTableOfContents);
+        document.getElementById('close-toc-modal-btn').addEventListener('click', () => {
+            document.getElementById('reader-toc-modal').classList.remove('visible');
+        });
+        // ▲▲▲ 新增代码结束 ▲▲▲
 
 
 // ▼▼▼ 在 init() 的事件监听器区域添加 ▼▼▼
@@ -36398,6 +36981,7 @@ function updateChatListItem(chatId) {
         
                     document.getElementById('wallpaper-upload-input').addEventListener('change', async (event) => { const file = event.target.files[0]; if(file) { const dataUrl = await new Promise((res, rej) => { const reader = new FileReader(); reader.onload = () => res(reader.result); reader.onerror = () => rej(reader.error); reader.readAsDataURL(file); }); newWallpaperBase64 = dataUrl; renderWallpaperScreen(); } });
                     // ▼▼▼ 用这整块代码，替换旧的 save-wallpaper-btn 事件监听器 ▼▼▼
+
         // ▼▼▼ 【最终修复版 | V3.0】用这整块代码，替换旧的 save-wallpaper-btn 事件监听器 ▼▼▼
         document.getElementById('save-wallpaper-btn').addEventListener('click', async () => {
         
@@ -36406,26 +36990,28 @@ function updateChatListItem(chatId) {
                 state.globalSettings.wallpaper = newWallpaperBase64;
             }
             
-            // ▼▼▼ 【核心修复】将暂存的本地图标文件，转换为可持久化的 ArrayBuffer 后再存入 state ▼▼▼
-            // 使用 for...of 循环和 await 来确保所有文件都处理完毕
+            // 保存本地图标 (逻辑不变)
             for (const iconId in tempLocalIcons) {
                 const file = tempLocalIcons[iconId];
-                if (file instanceof File) { // 确保它是一个文件对象
-                    const buffer = await file.arrayBuffer(); // 读取文件的二进制数据
-                    // 将纯数据和文件类型一起存入，以便之后恢复
+                if (file instanceof File) {
+                    const buffer = await file.arrayBuffer();
                     state.globalSettings.appIcons[iconId] = { buffer: buffer, type: file.type };
                 }
             }
             tempLocalIcons = {}; // 清空暂存对象
-            // ▲▲▲ 修复结束 ▲▲▲
 
             // 保存其他设置 (逻辑不变)
             state.globalSettings.globalCss = document.getElementById('global-css-input').value.trim();
             state.globalSettings.notificationSoundUrl = document.getElementById('notification-sound-url-input').value.trim();
             state.globalSettings.showStatusBar = document.getElementById('status-bar-toggle-switch').checked;
-            // 【【【核心新增！！！】】】确保在保存时，appLabels 对象也被包含进去
+            state.globalSettings.showPaginationDots = document.getElementById('pagination-dots-toggle-switch').checked;
+
+            // 【【【核心修复！！！】】】
+            // 我们在这里确保 appLabels 对象一定存在，并被包含在要保存的 globalSettings 中。
+            // 之前的代码遗漏了这一步，导致名称修改无法被保存。
             state.globalSettings.appLabels = state.globalSettings.appLabels || {};
-            // 一次性保存所有全局设置
+            
+            // 一次性将包含所有最新设置（包括appLabels）的 globalSettings 对象保存到数据库
             await db.globalSettings.put(state.globalSettings);
             
             // 应用所有更改 (逻辑不变)
@@ -36434,11 +37020,14 @@ function updateChatListItem(chatId) {
             applyAppIcons();
             applyGlobalCss(state.globalSettings.globalCss);
             applyStatusBarVisibility();
+            applyPaginationDotsVisibility();
+            applyAppLabels(); // 应用刚刚保存的名称
 
             alert('外观设置已保存并应用！');
             showScreen('home-screen');
         });
         // ▲▲▲ 替换结束 ▲▲▲
+
 
         // ▲▲▲ 替换结束 ▲▲▲
         // ▼▼▼ 【请用这个新版本】替换旧的 save-api-settings-btn 事件监听器 ▼▼▼
@@ -36722,38 +37311,59 @@ document.getElementById('fetch-vision-models-btn').addEventListener('click', () 
                 }
             }
         
-            const voiceBody = e.target.closest('.voice-message-body');
-            if (voiceBody) {
-                const bubble = voiceBody.closest('.message-bubble');
-                if (!bubble) return;
+// ▼▼▼ 【请用这个全新的、带循环动画的版本】完整替换旧的 if (voiceBody) { ... } 代码块 ▼▼▼
+const voiceBody = e.target.closest('.voice-message-body');
+if (voiceBody) {
+    const bubble = voiceBody.closest('.message-bubble');
+    if (!bubble) return;
+    
+    const spinner = voiceBody.querySelector('.loading-spinner');
+    const transcriptEl = bubble.querySelector('.voice-transcript');
+    const voiceWaveform = voiceBody.querySelector('.voice-waveform');
+    const voiceDuration = voiceBody.querySelector('.voice-duration');
+
+    // 检查当前是否正在显示文字
+    const isShowingText = transcriptEl.style.display === 'block';
+
+    if (isShowingText) {
+        // --- 如果正在显示文字，则点击后恢复为语音条 ---
+        transcriptEl.style.display = 'none';
+        voiceWaveform.style.display = 'flex';
+        voiceDuration.style.display = 'block';
+        bubble.dataset.state = 'collapsed'; // 更新状态为“收起”
+
+    } else {
+        // --- 如果当前是语音条（无论第几次点击），总是执行带动画的转文字流程 ---
+        
+        // 防止在加载时重复点击
+        if (bubble.dataset.state === 'loading') {
+            return;
+        }
+
+        bubble.dataset.state = 'loading'; // 进入加载状态
+        spinner.style.display = 'block';   // 显示加载动画
+
+        // 模拟1.5秒的语音识别过程
+        setTimeout(() => {
+            // 检查此时元素是否还存在
+            if (document.body.contains(bubble)) {
+                const voiceText = bubble.dataset.voiceText || '(无法识别)';
+                transcriptEl.textContent = voiceText; // 填充文字
                 
-                const spinner = voiceBody.querySelector('.loading-spinner');
-                const transcriptEl = bubble.querySelector('.voice-transcript');
-        
-                if (bubble.dataset.state === 'loading') {
-                    return;
-                }
-        
-                if (bubble.dataset.state === 'expanded') {
-                    transcriptEl.style.display = 'none';
-                    bubble.dataset.state = 'collapsed';
-                } 
-                else {
-                    bubble.dataset.state = 'loading';
-                    spinner.style.display = 'block';
-        
-                    setTimeout(() => {
-                        if (document.body.contains(bubble)) {
-                            const voiceText = bubble.dataset.voiceText || '(无法识别)';
-                            transcriptEl.textContent = voiceText;
-                            
-                            spinner.style.display = 'none';
-                            transcriptEl.style.display = 'block';
-                            bubble.dataset.state = 'expanded';
-                        }
-                    }, 1500);
-                }
+                spinner.style.display = 'none';      // 隐藏加载动画
+                
+                // 切换到文字显示形态
+                transcriptEl.style.display = 'block';
+                voiceWaveform.style.display = 'none';
+                voiceDuration.style.display = 'none';
+                
+                bubble.dataset.state = 'expanded'; // 更新状态为“展开”
             }
+        }, 1500);
+    }
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
         
             const placeholder = e.target.closest('.recalled-message-placeholder');
             if (placeholder) {
@@ -39121,47 +39731,7 @@ document.getElementById('close-char-qq-settings-btn').addEventListener('click', 
         
         // ▲▲▲ 替换结束 ▲▲▲
         
-        document.getElementById('chat-messages').addEventListener('click', (e) => {
-            // 1. 检查点击的是否是语音条
-            const voiceBody = e.target.closest('.voice-message-body');
-            if (!voiceBody) return;
-        
-            // 2. 找到相关的DOM元素
-            const bubble = voiceBody.closest('.message-bubble');
-            if (!bubble) return;
-            
-            const spinner = voiceBody.querySelector('.loading-spinner');
-            const transcriptEl = bubble.querySelector('.voice-transcript');
-        
-            // 如果正在加载中，则不响应点击
-            if (bubble.dataset.state === 'loading') {
-                return;
-            }
-        
-            // 3. 如果文字已经展开，则收起
-            if (bubble.dataset.state === 'expanded') {
-                transcriptEl.style.display = 'none';
-                bubble.dataset.state = 'collapsed';
-            } 
-            // 4. 如果是收起状态，则开始“转录”流程
-            else {
-                bubble.dataset.state = 'loading'; // 进入加载状态
-                spinner.style.display = 'block';   // 显示加载动画
-        
-                // 模拟1.5秒的语音识别过程
-                setTimeout(() => {
-                    // 检查此时元素是否还存在（可能用户已经切换了聊天）
-                    if (document.body.contains(bubble)) {
-                        const voiceText = bubble.dataset.voiceText || '(无法识别)';
-                        transcriptEl.textContent = voiceText; // 填充文字
-                        
-                        spinner.style.display = 'none';      // 隐藏加载动画
-                        transcriptEl.style.display = 'block';// 显示文字
-                        bubble.dataset.state = 'expanded';     // 进入展开状态
-                    }
-                }, 1500);
-            }
-        });
+       
         
         document.getElementById('chat-header-status').addEventListener('click', handleEditStatusClick);
         
@@ -40787,6 +41357,22 @@ checkAndDisplayCoViewingWindow(); // 在首次加载主屏幕后，检查并显�
     </div>
 </div>
 <!-- ▲▲▲ 替换结束 ▲▲▲ -->
+<!-- ▼▼▼ 【全新】清理失效链接时，用于选择替换歌曲的弹窗 ▼▼▼ -->
+<div id="music-replacement-modal" class="modal">
+    <div class="modal-content" style="height: 60%;">
+        <div class="modal-header">
+            <span id="replacement-modal-title">为...选择一个新音源</span>
+        </div>
+        <div class="modal-body" id="replacement-options-list" style="padding: 0;">
+            <!-- 搜索到的替换选项将由JS动态生成在这里 -->
+        </div>
+        <div class="modal-footer">
+            <button class="cancel" id="skip-replacement-btn" style="width: 100%;">跳过这首</button>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+
     <!-- ▼▼▼ 【全新】重置App图标选择模态框 ▼▼▼ -->
     <div id="reset-icons-modal" class="modal">
         <div class="modal-content" style="height: 60%;">
@@ -40903,6 +41489,8 @@ checkAndDisplayCoViewingWindow(); // 在首次加载主屏幕后，检查并显�
             </div>
             <div class="header-actions">
                 <span class="action-btn" id="co-reading-start-btn">共读</span>
+                <span class="action-btn" id="reader-toc-btn">目录</span>
+
                 <span class="action-btn" id="reader-decode-btn">解码</span>
 
                 <!-- ▼▼▼ 【核心修改】将单个按钮替换为一个按钮组 ▼▼▼ -->
@@ -40963,6 +41551,22 @@ checkAndDisplayCoViewingWindow(); // 在首次加载主屏幕后，检查并显�
         </div>
     </div>
     <!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+<!-- ▼▼▼ 【全新】书籍目录弹窗 ▼▼▼ -->
+<div id="reader-toc-modal" class="modal">
+    <div class="modal-content" style="height: 70%;">
+        <div class="modal-header">
+            <span id="toc-modal-title">书籍目录</span>
+        </div>
+        <div class="modal-body" id="reader-toc-list" style="padding: 0; overflow-y: auto;">
+            <!-- 目录列表将由JS动态生成在这里 -->
+        </div>
+        <div class="modal-footer">
+            <button class="save" id="close-toc-modal-btn" style="width: 100%;">关闭</button>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+
 <!-- ▼▼▼ 【全新】阅读器解码功能模态框 ▼▼▼ -->
 <div id="reader-decode-modal" class="modal">
     <div class="modal-content" style="height: 75%;">
@@ -41154,12 +41758,24 @@ checkAndDisplayCoViewingWindow(); // 在首次加载主屏幕后，检查并显�
         </div>
         <div id="co-reading-input-area">
             <textarea id="co-reading-input" rows="2" placeholder="输入你想说的话..."></textarea>
-            <div class="co-reading-controls">
-                <button id="co-reading-read-btn" class="co-reading-control-btn">手动阅读</button>
-                <button id="co-reading-regen-btn" class="co-reading-control-btn">重说</button>
-                <button id="co-reading-reply-btn" class="co-reading-control-btn">回复</button>
-                <button id="co-reading-send-btn" class="co-reading-control-btn">发送</button>
-            </div>
+<!-- ▼▼▼ 【全新 | 支持删除模式】请用这整块代码替换旧的 .co-reading-controls ▼▼▼ -->
+<div class="co-reading-controls">
+    <!-- 默认显示的按钮组 -->
+    <div class="default-controls" style="display: flex; gap: 10px;">
+        <button id="co-reading-read-btn" class="co-reading-control-btn">手动阅读</button>
+        <button id="co-reading-delete-mode-btn" class="co-reading-control-btn">删除</button>
+        <button id="co-reading-regen-btn" class="co-reading-control-btn">重说</button>
+        <button id="co-reading-reply-btn" class="co-reading-control-btn">回复</button>
+        <button id="co-reading-send-btn" class="co-reading-control-btn">发送</button>
+    </div>
+    <!-- 删除模式下显示的按钮组 -->
+    <div class="delete-controls" style="display: none; gap: 10px;">
+        <button id="co-reading-cancel-delete-btn" class="co-reading-control-btn">取消</button>
+        <button id="co-reading-confirm-delete-btn" class="co-reading-control-btn" style="background-color: #ff3b30; color: white;">确认删除</button>
+    </div>
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+
 
         </div>
     </div>
